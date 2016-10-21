@@ -1,0 +1,16 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="HttpServlet",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="edu.boun.cmpe.AlptekinDatabase\lServlet",height=0.2,width=0.4,color="black",URL="$classedu_1_1boun_1_1cmpe_1_1AlptekinDatabaseServlet.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="edu.boun.cmpe.AlptekinServlet",height=0.2,width=0.4,color="black",URL="$classedu_1_1boun_1_1cmpe_1_1AlptekinServlet.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="edu.boun.cmpe.SelemeDatabase\lServlet",height=0.2,width=0.4,color="black",URL="$classedu_1_1boun_1_1cmpe_1_1SelemeDatabaseServlet.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="edu.boun.cmpe.SelemeServlet",height=0.2,width=0.4,color="black",URL="$classedu_1_1boun_1_1cmpe_1_1SelemeServlet.html"];
+}

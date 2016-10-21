@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="edu.boun.cmpe.DatabaseAccess",height=0.2,width=0.4,color="black",URL="$classedu_1_1boun_1_1cmpe_1_1DatabaseAccess.html"];
+}

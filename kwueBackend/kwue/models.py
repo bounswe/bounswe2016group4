@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-# Create your models here.
 
 from django.db import models
 from django.utils import timezone
@@ -12,6 +11,7 @@ class Food(models.Model):
     food_name = models.TextField()
     food_created_date = models.DateTimeField(
         default=timezone.now)
-    food_image = models.ImageField(upload_to='pic_folder/', default='pic_folder/None/no-img.jpg')
+    # food_image = models.ImageField(upload_to='pic_folder/', default='pic_folder/None/no-img.jpg')
+    # ImageField requires Pillow library, and it should be added to the dependencies.
     food_id = models.IntegerField()
 

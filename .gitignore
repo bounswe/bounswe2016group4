@@ -1,6 +1,14 @@
 # Android, Java, Intellij Idea related ignored items.
 .idea
-
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
 
 
 # Python, Django, PyCharm related ignored items.

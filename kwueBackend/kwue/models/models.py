@@ -5,6 +5,8 @@ from unixtimestampfield.fields import UnixTimeStampField
 class FoodServerModel(models.Model):
     food_server_id = models.AutoField(primary_key=True)
     food_server_name = models.TextField()
+    food_server_email = models.EmailField()
+    food_server_password = models.CharField(max_length=25)
 
     def __str__(self):
         return 'MyModel: {}'.format(self.food_server_name)
@@ -45,5 +47,24 @@ class CommentModel(models.Model):
         return 'MyModel: {}'.format(self.comment_text)
 
 
-class EatingPreferenceModel(models.Model):
-    eating_preference_id = models.AutoField(primary_key=True)
+class ListModel(models.Model):
+    food_list_id = models.AutoField(primary_key=True)
+    list_is_menu = models.BooleanField()
+    owner_user_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    list_name = models.TextField()
+    list_description = models.TextField()
+    list_follower = models.ManyToManyField(UserModel, related_name="followers")
+    list_food = models.ManyToManyField(FoodModel, related_name="foods")
+
+
+class ConsumedFood(models.Model):
+    consumed_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+    consumer_food = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    consumed_date = UnixTimeStampField(auto_now_add=True)
+
+    def __str__(self):
+        return 'MyModel: {}'.format(self.id)
+
+
+
+

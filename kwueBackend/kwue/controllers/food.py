@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def food(req):
+def add_food(req):
     return render(req, 'kwue/food.html', {})

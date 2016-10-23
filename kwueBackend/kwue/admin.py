@@ -3,6 +3,10 @@ from django.contrib import admin
 # Register your models here.
 
 from django.contrib import admin
-from .models import Food
+from .models.models import *
 
-admin.site.register(Food)
+admin.site.register(FoodServerModel)
+admin.site.register(UserModel)
+admin.site.register(FoodModel)
+admin.site.register(CommentModel)
+admin.site.register(EatingPreferenceModel)

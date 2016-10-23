@@ -5,7 +5,6 @@ from django.contrib import admin
 from django.contrib import admin
 from .models.models import *
 
-admin.site.register(FoodServerModel)
 admin.site.register(UserModel)
 admin.site.register(FoodModel)
 admin.site.register(CommentModel)

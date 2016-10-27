@@ -1,4 +1,4 @@
-package com.knowwhatwoueat.kwue;
+package com.knowwhatwoueat.kwue.DataModels;
 
 
 /**

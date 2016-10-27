@@ -1,4 +1,4 @@
-package com.knowwhatwoueat.kwue;
+package com.knowwhatwoueat.kwue.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.knowwhatwoueat.kwue.R;
+
 
 /**
  * Created by Mehmet Akif ÇÖRDÜK on 26.10.2016.

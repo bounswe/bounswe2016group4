@@ -13,13 +13,13 @@ import com.knowwhatwoueat.kwue.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsumptionHistoryActivity extends AppCompatActivity {
+public class ConsumptionHistoryActivity extends SearchableActivity {
     private List<Food> consumptionHistory;
     private String[] consumptionList;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_consumption_history);
+        setContentView(R.layout.activity_consumption_history);
 
         //// TODO: 26.10.2016 Remove these hardcodes, pull it from backend
         addDummyFood();

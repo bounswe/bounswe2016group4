@@ -15,7 +15,7 @@ class UserModel(models.Model):
     user_type = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'MyModel: {}'.format(self.user_name)
+        return 'UserModel'.format(self.user_name)
 
 
 class FoodModel(models.Model):
@@ -28,7 +28,7 @@ class FoodModel(models.Model):
 
 
 def __str__(self):
-    return 'MyModel: {}'.format(self.food_name)
+    return 'FoodModel'.format(self.food_name)
 
 
 class CommentModel(MPTTModel):
@@ -37,42 +37,39 @@ class CommentModel(MPTTModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default=None, blank=True)
     commented_object_id = models.PositiveIntegerField(default=0)
     commented_object = GenericForeignKey('content_type', 'commented_object_id')
-    created_date = UnixTimeStampField(auto_now_add=True)
+    comment_date = UnixTimeStampField(auto_now_add=True)
     comment_image = models.ImageField(upload_to='pic_folder', blank=True, null=True)
     comment_vote = models.IntegerField(default=0)
     comment_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 
     def save(self):
-        if self.parent!=None:
+        if self.parent is not None:
             self.commented_object = self.parent
             super().save(self)
 
     def __str__(self):
-        return 'MyModel: {}'.format(self.comment_text)
+        return 'CommentModel'.format(self.comment_text)
 
     class MPTTMeta:
         level_attr = 'mptt_level'
         order_insertion_by = ['comment_text']
 
+
 class ListModel(models.Model):
     list_id = models.AutoField(primary_key=True)
-    list_is_menu = models.BooleanField()
-    owner_user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    list_menu = models.BooleanField()
+    list_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     list_name = models.TextField()
     list_description = models.TextField()
     list_follower = models.ManyToManyField(UserModel, related_name="followers")
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-
-
-class ConsumedFood(models.Model):
-    consumed_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
-    consumer_food = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    consumed_date = UnixTimeStampField(auto_now_add=True)
+    list_content = models.ManyToManyField(FoodModel, related_name="foods")
 
     def __str__(self):
-        return 'MyModel: {}'.format(self.id)
+        return 'ListModel'.format(self.list_name)
 
 
-
-
+class ConsumptionHistory(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+    date = UnixTimeStampField(auto_now_add=True)

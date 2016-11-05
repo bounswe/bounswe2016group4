@@ -1,4 +1,5 @@
 from kwue.models.models import *
+from kwue.DB_functions.user_db_function import db_retrieve_user
 
 
 def db_insert_food(food_tuple):
@@ -60,3 +61,16 @@ def db_down_rate_food(food_id):
         return True
     except:
         return False
+
+
+def db_add_consumption_history(user_id, food_id, rate=0):
+    try:
+        food = db_retrieve_food(food_id)
+        user = db_retrieve_user(user_id)
+        new_history = ConsumptionHistory(user=user, food=food, food_rate=rate)
+        new_history.save()
+        return True
+    except:
+        return False
+
+

@@ -11,24 +11,24 @@ class UserModel(models.Model):
     user_nick = models.TextField()
     user_email_address = models.EmailField()
     user_password = models.CharField(max_length=25)
-    user_image = models.ImageField(upload_to='pic_folder', default='pic_folder/None/no-img.jpg')
+    user_image = models.URLField()
     user_type = models.BooleanField(default=False)
 
     def __str__(self):
-        return 'UserModel'.format(self.user_name)
+        return self.user_name
 
 
 class FoodModel(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_description = models.CharField(max_length=300)
     food_name = models.TextField()
-    food_image = models.ImageField(upload_to='pic_folder', default='pic_folder/None/no-img.jpg')
+    food_image = models.URLField()
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food_rate = models.IntegerField(default=0)
 
 
 def __str__(self):
-    return 'FoodModel'.format(self.food_name)
+    return self.food_name
 
 
 class CommentModel(MPTTModel):
@@ -38,7 +38,7 @@ class CommentModel(MPTTModel):
     commented_object_id = models.PositiveIntegerField(default=0)
     commented_object = GenericForeignKey('content_type', 'commented_object_id')
     comment_date = UnixTimeStampField(auto_now_add=True)
-    comment_image = models.ImageField(upload_to='pic_folder', blank=True, null=True)
+    comment_image = models.URLField()
     comment_vote = models.IntegerField(default=0)
     comment_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
@@ -66,10 +66,14 @@ class ListModel(models.Model):
     list_content = models.ManyToManyField(FoodModel, related_name="foods")
 
     def __str__(self):
-        return 'ListModel'.format(self.list_name)
+        return self.list_name
 
 
 class ConsumptionHistory(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
     date = UnixTimeStampField(auto_now_add=True)
+
+    def __str__(self):
+        return self.id

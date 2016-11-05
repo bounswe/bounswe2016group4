@@ -6,6 +6,7 @@ def get_food(req):
 def add_food(req):
     def calculate_nutritional_values():
         pass
+
     return render(req, 'kwue/food.html', {})
 
 def remove_food(req):

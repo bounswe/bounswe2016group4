@@ -19,8 +19,6 @@ def remove_food(req,food_id):
     db_delete_food(food_id)
     return render(req, 'kwue/home.html', {})
 
-
-
 def rate_food(req):
     return render(req, 'kwue/food.html', {})
 

@@ -69,10 +69,16 @@ class ListModel(models.Model):
 
 
 class ConsumptionHistory(models.Model):
-    id = models.AutoField(primary_key=True)
+    history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
     date = UnixTimeStampField(auto_now_add=True)
+    food_rate = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.id
+        return str(self.date)
+
+
+class TagModel(models.Model):
+    tag_id = models.AutoField(primary_key=True)
+

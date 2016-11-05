@@ -1,13 +1,13 @@
 from django.shortcuts import render
 
 def get_food(req):
+    print("get_food called.")
     return render(req, 'kwue/food.html', {})
 
 def add_food(req):
-    def calculate_nutritional_values():
-        pass
+    # def calculate_nutritional_values():
 
-    return render(req, 'kwue/food.html', {})
+    return render(req, 'kwue/home.html', {})
 
 def remove_food(req):
     return render(req, 'kwue/food.html', {})

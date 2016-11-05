@@ -76,3 +76,8 @@ class ConsumptionHistory(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class TagModel(models.Model):
+    tag_id = models.AutoField(primary_key=True)
+

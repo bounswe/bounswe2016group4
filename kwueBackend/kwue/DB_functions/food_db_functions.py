@@ -11,8 +11,8 @@ def db_insert_food(food_tuple):
     FoodModel.save(new_food)
 
 
-def db_retrieve_food(id):
-    food = FoodModel.objects.get(food_id=id)
+def db_retrieve_food(food_id):
+    food = FoodModel.objects.get(food_id=food_id)
     return food
 
 

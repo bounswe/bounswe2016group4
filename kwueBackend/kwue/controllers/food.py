@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from kwue.DB_functions.food_db_functions import *
 
 def get_food(req):
-    print("get_food called.")
+    print(db_retrieve_food(1).__dict__)
     return render(req, 'kwue/food.html', {})
 
 def add_food(req):

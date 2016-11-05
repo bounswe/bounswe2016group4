@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
 
-def get_food(req):
-    print(db_retrieve_food(2).__dict__)
+def get_food(req, food_id):
+    print(db_retrieve_food(food_id).__dict__)
     return render(req, 'kwue/food.html', {})
 
 def add_food(req):
@@ -26,7 +26,3 @@ def comment_food(req):
 
 def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
-
-def dummy_home(req):
-    food = db_retrieve_all_foods()
-    return render(req, 'kwue/home.html', {'foods': food})

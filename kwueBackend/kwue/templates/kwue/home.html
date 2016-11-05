@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- {% include "./include.html" %} -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>Food Page</title>
+    <title>KWUE</title>
 </head>
 <body>
-<div>
-    <a href="http://127.0.0.1:8000/get_a_food/1">CLICK ME!</a>
-</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Welcome User</h4>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                  <span class="input-group-btn">
+                    <a href="#" class="btn btn-default adv-search" type="button">Advanced Search</a>
+                    <button class="btn btn-default" type="button">Go!</button>
+                  </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills">
+                  <li role="presentation" class="active"><a href="http://127.0.0.1:8000">Home</a></li>
+                  <li role="presentation"><a href="http://127.0.0.1:8000/add_food/">add a food</a></li>
+                  <li role="presentation"><a href="http://127.0.0.1:8000/get_a_food/">Foods</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% for food in foods %}
+                    <div>
+                        <p>id: {{ food.food_id }}</p>
+                        <p>name: {{ food.food_name }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </body>
 </html>

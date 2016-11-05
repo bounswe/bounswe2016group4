@@ -15,6 +15,9 @@ def db_retrieve_food(id):
     food = FoodModel.objects.get(food_id=id)
     return food
 
+def db_retrieve_all_foods():
+    foods = FoodModel.objects.all()
+    return foods
 
 def db_delete_food(food_id):
     food = FoodModel.objects.filter(food_id=food_id)

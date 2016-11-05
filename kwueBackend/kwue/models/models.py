@@ -26,9 +26,8 @@ class FoodModel(models.Model):
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food_rate = models.IntegerField(default=0)
 
-
-def __str__(self):
-    return self.food_name
+    def __str__(self):
+        return self.food_name
 
 
 class CommentModel(MPTTModel):
@@ -49,7 +48,7 @@ class CommentModel(MPTTModel):
             super().save(self)
 
     def __str__(self):
-        return 'CommentModel'.format(self.comment_text)
+        return self.comment_text
 
     class MPTTMeta:
         level_attr = 'mptt_level'

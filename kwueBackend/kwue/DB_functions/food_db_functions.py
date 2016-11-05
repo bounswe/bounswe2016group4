@@ -20,6 +20,10 @@ def db_retrieve_food(food_id):
     food = FoodModel.objects.get(food_id=food_id)
     return food
 
+## to be deleted later if unused
+def db_retrieve_all_foods():
+    foods = FoodModel.objects.all()
+    return foods
 
 def db_delete_food(food_id):
     food = FoodModel.objects.filter(food_id=food_id)

@@ -21,7 +21,6 @@ def add_food(req):
     nutrition_dict = request_nutrition(raw_recipe)
     if nutrition_dict is not None:
         if db_insert_food(food_dict, nutrition_dict):
-            if db_
             return True
         else:
             print('Adding food failed.')

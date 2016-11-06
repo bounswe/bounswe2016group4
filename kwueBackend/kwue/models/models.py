@@ -25,6 +25,14 @@ class FoodModel(models.Model):
     food_image = models.URLField()
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food_rate = models.IntegerField(default=0)
+    food_recipe = models.TextField()
+    protein_value = models.FloatField()
+    fat_value = models.FloatField()
+    carbonhydrate_value = models.FloatField()
+    fiber_value = models.FloatField()
+    calorie_value = models.FloatField()
+    sugar_value = models.FloatField()
+    serving_weight_grams = models.FloatField()
 
     def __str__(self):
         return self.food_name

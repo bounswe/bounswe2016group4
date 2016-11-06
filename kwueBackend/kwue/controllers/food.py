@@ -26,7 +26,7 @@ def add_food(req):
         nutrition_dict = request_nutrition(raw_recipe)
         if nutrition_dict is not None:
             if db_insert_food(food_dict, nutrition_dict):
-                return render(req, 'kwue/add_food.html', {})
+                return render(req, 'kwue/home.html', {})
             else:
                 print('Errororororo')
                 return render(req, 'kwue/food.html', {})

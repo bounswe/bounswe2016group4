@@ -89,4 +89,9 @@ class ConsumptionHistory(models.Model):
 
 class TagModel(models.Model):
     tag_id = models.AutoField(primary_key=True)
+    tag_label = models.TextField()
+    semantic_tag_item = models.TextField()
+    semantic_tag_item_label = models.TextField()
+    semantic_tag_item_description = models.TextField()
+    tagged_food = models.ForeignKey(FoodModel,on_delete=models.CASCADE)
 

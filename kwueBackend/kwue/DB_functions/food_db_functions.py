@@ -20,6 +20,7 @@ def db_insert_food(food_dict, nutrition_dict):
         calorie_value=nutrition_dict['calorie_value'],
         sugar_value=nutrition_dict['sugar_value'],
         serving_weight_grams=nutrition_dict['serving_weight_grams'],
+
     )
     try:
         FoodModel.save(new_food)

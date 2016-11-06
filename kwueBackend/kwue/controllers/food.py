@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
+from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
 
 def get_food(req, food_id):
     print(db_retrieve_food(food_id).__dict__)
     return render(req, 'kwue/food.html', {})
-
 
 def add_food(req):
     food_dict = req.GET.dict
@@ -15,11 +15,13 @@ def add_food(req):
     # 'food_image'
     # 'food_owner'
     # 'food_recipe'
+    # 'food_tags'
 
     raw_recipe = food_dict['food_recipe']
     nutrition_dict = request_nutrition(raw_recipe)
     if nutrition_dict is not None:
         if db_insert_food(food_dict, nutrition_dict):
+            if db_
             return True
         else:
             print('Adding food failed.')

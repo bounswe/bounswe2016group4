@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- {% include "./include.html" %} -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <meta charset="UTF-8">
+    {% include "./include.html" %}
     <title>KWUE</title>
 </head>
 <body>
@@ -30,9 +29,9 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-pills">
-                  <li role="presentation" class="active"><a href="http://127.0.0.1:8000">Home</a></li>
-                  <li role="presentation"><a href="http://127.0.0.1:8000/add_food/">add a food</a></li>
-                  <li role="presentation"><a href="http://127.0.0.1:8000/get_a_food/">Foods</a></li>
+                  <li role="presentation" class="active"><a href="{% url 'home' %}">Home</a></li>
+                  <li role="presentation"><a href="{% url 'add_food' %}">add a food</a></li>
+                  <li role="presentation"><a href="{% url 'get_food' %}">Foods</a></li>
                 </ul>
             </div>
         </div>
@@ -42,6 +41,10 @@
                     <div>
                         <p>id: {{ food.food_id }}</p>
                         <p>name: {{ food.food_name }}</p>
+                        <p>description: {{ food.food_description }}</p>
+                        <p>owner: {{ food.food_owner }}</p>
+                        <p>image: {{ food.food_image}}</p>
+                        <p>rate: {{ food.food_rate }}</p>
                     </div>
                 {% endfor %}
             </div>

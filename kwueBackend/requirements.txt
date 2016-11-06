@@ -1,3 +1,4 @@
+requests
 Django==1.10.2
 Pillow==3.4.2
 django-unixtimestampfield==0.3.9

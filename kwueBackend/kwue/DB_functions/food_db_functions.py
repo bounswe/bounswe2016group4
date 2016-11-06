@@ -23,8 +23,8 @@ def db_insert_food(food_dict, nutrition_dict):
 
     )
     try:
-        FoodModel.save(new_food)
-        return True
+        new_food.save()
+        return new_food.food_id
     except:
         return False
 

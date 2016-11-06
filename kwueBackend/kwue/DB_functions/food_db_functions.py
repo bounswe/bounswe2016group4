@@ -2,12 +2,25 @@ from kwue.models.models import *
 from kwue.DB_functions.user_db_function import db_retrieve_user
 
 
-def db_insert_food(food_tuple):
+def db_insert_food(food_dict, nutrition_dict):
+
+    food_owner_id = food_dict['food_owner']
+    food_owner = db_retrieve_user(food_owner_id)
     new_food = FoodModel(
-        food_description=food_tuple[0],
-        food_name=food_tuple[1],
-        food_image=food_tuple[2],
-        food_owner=food_tuple[3]
+        food_description=food_dict['food_description'],
+        food_name=food_dict['food_name'],
+        food_image=food_dict['food_image'],
+        #food_owner=food_dict['food_owner'],
+        food_owner=food_owner,
+        food_recipe=food_dict['food_recipe'],
+        protein_value=nutrition_dict['protein_value'],
+        fat_value=nutrition_dict['fat_value'],
+        carbonhydrate_value=nutrition_dict['carbonhydrate_value'],
+        fiber_value=nutrition_dict['fiber_value'],
+        calorie_value=nutrition_dict['calorie_value'],
+        sugar_value=nutrition_dict['sugar_value'],
+        serving_weight_grams=nutrition_dict['serving_weight_grams'],
+
     )
     try:
         FoodModel.save(new_food)
@@ -24,6 +37,7 @@ def db_retrieve_food(food_id):
 def db_retrieve_all_foods():
     foods = FoodModel.objects.all()
     return foods
+
 
 def db_delete_food(food_id):
     food = FoodModel.objects.filter(food_id=food_id)

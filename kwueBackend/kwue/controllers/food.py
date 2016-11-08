@@ -1,10 +1,26 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
+import json
+# def get_food(req, food_id):
+#     print(db_retrieve_food(food_id).__dict__)
+#     return render(req, 'kwue/food.html', {})
+
+
+
 
 def get_food(req, food_id):
-    print(db_retrieve_food(food_id).__dict__)
-    return render(req, 'kwue/food.html', {})
+    # no error handling
+    food_dict = db_retrieve_food(food_id).__dict__
+    print(food_dict)
+    del food_dict['_state']
+    food_json = json.dumps(food_dict)
+    print(food_json)
+    return render(req, 'kwue/food.html', food_json)
+
+
+
+
 
 
 def add_food(food_dict):

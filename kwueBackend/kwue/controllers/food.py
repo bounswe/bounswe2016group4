@@ -1,35 +1,57 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
+from kwue.DB_functions.tag_db_functions import *
+from kwue.helper_functions.nutrition_helpers import request_nutrition
+import json
+from django.http import HttpResponse
 
-def get_food(req, food_id):
-    print(db_retrieve_food(food_id).__dict__)
-    return render(req, 'kwue/food.html', {})
+def get_food(req):
+    food_id = req.GET.dict['food_id']
+    food_dict = db_retrieve_food(food_id).__dict__
+    del food_dict['_state'] # alptekin fix FacePalm
+    food_json = json.dumps(food_dict)
+    return render(req, 'kwue/food.html', food_json)
 
 def add_food(req):
-       if req.method == 'GET':
-            print("get methodu")
-            getData = req.GET.dict()
-            if bool(getData):
-                searchValuesu = getData['search']
-                print(searchValuesu)
-                return render(req, 'kwue/add_food.html', {'s': searchValuesu})
-        return render(req, 'kwue/add_food.html', {})
+    print(req.session['username'])
+    food_dict = req.GET.dict
+    raw_recipe = food_dict['food_recipe']
+    nutrition_dict = request_nutrition(raw_recipe)
+    is_success = False
+    reason = ""
+    if nutrition_dict is not None:
+        if db_insert_food(food_dict, nutrition_dict):
+            is_success = True
+        else:
+            reason = 'Adding food failed.'
+    else:
+        reason = 'Nutritional value calculation failed.'
 
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
-def remove_food(req,food_id):
-    db_delete_food(food_id)
-    return render(req, 'kwue/home.html', {})
+def get_nutritional_values(req):
+    raw_recipe = req.GET.dict['food_recipe']
+    nutrition_dict = request_nutrition(raw_recipe)
+    return HttpResponse(json.dumps(nutrition_dict))
 
-def food_rate(req,food_id,star):
-    db_rate_food(food_id,star)
+def remove_food(req):
+    food_id = req.GET.dict['food_id']
+    is_success = False
+    reason = ""
+    if db_delete_food(food_id):
+        is_success = True
+    else:
+        reason = 'Removing food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
+
+def rate_food(req):
     return render(req, 'kwue/food.html', {})
 
-def comment_food(req,food_id,comment):
-    db_comment_food(food_id,comment)
+def comment_food(req):
     return render(req, 'kwue/food.html', {})
 
 def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
 
-def update_food(req,food_id):
+def update_food(req):
     return render(req, 'kwue/food.html', {})

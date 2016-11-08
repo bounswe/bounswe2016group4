@@ -8,6 +8,7 @@ from django.http import HttpResponse
 def get_food(req):
     food_id = req.GET.dict['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
+    del food_dict['_state'] # alptekin fix FacePalm
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
 

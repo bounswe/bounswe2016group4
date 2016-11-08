@@ -1,4 +1,3 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
 from django.http import HttpResponse
 import json
 from kwue.helper_functions.semantic_tag_helpers import get_semantic_tags

@@ -2,7 +2,8 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from django.http import HttpResponse
 import json
 
-def search_semantic_tags(req, tag_name):
+def search_semantic_tags(req):
+    tag_name = req.GET.dict['tag_name']
     sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
     sparql.setQuery("""
         prefix wdt: <http://www.wikidata.org/prop/direct/>

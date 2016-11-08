@@ -34,6 +34,18 @@ urlpatterns = (
     url(r'^get__food', food.get_food),  # Renders "food.html"
 
     ### REQUEST
+    # 'food_recipe' : should be in format "<ingredient> <value> \n <ingredient> <value> \n .."
+    ### RESPONSE
+    # 'calorie_value'
+    # 'serving_weight_grams'
+    # 'fat_value'
+    # 'fiber_value'
+    # 'carbohydrate_value'
+    # 'sugar_value'
+    # 'protein_value'
+    url(r'^get_nutritional_values', food.get_nutritional_values),
+
+    ### REQUEST
     # 'food_description'
     # 'food_name'
     # 'food_image' : should be a url

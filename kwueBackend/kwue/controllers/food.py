@@ -28,6 +28,11 @@ def add_food(req):
 
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
+def get_nutritional_values(req):
+    raw_recipe = req.GET.dict['food_recipe']
+    nutrition_dict = request_nutrition(raw_recipe)
+    return HttpResponse(json.dumps(nutrition_dict))
+
 def remove_food(req):
     food_id = req.GET.dict['food_id']
     is_success = False

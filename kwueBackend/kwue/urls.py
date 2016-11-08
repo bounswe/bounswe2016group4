@@ -4,6 +4,14 @@ from kwue.controllers import home
 from kwue.controllers import tag
 
 urlpatterns = (
+
+    ### REQUEST
+    # 'tag_name'
+    ### RESPONSE
+    # Array of semantic tags
+    # 'item'
+    # 'itemLabel'
+    # 'itemDescription'
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST
@@ -22,22 +30,27 @@ urlpatterns = (
     # 'sugar_value'
     # 'food_rate'
     # 'food_id'
-    # 'carbonhydrate_value'
-    url(r'^get_a_food', food.get_food),
-
-
-    url(r'^remove_a_food', food.remove_food),
+    # 'carbohydrate_value'
+    url(r'^get__food', food.get_food),  # Renders "food.html"
 
     ### REQUEST
     # 'food_description'
     # 'food_name'
-    # 'food_image'
+    # 'food_image' : should be a url
     # 'food_owner'
-    # 'food_recipe'
-    # 'food_tags'
+    # 'food_recipe' : should be in format "<ingredient> <value> \n <ingredient> <value> \n .."
+    # 'food_tags' : should be array of "tag_name" "item" "itemLabel" "itemDescription" given from semantic tag api.
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not
     # 'reason' : if not successful, the reason of it
     url(r'^add_food', food.add_food),
+
+    ### REQUEST
+    # 'food_id'
+    ### RESPONSE
+    # 'is_success' : if adding food process is successful or not
+    # 'reason' : if not successful, the reason of it
+    url(r'^remove__food', food.remove_food),
+
     url(r'^$', home.get_home),
 )

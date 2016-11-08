@@ -29,8 +29,13 @@ def add_food(req):
 
 def remove_food(req):
     food_id = req.GET.dict['food_id']
-    db_delete_food(food_id)
-    return render(req, 'kwue/home.html', {})
+    is_success = False
+    reason = ""
+    if db_delete_food(food_id):
+        is_success = True
+    else:
+        reason = 'Removing food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def rate_food(req):
     return render(req, 'kwue/food.html', {})

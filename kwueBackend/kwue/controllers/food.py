@@ -2,10 +2,14 @@ from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
+import json
 
-def get_food(req, food_id):
-    print(db_retrieve_food(food_id).__dict__)
-    return render(req, 'kwue/food.html', {})
+def get_food(req):
+    # no error handling
+    food_id = req.GET.dict['food_id']
+    food_dict = db_retrieve_food(food_id).__dict__
+    food_json = json.dumps(food_dict)
+    return render(req, 'kwue/food.html', food_json)
 
 def add_food(req):
     food_dict = req.GET.dict
@@ -29,7 +33,8 @@ def add_food(req):
         print('Nutritional value calculation failed..')
         return False
 
-def remove_food(req,food_id):
+def remove_food(req):
+    food_id = req.GET.dict['food_id']
     db_delete_food(food_id)
     return render(req, 'kwue/home.html', {})
 
@@ -42,5 +47,5 @@ def comment_food(req):
 def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
 
-def update_food(req,food_id):
+def update_food(req):
     return render(req, 'kwue/food.html', {})

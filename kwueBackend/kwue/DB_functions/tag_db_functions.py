@@ -7,7 +7,6 @@ def db_insert_tag(tag_dict):
     food = db_retrieve_food(food_id)
 
     new_tag = TagModel(
-        tag_id=tag_dict['tag_id'],
         tag_label=tag_dict['tag_label'],
         semantic_tag_item=tag_dict['semantic_tag_item'],
         semantic_tag_item_label=tag_dict['semantic_tag_item_label'],

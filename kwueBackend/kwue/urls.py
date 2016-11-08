@@ -9,8 +9,23 @@ urlpatterns = (
     ### REQUEST
     # 'food_id'
     ### RESPONSE
-    #
+    # 'serving_weight_grams'
+    # 'protein_value'
+    # 'calorie_value'
+    # 'fiber_value'
+    # 'food_owner_id'
+    # 'food_recipe'
+    # 'food_description'
+    # 'food_image'
+    # 'food_name'
+    # 'fat_value'
+    # 'sugar_value'
+    # 'food_rate'
+    # 'food_id'
+    # 'carbonhydrate_value'
     url(r'^get_a_food', food.get_food),
+
+
     url(r'^remove_a_food', food.remove_food),
 
     ### REQUEST

@@ -3,9 +3,9 @@ from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
+from django.http import HttpResponse
 
 def get_food(req):
-    # no error handling
     food_id = req.GET.dict['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
     food_json = json.dumps(food_dict)
@@ -13,25 +13,19 @@ def get_food(req):
 
 def add_food(req):
     food_dict = req.GET.dict
-    # request variables for adding a food should include these fields:
-    # 'food_description'
-    # 'food_name'
-    # 'food_image'
-    # 'food_owner'
-    # 'food_recipe'
-    # 'food_tags'
-
     raw_recipe = food_dict['food_recipe']
     nutrition_dict = request_nutrition(raw_recipe)
+    is_success = False
+    reason = ""
     if nutrition_dict is not None:
         if db_insert_food(food_dict, nutrition_dict):
-            return True
+            is_success = True
         else:
-            print('Adding food failed.')
-            return False
+            reason = 'Adding food failed.'
     else:
-        print('Nutritional value calculation failed..')
-        return False
+        reason = 'Nutritional value calculation failed.'
+
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def remove_food(req):
     food_id = req.GET.dict['food_id']

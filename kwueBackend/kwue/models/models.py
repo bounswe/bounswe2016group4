@@ -28,7 +28,7 @@ class FoodModel(models.Model):
     food_recipe = models.TextField()
     protein_value = models.FloatField()
     fat_value = models.FloatField()
-    carbonhydrate_value = models.FloatField()
+    carbohydrate_value = models.FloatField()
     fiber_value = models.FloatField()
     calorie_value = models.FloatField()
     sugar_value = models.FloatField()

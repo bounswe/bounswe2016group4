@@ -21,8 +21,6 @@ def get_food(req, food_id):
 
 
 
-
-
 def add_food(food_dict):
 
 #Alperden bir dictionary alcagim varsayiyorum reqin icinde adi food_dict olsun

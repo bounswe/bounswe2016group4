@@ -31,6 +31,9 @@ public class Food {
         this.tagList = tagList;
         this.imageUrl = imageUrl;
     }
+    public Food(){
+
+    }
 
 
 

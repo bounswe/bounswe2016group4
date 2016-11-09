@@ -16,7 +16,7 @@
             android:layout_height="71dp"
             android:background="?attr/colorPrimary"
             android:fitsSystemWindows="true"
-            />
+            android:theme="@style/Base.Widget.AppCompat.SearchView" />
     </android.support.design.widget.AppBarLayout>
     <RelativeLayout
         android:layout_marginTop="200px"

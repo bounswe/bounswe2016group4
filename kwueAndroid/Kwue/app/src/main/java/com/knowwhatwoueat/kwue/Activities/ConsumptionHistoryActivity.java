@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -36,8 +37,9 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
         //// TODO: 26.10.2016 Remove these hardcodes, pull it from backend
@@ -59,22 +61,13 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
         SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
 
-        SearchView searchView = null;
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
         }
-
-        // Get the SearchView and set the searchable configuration
-        // Associate searchable configuration with the SearchView
-        //SearchManager searchManager =
-        //        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        //SearchView searchView =
-        //        (SearchView) menu.findItem(R.id.search).getActionView();
-        //searchView.setSearchableInfo(
-        //        searchManager.getSearchableInfo(getComponentName()));
 
 
         return super.onCreateOptionsMenu(menu);

@@ -6,13 +6,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
@@ -23,15 +25,20 @@ import com.knowwhatwoueat.kwue.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsumptionHistoryActivity extends Activity {
+public class ConsumptionHistoryActivity extends AppCompatActivity {
     private List<Food> consumptionHistory;
     private String[] consumptionList;
     private String[] imageList;
+    private Toolbar toolbar;
     //public Bitmap photo = new Bitmap();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //// TODO: 26.10.2016 Remove these hardcodes, pull it from backend
         addDummyFood();
@@ -39,7 +46,7 @@ public class ConsumptionHistoryActivity extends Activity {
         imageList = getImageUrls();
         //ListAdapter adapter = new ConsumptionListAdapter(this,consumptionList,consumptionList,);
         ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
-        ListView listView = (ListView) findViewById(R.id.cunsumptionlist);
+        ListView listView = (ListView) findViewById(R.id.consumptionlist);
 
         listView.setAdapter(adapter);
     }
@@ -48,14 +55,26 @@ public class ConsumptionHistoryActivity extends Activity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.search);
+
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        }
+
         // Get the SearchView and set the searchable configuration
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        //SearchManager searchManager =
+        //        (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        //SearchView searchView =
+        //        (SearchView) menu.findItem(R.id.search).getActionView();
+        //searchView.setSearchableInfo(
+        //        searchManager.getSearchableInfo(getComponentName()));
 
 
         return super.onCreateOptionsMenu(menu);

@@ -44,7 +44,7 @@ public class ConsumptionListAdapter extends ArrayAdapter<Food> {
     }
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.consumption_history_list_item, null,true);
+        View rowView=inflater.inflate(R.layout.consumption_history_list_item, parent,false);
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.FoodName);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.FoodThumbNail);
@@ -54,10 +54,6 @@ public class ConsumptionListAdapter extends ArrayAdapter<Food> {
         txtTitle.setText(foods.get(position).getName());
         extratxt.setText("Description "+foods.get(position).getInfo());
         return rowView;
-
-    }
-
-    public void onCreateView(){
 
     }
 }

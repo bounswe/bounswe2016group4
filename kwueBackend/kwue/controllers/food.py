@@ -13,7 +13,8 @@ def get_food(req):
     return render(req, 'kwue/food.html', food_json)
 
 def add_food(req):
-    print(req.session['username'])
+    #print(req.user.username)
+    print(req.session['username']+" is adding a food")
     food_dict = req.GET.dict
     raw_recipe = food_dict['food_recipe']
     nutrition_dict = request_nutrition(raw_recipe)

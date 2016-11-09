@@ -5,5 +5,6 @@ def get_home(req):
     food = db_retrieve_all_foods()
     #req.session['has_access']=True
     #req.session['id']=11
-    #req.session['username'] = 'doruk1994'
+    req.session['username'] = 'doruk1994'
+    print(req.session['username']+ " has been authenticated")
     return render(req, 'kwue/home.html', {'foods': food})

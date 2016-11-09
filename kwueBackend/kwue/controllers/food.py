@@ -1,44 +1,47 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
+from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
+import json
+from django.http import HttpResponse
 
-def get_food(req, food_id):
-    print(db_retrieve_food(food_id).__dict__)
-    return render(req, 'kwue/food.html', {})
-
+def get_food(req):
+    food_id = req.GET.dict['food_id']
+    food_dict = db_retrieve_food(food_id).__dict__
+    del food_dict['_state'] # alptekin fix FacePalm
+    food_json = json.dumps(food_dict)
+    return render(req, 'kwue/food.html', food_json)
 
 def add_food(req):
-
-#Alperden bir dictionary alcagim varsayiyorum reqin icinde adi food_dict olsun
-# entryleri affedersin
-#
-#         food_description=food_dict['food_description'],
-#         food_name=food_dict['food_name'],
-#         food_image=food_dict['food_image'],
-#         #food_owner=food_dict['food_owner'],
-#         food_owner=food_owner,
-#         food_recipe=food_dict['food_recipe'],
-#### dipnot front endden nasil geliyor variablelar bilmiyorum ben normal dictionary gibi farz etttim
-
-    if req.method == 'POST':
-        food_dict = req.POST.dict()
-        raw_recipe = food_dict['food_recipe']
-        nutrition_dict = request_nutrition(raw_recipe)
-        if nutrition_dict is not None:
-            if db_insert_food(food_dict, nutrition_dict):
-                return render(req, 'kwue/home.html', {})
-            else:
-                print('Errororororo')
-                return render(req, 'kwue/food.html', {})
+    food_dict = req.GET.dict
+    raw_recipe = food_dict['food_recipe']
+    nutrition_dict = request_nutrition(raw_recipe)
+    is_success = False
+    reason = ""
+    if nutrition_dict is not None:
+        if db_insert_food(food_dict, nutrition_dict):
+            is_success = True
         else:
-            print('Errororororo')
-            return render(req, 'kwue/food.html', {})
+            reason = 'Adding food failed.'
     else:
-        return render(req, 'kwue/add_food.html', {})
+        reason = 'Nutritional value calculation failed.'
 
-def remove_food(req,food_id):
-    db_delete_food(food_id)
-    return render(req, 'kwue/home.html', {})
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
+
+def get_nutritional_values(req):
+    raw_recipe = req.GET.dict['food_recipe']
+    nutrition_dict = request_nutrition(raw_recipe)
+    return HttpResponse(json.dumps(nutrition_dict))
+
+def remove_food(req):
+    food_id = req.GET.dict['food_id']
+    is_success = False
+    reason = ""
+    if db_delete_food(food_id):
+        is_success = True
+    else:
+        reason = 'Removing food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def rate_food(req):
     return render(req, 'kwue/food.html', {})
@@ -49,5 +52,5 @@ def comment_food(req):
 def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
 
-def update_food(req,food_id):
+def update_food(req):
     return render(req, 'kwue/food.html', {})

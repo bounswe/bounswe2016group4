@@ -28,7 +28,7 @@ class FoodModel(models.Model):
     food_recipe = models.TextField()
     protein_value = models.FloatField()
     fat_value = models.FloatField()
-    carbonhydrate_value = models.FloatField()
+    carbohydrate_value = models.FloatField()
     fiber_value = models.FloatField()
     calorie_value = models.FloatField()
     sugar_value = models.FloatField()
@@ -89,4 +89,9 @@ class ConsumptionHistory(models.Model):
 
 class TagModel(models.Model):
     tag_id = models.AutoField(primary_key=True)
+    tag_label = models.TextField()
+    semantic_tag_item = models.TextField()
+    semantic_tag_item_label = models.TextField()
+    semantic_tag_item_description = models.TextField()
+    tagged_food = models.ForeignKey(FoodModel,on_delete=models.CASCADE)
 

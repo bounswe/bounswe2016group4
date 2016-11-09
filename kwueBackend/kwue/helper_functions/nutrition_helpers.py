@@ -5,7 +5,7 @@ import requests
 def parse_nutrition(data):
     data = json.loads(data)
     nutrition_dict = dict(protein_value=data['foods'][0]['nf_protein'], fat_value=data['foods'][0]['nf_total_fat'],
-                          carbonhydrate_value=data['foods'][0]['nf_total_carbohydrate'],
+                          carbohydrate_value=data['foods'][0]['nf_total_carbohydrate'],
                           fiber_value=data['foods'][0]['nf_dietary_fiber'],
                           calorie_value=data['foods'][0]['nf_calories'], sugar_value=data['foods'][0]['nf_sugars'],
                           serving_weight_grams=data['foods'][0]['serving_weight_grams'])

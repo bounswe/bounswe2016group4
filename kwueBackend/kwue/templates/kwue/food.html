@@ -6,8 +6,10 @@
 </head>
 <body>
 <div>
-    <a href="{% url 'home' %}">home</a>
-    <a href="{% url 'get_food' %}">CLICK ME!</a>
+    <a href="http://127.0.0.1:8000/">home</a>
+    <a href="http://127.0.0.1:8000/get_a_food/1">CLICK ME!</a>
+    <a href="http://127.0.0.1:8000/search_semantic_tags/trump">CLICK ME for semantic tags!</a>
+    {{ semanticTags }}
 </div>
 </body>
 </html>

@@ -18,7 +18,22 @@
         <activity
             android:name=".Activities.ConsumptionHistoryActivity"
             android:label="@string/title_activity_consumption_history"
+<<<<<<< HEAD
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activities.SearchableActivity">
+=======
             android:theme="@style/Theme.AppCompat.NoActionBar">
+>>>>>>> 1ebad6b05ac10667bed24281bebd590eb8e02d90
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+<<<<<<< HEAD
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +50,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activities.HomePageActivity"></activity>
+=======
+>>>>>>> 1ebad6b05ac10667bed24281bebd590eb8e02d90
     </application>
 
 </manifest>

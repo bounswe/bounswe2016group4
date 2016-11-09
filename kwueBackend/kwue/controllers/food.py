@@ -13,7 +13,7 @@ def get_food(req):
     return render(req, 'kwue/food.html', food_json)
 
 def add_food(req):
-    food_dict = req.GET.dict
+    food_dict = req.POST.dict()
     raw_recipe = food_dict['food_recipe']
     nutrition_dict = request_nutrition(raw_recipe)
     is_success = False
@@ -27,6 +27,10 @@ def add_food(req):
         reason = 'Nutritional value calculation failed.'
 
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
+
+def render_add_food_page(req):
+    return render(req, 'kwue/add_food.html', {})
+
 
 def get_nutritional_values(req):
     raw_recipe = req.GET.dict['food_recipe']

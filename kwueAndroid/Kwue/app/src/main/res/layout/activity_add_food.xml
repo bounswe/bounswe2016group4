@@ -25,33 +25,121 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/text_food_name"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/food_name" />
-        <EditText
-            android:id="@+id/edit_food_name"
-            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/food_name"
+                android:textSize="14dp"/>
+            <EditText
+                android:id="@+id/add_food_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:hint="@string/enter_food_name"
+                android:textSize="14sp"
+                android:inputType="text"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_food_name"
-            android:layout_marginTop="10dp"
-            android:ems="15"
-            android:text="@string/enter_text" android:inputType="text" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/food_description"
+                android:textSize="14dp"/>
+            <EditText
+                android:id="@+id/food_description"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:hint="@string/enter_food_description"
+                android:textSize="14sp"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="2000"
+                android:maxLines="4"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/food_image_url"
+                android:textSize="14dp"/>
+            <EditText
+                android:id="@+id/FoodThumbNail"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:hint="@string/enter_food_image_url"
+                android:textSize="14sp"
+                android:inputType="text"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+
+                android:text="@string/food_semantic_tag"
+                android:textSize="14dp"/>
+            <EditText
+                android:id="@+id/semantic_tag_text_box"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:hint="@string/enter_food_semantic_tag"
+                android:textSize="14sp"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="2000"
+                android:maxLines="4"/>
+
+
+        </LinearLayout>
+
         <Button
-            android:id="@+id/button"
+            android:id="@+id/semantic_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/text_food_name"
-            android:layout_below="@+id/text_food_name"
-            android:layout_marginTop="0dp"
-            android:text="@string/submit" />
+            android:text="tag"
+            />
+
+        <ListView
+            android:id="@+id/semantic_list"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+        </ListView>
+
+
+
 
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton
@@ -61,7 +149,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
-
 
 
     <include layout="@layout/content_add_food"

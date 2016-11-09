@@ -1,5 +1,7 @@
 package com.knowwhatwoueat.kwue.DataModels;
 
+import android.graphics.Bitmap;
+
 import java.util.List;
 
 /**
@@ -18,13 +20,16 @@ public class Food {
     private List<String> commentList;
     private List<String> tagList;
 
-    public Food(Server foodServer, String info, String name, List<String> ingredientList, Nutrition nutrition, List<String> tagList) {
+
+    private String imageUrl;
+    public Food(Server foodServer, String info, String name, List<String> ingredientList, Nutrition nutrition, List<String> tagList , String imageUrl) {
         this.foodServer = foodServer;
         this.info = info;
         this.name = name;
         this.ingredientList = ingredientList;
         this.nutrition = nutrition;
         this.tagList = tagList;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -35,6 +40,14 @@ public class Food {
 
 
 
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public List<String> getIngredientList() {
         return ingredientList;

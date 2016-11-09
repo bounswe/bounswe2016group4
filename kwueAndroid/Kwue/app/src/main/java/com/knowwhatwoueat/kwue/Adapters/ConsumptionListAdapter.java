@@ -37,6 +37,7 @@ public class ConsumptionListAdapter extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView extratxt = (TextView) rowView.findViewById(R.id.Description);
 
+
         txtTitle.setText(itemname[position]);
         imageView.setImageResource(imgid[position]);
         extratxt.setText("Description "+itemname[position]);

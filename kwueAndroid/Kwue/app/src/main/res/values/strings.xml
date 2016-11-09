@@ -12,4 +12,11 @@
     <string name="food_name">Food Name</string>
     <string name="enter_text">Enter text</string>
     <string name="submit">Submit</string>
+    <string name="enter_food_name">Enter food name</string>
+    <string name="food_description">Food Description</string>
+    <string name="enter_food_description">Enter food description</string>
+    <string name="food_image_url">Image URL</string>
+    <string name="enter_food_image_url">Enter image URL</string>
+    <string name="food_semantic_tag">Semantic Tags</string>
+    <string name="enter_food_semantic_tag">Enter a keyword than press button to see tags.</string>
 </resources>

@@ -9,13 +9,17 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.knowwhatwoueat.kwue.R;
 
 public class AddFood extends AppCompatActivity {
-    private EditText editText ;
+    private EditText editFoodTextBox;
+    private EditText editDescriptionTextBox;
+    private Button getTagsButton;
+    private EditText semanticTextBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,28 +27,28 @@ public class AddFood extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton sendFoodButton = (FloatingActionButton) findViewById(R.id.fab);
+        sendFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-        editText = (EditText) findViewById(R.id.edit_food_name);
-        EditText editText = (EditText) findViewById(R.id.search);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
+        editDescriptionTextBox = (EditText) findViewById(R.id.food_description);
+        getTagsButton= (Button) findViewById(R.id.semantic_button);
+        semanticTextBox = (EditText) findViewById(R.id.semantic_tag_text_box);
+
+        getTagsButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    v.getText();
-                    handled = true;
-                }
-                return handled;
+            public void onClick(View view) {
+                String semanticQuery = semanticTextBox.getText().toString();
+                Log.d("tag", "onClick: clicked" + semanticQuery);
             }
+
         });
+
     }
-
-
 }

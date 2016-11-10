@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <header android:fragment="com.knowwhatwoueat.kwue.Activities.SettingsActivity$SystemPref"
+                android:title="@string/sys_settings"
+                android:summary="@string/sys_settings_summ" />
+
+        <header android:fragment="com.knowwhatwoueat.kwue.Activities.SettingsActivity$UserPref"
+                android:title="@string/user_settings"
+                android:summary="@string/user_settings_summ"  />
+
+</preference-headers>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fragment="com.knowwhatwoueat.kwue.Activities.SettingsActivity$UserPref"
+    android:title="@string/user_settings" >
+
+        <CheckBoxPreference
+            android:key="@string/email_notify"
+            android:summary="@string/email_notify_summary"
+            android:title="@string/email_notify"
+            android:defaultValue="true" >
+
+        </CheckBoxPreference>
+        <!--list here the possible eating preferences   -->
+
+
+</PreferenceScreen>

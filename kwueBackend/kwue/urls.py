@@ -65,7 +65,7 @@ urlpatterns = (
     #
     #   to be filled
     #
-    url(r'^new_food', food.render_add_food_page, name='new_food'),
+    url(r'^new_food', food.get_add_food_page, name='new_food'), # Renders "add_food.html"
 
     ### REQUEST
     # 'food_id'

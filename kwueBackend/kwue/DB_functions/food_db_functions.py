@@ -100,22 +100,16 @@ def db_update_food(food_id, food_tuple):
         return True
 
 
-def db_up_rate_food(food_id):
+def db_rate_food(food_id,rate_value):
     try:
-        rate = FoodModel.objects.get(food_id=food_id).food_rate
-        rate += 1
-        FoodModel.objects.filter(food_id=food_id).update(food_rate=rate)
-        return True
-    except:
-        return False
-
-
-def db_down_rate_food(food_id):
-    try:
-        rate = FoodModel.objects.get(food_id=food_id).food_rate
-        rate -= 1
-        FoodModel.objects.filter(food_id=food_id).update(food_rate=rate)
-        return True
+        food = FoodModel.objects.get(food_id=food_id)
+        rate = food.food_rate
+        count = food.food_rate_count
+        total = rate * count + rate_value
+        count += 1
+        rate = total / count
+        food.update(food_rate=rate, food_rate_count=count)
+        return rate
     except:
         return False
 

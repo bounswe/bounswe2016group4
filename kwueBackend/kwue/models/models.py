@@ -18,6 +18,12 @@ class UserModel(models.Model):
         return self.user_name
 
 
+class IngredientModel(models.Model):
+    ingredient_name = models.CharField(max_length=100, primary_key=True)
+
+    def __str__(self):
+        return self.ingredient_name
+
 class FoodModel(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_description = models.CharField(max_length=300)
@@ -26,6 +32,7 @@ class FoodModel(models.Model):
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food_rate = models.IntegerField(default=0)
     food_recipe = models.TextField(default=0)
+    ingredient_list = models.ManyToManyField(IngredientModel)
     protein_value = models.FloatField(default=0)
     fat_value = models.FloatField(default=0)
     carbohydrate_value = models.FloatField(default=0)
@@ -45,18 +52,13 @@ class FoodModel(models.Model):
     folatem = models.FloatField(default=0)
     vitamin_B12 = models.FloatField(default=0)
     pantothenic_acid = models.FloatField(default=0)
-    biotin = models.FloatField(default=0)
     choline = models.FloatField(default=0)
     calcium = models.FloatField(default=0)
-    chromium = models.FloatField(default=0)
     copper = models.FloatField(default=0)
-    clouride = models.FloatField(default=0)
     flouride =  models.FloatField(default=0)
-    iodine = models.FloatField(default=0)
     iron_Fe = models.FloatField(default=0)
     magnesium = models.FloatField(default=0)
     manganese = models.FloatField(default=0)
-    molybdenum = models.FloatField(default=0)
     sodium_Na = models.FloatField(default=0)
     phosphorus = models.FloatField(default=0)
     selenium = models.FloatField(default=0)
@@ -121,5 +123,7 @@ class TagModel(models.Model):
     semantic_tag_item = models.TextField()
     semantic_tag_item_label = models.TextField()
     semantic_tag_item_description = models.TextField()
-    tagged_food = models.ForeignKey(FoodModel,on_delete=models.CASCADE)
+    tagged_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.tag_label

@@ -1,10 +1,24 @@
 from kwue.models.models import *
 from kwue.DB_functions.user_db_function import db_retrieve_user
+from kwue.DB_functions.ingredient_db_functions import db_insert_ingredient,db_retrieve_ingredient
 
 
-def db_insert_food(food_dict, nutrition_dict):
+def db_insert_food(food_dict, nutrition_dict, ingredient_list):
     food_owner_id = food_dict['food_owner']
     food_owner = db_retrieve_user(food_owner_id)
+    ingredient_object_list = []
+    print(ingredient_list)
+    for ingredient in ingredient_list:
+        ing_object = db_retrieve_ingredient(ingredient)
+        if ing_object == False:
+            print(ingredient, 'DOES NOT Exists')
+            new_object = db_insert_ingredient(ingredient)
+            if new_object is not False:
+                ingredient_object_list.append(new_object)
+        else:
+            ingredient_object_list.append(ing_object)
+            print(ingredient, 'Exists')
+    print(ingredient_object_list)
     new_food = FoodModel(
         food_description=food_dict['food_description'],
         food_name=food_dict['food_name'],
@@ -30,27 +44,26 @@ def db_insert_food(food_dict, nutrition_dict):
         folatem=nutrition_dict['folatem'],
         vitamin_B12=nutrition_dict['vitamin_B12'],
         pantothenic_acid=nutrition_dict['pantothenic_acid'],
-        biotin=nutrition_dict['biotin'],
         choline=nutrition_dict['choline'],
         calcium=nutrition_dict['calcium'],
-        chromium=nutrition_dict['chromium'],
         copper=nutrition_dict['copper'],
-        clouride=nutrition_dict['clouride'],
         flouride=nutrition_dict['flouride'],
-        iodine=nutrition_dict['iodine'],
         iron_Fe=nutrition_dict['iron_Fe'],
         magnesium=nutrition_dict['magnesium'],
         manganese=nutrition_dict['manganese'],
-        molybdenum=nutrition_dict['molybdenum'],
         sodium_Na=nutrition_dict['sodium_Na'],
         phosphorus=nutrition_dict['phosphorus'],
         selenium=nutrition_dict['selenium'],
         zinc=nutrition_dict['zinc']
     )
+    new_food.save()
     try:
-        new_food.save()
+        for ing in ingredient_object_list:
+            new_food.ingredient_list.add(ing)
+            print(ing,' IS ADDED')
         return new_food.food_id
     except:
+        print('cannot handle saving food')
         return False
 
 

@@ -15,11 +15,12 @@ def get_food(req):
 def add_food(req):
     food_dict = req.POST.dict()
     raw_recipe = food_dict['food_recipe']
+    ingredients = []
     nutrition_dict = request_nutrition(raw_recipe)
     is_success = False
     reason = ""
     if nutrition_dict is not None:
-        if db_insert_food(food_dict, nutrition_dict):
+        if db_insert_food(food_dict, nutrition_dict, ingredients):
             is_success = True
         else:
             reason = 'Adding food failed.'

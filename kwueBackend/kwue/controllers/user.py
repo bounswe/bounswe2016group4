@@ -19,3 +19,7 @@ def get_consumption_history(req):
     # 1 - From the tabs "last one day" "last one week" "last one month" "all time" the last one day is default.
     # 2 - Get the foods eaten last one day with the taken nutrition values from db.
     return render(req, 'kwue/food.html', {})
+
+def sign_up(req):
+
+    return render(req, 'kwue/food.html', {})

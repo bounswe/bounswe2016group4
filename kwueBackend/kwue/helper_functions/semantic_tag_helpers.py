@@ -13,6 +13,7 @@ def get_semantic_tags(tag_name):
                  bd:serviceParam wikibase:language "en" .
              }
             }
+            LIMIT 10
             """ % tag_name)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
@@ -21,7 +22,7 @@ def get_semantic_tags(tag_name):
         semanticTag = dict(
             item=result['item']['value'],
             itemLabel=result['itemLabel']['value'],
-            itemDescription=result['itemDescription']['value']
+            itemDescription=result['itemDescription']['value'] if 'itemDescription' in result else ""
         )
         semanticTags.append(semanticTag)
     return semanticTags

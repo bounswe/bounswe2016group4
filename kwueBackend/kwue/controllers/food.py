@@ -28,7 +28,7 @@ def add_food(req):
     print(req.session['username']+" has added a food successfully.")
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
-def render_add_food_page(req):
+def get_add_food_page(req):
     return render(req, 'kwue/add_food.html', {})
 
 

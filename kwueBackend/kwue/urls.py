@@ -34,7 +34,7 @@ urlpatterns = (
     url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
 
     ### REQUEST
-    # 'food_recipe' : should be in format "<ingredient> <value> \n <ingredient> <value> \n .."
+    # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
     ### RESPONSE
     # 'calorie_value'
     # 'serving_weight_grams'
@@ -50,7 +50,7 @@ urlpatterns = (
     # 'food_name'
     # 'food_image' : should be a url
     # 'food_owner'
-    # 'food_recipe' : should be in format "<ingredient> <value> \n <ingredient> <value> \n .."
+    # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
     # 'food_tags' : should be array of "tag_name" "item" "itemLabel" "itemDescription" given from semantic tag api.
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not

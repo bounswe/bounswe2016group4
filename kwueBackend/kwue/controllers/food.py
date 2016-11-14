@@ -14,13 +14,19 @@ def get_food(req):
 
 def add_food(req):
     food_dict = req.POST.dict()
-    raw_recipe = food_dict['food_recipe']
-    ingredients = []
-    nutrition_dict = request_nutrition(raw_recipe)
+
+    ingredients = req.GET.dict['ingredients']
+    food_recipe = ""
+    ingredient_list = []
+    for ingredient in ingredients:
+        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+        ingredient_list.append(ingredient[0])
+    nutrition_dict = request_nutrition(food_recipe)
+
     is_success = False
     reason = ""
     if nutrition_dict is not None:
-        if db_insert_food(food_dict, nutrition_dict, ingredients):
+        if db_insert_food(food_dict, nutrition_dict, ingredient_list):
             is_success = True
         else:
             reason = 'Adding food failed.'
@@ -34,8 +40,11 @@ def get_add_food_page(req):
 
 
 def get_nutritional_values(req):
-    raw_recipe = req.GET.dict['food_recipe']
-    nutrition_dict = request_nutrition(raw_recipe)
+    ingredients = req.GET.dict['ingredients']
+    food_recipe = ""
+    for ingredient in ingredients:
+        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+    nutrition_dict = request_nutrition(food_recipe)
     return HttpResponse(json.dumps(nutrition_dict))
 
 def remove_food(req):

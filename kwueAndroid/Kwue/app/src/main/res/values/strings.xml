@@ -40,4 +40,16 @@
     </string-array>
 
 
+    <!-- Strings related to Side Bar -->
+    <!-- Side Bar menu labels -->
+    <string-array name="sidebar_titles">
+        <item>Home Page</item>
+        <item>Add Food</item>
+        <item>Consumption History</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="title_activity_sidebar">Sidebar</string>
+    <string name="sidebar_opened">Sidebar opened</string>
+    <string name="sidebar_closed">Sidebar closed</string>
+
 </resources>

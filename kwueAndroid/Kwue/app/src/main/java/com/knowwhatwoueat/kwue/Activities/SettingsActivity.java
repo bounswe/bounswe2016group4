@@ -15,14 +15,22 @@ import java.util.List;
  *
  */
 public class SettingsActivity extends PreferenceActivity {
+    public CharSequence title = "Settings";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(title);
 
     }
     public void onBuildHeaders(List<Header> target){
         loadHeadersFromResource(R.xml.preference_headers,target);
+
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
     }
 
     @Override

@@ -18,21 +18,52 @@ class UserModel(models.Model):
         return self.user_name
 
 
+class IngredientModel(models.Model):
+    ingredient_name = models.CharField(max_length=100, primary_key=True)
+
+    def __str__(self):
+        return self.ingredient_name
+
 class FoodModel(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_description = models.CharField(max_length=300)
     food_name = models.TextField()
     food_image = models.URLField()
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    food_rate = models.IntegerField(default=0)
-    food_recipe = models.TextField()
-    protein_value = models.FloatField()
-    fat_value = models.FloatField()
-    carbohydrate_value = models.FloatField()
-    fiber_value = models.FloatField()
-    calorie_value = models.FloatField()
-    sugar_value = models.FloatField()
-    serving_weight_grams = models.FloatField()
+    food_rate = models.FloatFieldField(default=0)
+    food_rate_count = models.IntegerField(default=0)
+    food_recipe = models.TextField(default=0)
+    ingredient_list = models.ManyToManyField(IngredientModel)
+    protein_value = models.FloatField(default=0)
+    fat_value = models.FloatField(default=0)
+    carbohydrate_value = models.FloatField(default=0)
+    fiber_value = models.FloatField(default=0)
+    calorie_value = models.FloatField(default=0)
+    sugar_value = models.FloatField(default=0)
+    serving_weight_grams = models.FloatField(default=0)
+    vitamin_A = models.FloatField(default=0)
+    vitamin_C = models.FloatField(default=0)
+    vitamin_D = models.FloatField(default=0)
+    vitamin_E = models.FloatField(default=0)
+    vitamin_K = models.FloatField(default=0)
+    thiamin = models.FloatField(default=0)
+    riboflavin = models.FloatField(default=0)
+    niacin = models.FloatField(default=0)
+    vitamin_B6 = models.FloatField(default=0)
+    folatem = models.FloatField(default=0)
+    vitamin_B12 = models.FloatField(default=0)
+    pantothenic_acid = models.FloatField(default=0)
+    choline = models.FloatField(default=0)
+    calcium = models.FloatField(default=0)
+    copper = models.FloatField(default=0)
+    flouride =  models.FloatField(default=0)
+    iron_Fe = models.FloatField(default=0)
+    magnesium = models.FloatField(default=0)
+    manganese = models.FloatField(default=0)
+    sodium_Na = models.FloatField(default=0)
+    phosphorus = models.FloatField(default=0)
+    selenium = models.FloatField(default=0)
+    zinc = models.FloatField(default=0)
 
     def __str__(self):
         return self.food_name
@@ -93,5 +124,7 @@ class TagModel(models.Model):
     semantic_tag_item = models.TextField()
     semantic_tag_item_label = models.TextField()
     semantic_tag_item_description = models.TextField()
-    tagged_food = models.ForeignKey(FoodModel,on_delete=models.CASCADE)
+    tagged_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.tag_label

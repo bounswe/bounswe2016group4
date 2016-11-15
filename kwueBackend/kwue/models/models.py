@@ -5,32 +5,29 @@ from django.contrib.contenttypes.models import ContentType
 from mptt.models import MPTTModel, TreeForeignKey
 
 
-class UserModel(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    user_name = models.TextField()
-    user_nick = models.TextField()
-    user_email_address = models.EmailField()
-    user_password = models.CharField(max_length=25)
-    user_image = models.URLField()
-    user_type = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user_name
-
-
 class IngredientModel(models.Model):
     ingredient_name = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self):
         return self.ingredient_name
 
+
+class FoodSerModel(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    user_name = models.TextField()
+    # user_nick = models.TextField()
+    # user_email_address = models.EmailField()
+    # user_password = models.CharField(max_length=25)
+    # user_image = models.URLField()
+
+
 class FoodModel(models.Model):
     food_id = models.AutoField(primary_key=True)
     food_description = models.CharField(max_length=300)
     food_name = models.TextField()
     food_image = models.URLField()
-    food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    food_rate = models.FloatFieldField(default=0)
+    food_owner = models.ForeignKey(FoodSerModel, on_delete=models.CASCADE)
+    food_rate = models.FloatField(default=0)
     food_rate_count = models.IntegerField(default=0)
     food_recipe = models.TextField(default=0)
     ingredient_list = models.ManyToManyField(IngredientModel)
@@ -68,6 +65,45 @@ class FoodModel(models.Model):
     def __str__(self):
         return self.food_name
 
+
+class TagModel(models.Model):
+    tag_id = models.AutoField(primary_key=True)
+    tag_label = models.TextField()
+    semantic_tag_item = models.TextField()
+    semantic_tag_item_label = models.TextField()
+    semantic_tag_item_description = models.TextField()
+    tagged_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.tag_label
+
+
+class UserModel(models.Model):
+    user_id = models.AutoField(primary_key=True)
+    user_name = models.TextField()
+    user_nick = models.TextField()
+    user_email_address = models.EmailField()
+    user_password = models.CharField(max_length=25)
+    user_image = models.URLField()
+    user_type = models.BooleanField(default=False)
+    allergic_ingredients = models.ManyToManyField(IngredientModel)
+    preference_tags = models.ManyToManyField(TagModel)
+    #######################
+    protein_lower_bound = models.FloatField(default=0)
+    fat_lower_bound = models.FloatField(default=0)
+    carbohydrate_lower_bound = models.FloatField(default=0)
+    calorie_lower_bound = models.FloatField(default=0)
+    sugar_lower_bound = models.FloatField(default=0)
+    #########################
+    protein_upper_bound = models.FloatField(default=1000)
+    fat_upper_bound = models.FloatField(default=100000)
+    carbohydrate_upper_bound = models.FloatField(default=100000)
+    calorie_upper_bound = models.FloatField(default=10000)
+    sugar_upper_bound = models.FloatField(default=10000)
+
+
+    def __str__(self):
+        return self.user_name
 
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)
@@ -117,14 +153,3 @@ class ConsumptionHistory(models.Model):
     def __str__(self):
         return str(self.date)
 
-
-class TagModel(models.Model):
-    tag_id = models.AutoField(primary_key=True)
-    tag_label = models.TextField()
-    semantic_tag_item = models.TextField()
-    semantic_tag_item_label = models.TextField()
-    semantic_tag_item_description = models.TextField()
-    tagged_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.tag_label

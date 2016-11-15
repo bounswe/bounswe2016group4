@@ -30,7 +30,7 @@ def carbohydrate_search(lower_bound=0, upper_bound=1000, foods=None):
     return foods.filter(carbohydrate_value__range=(lower_bound, upper_bound))
 
 
-def calorie_search(lower_bound=0, upper_bound=1000, foods=None):
+def calorie_search(lower_bound=0, upper_bound=10000, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
     return foods.filter(calorie_value__range=(lower_bound, upper_bound))

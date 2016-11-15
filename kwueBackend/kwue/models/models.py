@@ -30,7 +30,7 @@ class FoodModel(models.Model):
     food_name = models.TextField()
     food_image = models.URLField()
     food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    food_rate = models.FloatFieldField(default=0)
+    food_rate = models.FloatField(default=0)
     food_rate_count = models.IntegerField(default=0)
     food_recipe = models.TextField(default=0)
     ingredient_list = models.ManyToManyField(IngredientModel)

@@ -23,3 +23,7 @@ def get_consumption_history(req):
 def sign_up(req):
 
     return render(req, 'kwue/food.html', {})
+
+def login(req):
+
+    return render(req, 'kwue/food.html', {})

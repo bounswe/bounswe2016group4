@@ -5,12 +5,14 @@ from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
 
+
 def get_food(req):
     food_id = req.GET.dict['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
     del food_dict['_state'] # alptekin fix FacePalm
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
+
 
 def add_food(req):
     food_dict = req.POST.dict()
@@ -29,6 +31,7 @@ def add_food(req):
     print(req.session['username']+" has added a food successfully.")
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
+
 def get_add_food_page(req):
     return render(req, 'kwue/add_food.html', {})
 
@@ -37,6 +40,7 @@ def get_nutritional_values(req):
     raw_recipe = req.GET.dict['food_recipe']
     nutrition_dict = request_nutrition(raw_recipe)
     return HttpResponse(json.dumps(nutrition_dict))
+
 
 def remove_food(req):
     food_id = req.GET.dict['food_id']

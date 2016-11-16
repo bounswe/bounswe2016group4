@@ -6,10 +6,16 @@ from kwue.models.models import FoodModel
 #     return foods
 
 
-def allergic_search(ingredient_list, foods=None):
+def unwanted_search(ingredient_list, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
     return foods.exclude(ingredient_list__in=ingredient_list)
+
+
+def wanted_search(ingredient_list, foods=None):
+    if foods is None:
+        foods = FoodModel.objects.all()
+    return foods.filter(ingredient_list__in=ingredient_list)
 
 
 def protein_search(lower_bound=0, upper_bound=1000, foods=None):

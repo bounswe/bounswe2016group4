@@ -3,6 +3,7 @@ from unixtimestampfield.fields import UnixTimeStampField
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from mptt.models import MPTTModel, TreeForeignKey
+from kwue.helper_functions.time_helpers import show_date
 
 
 class IngredientModel(models.Model):
@@ -12,13 +13,31 @@ class IngredientModel(models.Model):
         return self.ingredient_name
 
 
-class FoodSerModel(models.Model):
+class UserModel(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_name = models.TextField()
-    # user_nick = models.TextField()
-    # user_email_address = models.EmailField()
-    # user_password = models.CharField(max_length=25)
-    # user_image = models.URLField()
+    user_nick = models.TextField()
+    user_email_address = models.EmailField()
+    user_password = models.CharField(max_length=25)
+    user_image = models.URLField(default='')
+    user_type = models.BooleanField(default=False) ###### False is normal user.
+    unwanted_ingredients = models.ManyToManyField(IngredientModel, related_name='wantedfoods')
+    wanted_ingredients = models.ManyToManyField(IngredientModel, related_name='unwantedfoods')
+    #######################
+    protein_lower_bound = models.FloatField(default=0)
+    fat_lower_bound = models.FloatField(default=0)
+    carbohydrate_lower_bound = models.FloatField(default=0)
+    calorie_lower_bound = models.FloatField(default=0)
+    sugar_lower_bound = models.FloatField(default=0)
+    #########################
+    protein_upper_bound = models.FloatField(default=1000)
+    fat_upper_bound = models.FloatField(default=100000)
+    carbohydrate_upper_bound = models.FloatField(default=100000)
+    calorie_upper_bound = models.FloatField(default=10000)
+    sugar_upper_bound = models.FloatField(default=10000)
+
+    def __str__(self):
+        return self.user_name
 
 
 class FoodModel(models.Model):
@@ -26,7 +45,7 @@ class FoodModel(models.Model):
     food_description = models.CharField(max_length=300)
     food_name = models.TextField()
     food_image = models.URLField()
-    food_owner = models.ForeignKey(FoodSerModel, on_delete=models.CASCADE)
+    food_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food_rate = models.FloatField(default=0)
     food_rate_count = models.IntegerField(default=0)
     food_recipe = models.TextField(default=0)
@@ -72,44 +91,19 @@ class TagModel(models.Model):
     semantic_tag_item = models.TextField()
     semantic_tag_item_label = models.TextField()
     semantic_tag_item_description = models.TextField()
-    tagged_food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default=None, blank=True)
+    tagged_object_id = models.PositiveIntegerField()
+    tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
     def __str__(self):
         return self.tag_label
 
 
-class UserModel(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    user_name = models.TextField()
-    user_nick = models.TextField()
-    user_email_address = models.EmailField()
-    user_password = models.CharField(max_length=25)
-    user_image = models.URLField()
-    user_type = models.BooleanField(default=False)
-    allergic_ingredients = models.ManyToManyField(IngredientModel)
-    preference_tags = models.ManyToManyField(TagModel)
-    #######################
-    protein_lower_bound = models.FloatField(default=0)
-    fat_lower_bound = models.FloatField(default=0)
-    carbohydrate_lower_bound = models.FloatField(default=0)
-    calorie_lower_bound = models.FloatField(default=0)
-    sugar_lower_bound = models.FloatField(default=0)
-    #########################
-    protein_upper_bound = models.FloatField(default=1000)
-    fat_upper_bound = models.FloatField(default=100000)
-    carbohydrate_upper_bound = models.FloatField(default=100000)
-    calorie_upper_bound = models.FloatField(default=10000)
-    sugar_upper_bound = models.FloatField(default=10000)
-
-
-    def __str__(self):
-        return self.user_name
-
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)
     comment_text = models.TextField(null=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default=None, blank=True)
-    commented_object_id = models.PositiveIntegerField(default=0)
+    commented_object_id = models.PositiveIntegerField()
     commented_object = GenericForeignKey('content_type', 'commented_object_id')
     comment_date = UnixTimeStampField(auto_now_add=True)
     comment_image = models.URLField()
@@ -147,9 +141,8 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
-    date = UnixTimeStampField(auto_now_add=True)
-    food_rate = models.IntegerField(default=0)
+    date = UnixTimeStampField(use_numeric=True, auto_now_add=True)
 
     def __str__(self):
-        return str(self.date)
+        return show_date(self.date)
 

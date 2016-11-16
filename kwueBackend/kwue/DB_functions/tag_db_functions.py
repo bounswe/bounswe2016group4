@@ -1,17 +1,20 @@
 from kwue.models.models import *
 from kwue.DB_functions.food_db_functions import db_retrieve_food
+from kwue.DB_functions.user_db_function import db_retrieve_user
 
 
 def db_insert_tag(tag_dict):
-    food_id = tag_dict['food_id']
-    food = db_retrieve_food(food_id)
-
+    generic_id = tag_dict['generic_id']
+    if tag_dict["type"] == "Food":
+        generic_object = db_retrieve_food(generic_id)
+    else:
+        generic_object = db_retrieve_user(generic_id)
     new_tag = TagModel(
         tag_label=tag_dict['tag_label'],
         semantic_tag_item=tag_dict['semantic_tag_item'],
         semantic_tag_item_label=tag_dict['semantic_tag_item_label'],
         semantic_tag_item_description=tag_dict['semantic_tag_description'],
-        tagged_food=food
+        tagged_food=generic_object
     )
     try:
         new_tag.save()

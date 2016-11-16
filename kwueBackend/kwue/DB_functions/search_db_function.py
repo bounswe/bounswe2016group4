@@ -11,14 +11,17 @@ def basic_search(focus_string):
     similar_foods = FoodModel.objects.filter(food_name__icontains=focus_string)
     from_tag = TagModel.objects.filter(tag_label__icontains=focus_string) | TagModel.objects.filter(
         semantic_tag_item_label__icontains=focus_string)
-    from_tag_food = from_tag.filter(content_type__model="FoodModel")
+    print(from_tag)
+    from_tag_food = from_tag.filter(content_type__model="foodmodel")
+    print(list(from_tag)[0].content_type.model)#[0].content_type)
     foods = FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')) | similar_foods
-    similar_food_servers = UserModel.objects.filter(user_nick__icontains=focus_string)
-    from_tag_food_server = from_tag.filter(content_type__model='UserModel').distinct()
+    similar_food_servers = UserModel.objects.filter(user_name__icontains=focus_string)
+    print(similar_food_servers)
+    from_tag_food_server = from_tag.filter(content_type__model='usermodel')
     food_servers = UserModel.objects.filter(user_id__in=from_tag_food_server.values('tagged_object_id')) | similar_food_servers
     search_dict = dict(
-        food=foods,
-        food_server=food_servers
+        food=list(foods),
+        food_server=list(food_servers)
     )
     return search_dict
 

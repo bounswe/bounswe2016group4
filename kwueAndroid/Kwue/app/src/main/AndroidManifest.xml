@@ -18,8 +18,7 @@
         <activity
             android:name=".Activities.ConsumptionHistoryActivity"
             android:label="@string/title_activity_consumption_history"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,8 +43,26 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
-=======
->>>>>>> 1ebad6b05ac10667bed24281bebd590eb8e02d90
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/action_settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+
+            android:name=".Activities.SidebarActivity"
+            android:label="@string/title_activity_add_food"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

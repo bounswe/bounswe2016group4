@@ -19,4 +19,37 @@
     <string name="enter_food_image_url">Enter image URL</string>
     <string name="food_semantic_tag">Semantic Tags</string>
     <string name="enter_food_semantic_tag">Enter a keyword than press button to see tags.</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="user_settings">User Settings</string>
+    <string name="user_settings_summ">Profile preferences</string>
+    <string name="email_notify">Email notification</string>
+    <string name="email_notify_summary">Enable if you want emails notification</string>
+    <string name="sys_settings">System Settings</string>
+    <string name="sys_settings_summ">System functionality preferences</string>
+    <string name="change_language">Change language</string>
+    <string-array name="language_selection">
+        <item>Turkish</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="language_selection_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+
+
+    <!-- Strings related to Side Bar -->
+    <!-- Side Bar menu labels -->
+    <string-array name="sidebar_titles">
+        <item>Home Page</item>
+        <item>Add Food</item>
+        <item>Consumption History</item>
+        <item>Settings</item>
+    </string-array>
+    <string name="title_activity_sidebar">Sidebar</string>
+    <string name="sidebar_opened">Sidebar opened</string>
+    <string name="sidebar_closed">Sidebar closed</string>
+
 </resources>

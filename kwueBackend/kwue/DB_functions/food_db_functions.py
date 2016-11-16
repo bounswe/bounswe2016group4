@@ -15,7 +15,7 @@ def db_insert_food(food_dict, nutrition_dict):
         food_recipe=food_dict['food_recipe'],
         protein_value=nutrition_dict['protein_value'],
         fat_value=nutrition_dict['fat_value'],
-        carbonhydrate_value=nutrition_dict['carbohydrate_value'],
+        carbohydrate_value=nutrition_dict['carbohydrate_value'],
         fiber_value=nutrition_dict['fiber_value'],
         calorie_value=nutrition_dict['calorie_value'],
         sugar_value=nutrition_dict['sugar_value'],

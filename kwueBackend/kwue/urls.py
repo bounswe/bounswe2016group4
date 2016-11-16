@@ -31,7 +31,7 @@ urlpatterns = (
     # 'food_rate'
     # 'food_id'
     # 'carbohydrate_value'
-    url(r'^get__food', food.get_food),  # Renders "food.html"
+    url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
 
     ### REQUEST
     # 'food_recipe' : should be in format "<ingredient> <value> \n <ingredient> <value> \n .."
@@ -55,7 +55,17 @@ urlpatterns = (
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not
     # 'reason' : if not successful, the reason of it
-    url(r'^add_food', food.add_food),
+    url(r'^add_food', food.add_food, name='add_food'),
+
+    ### REQUEST
+    #
+    #   to be filled
+    #
+    ### RESPONSE
+    #
+    #   to be filled
+    #
+    url(r'^new_food', food.get_add_food_page, name='new_food'), # Renders "add_food.html"
 
     ### REQUEST
     # 'food_id'
@@ -64,5 +74,5 @@ urlpatterns = (
     # 'reason' : if not successful, the reason of it
     url(r'^remove__food', food.remove_food),
 
-    url(r'^$', home.get_home),
+    url(r'^$', home.get_home, name='home'),
 )

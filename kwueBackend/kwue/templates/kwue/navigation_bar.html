@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-6">
+        <h4>Welcome User</h4>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+          <input name="search" type="text" class="form-control" placeholder="Search">
+          <span class="input-group-btn">
+            <a href="#" id="555" class="btn btn-default adv-search" type="button">Advanced Search</a>
+            <a href="#" class="btn btn-default" type="button" value="Submit">Go!</a>
+          </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
+          <li role="presentation"><a href="{% url 'new_food' %}">add a food</a></li>
+          <li role="presentation"><a href="{% url 'get_food' %}">Foods</a></li>
+        </ul>
+    </div>
+</div>

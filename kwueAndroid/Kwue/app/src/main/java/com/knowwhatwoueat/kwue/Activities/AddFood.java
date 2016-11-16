@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,23 +53,33 @@ public class AddFood extends AppCompatActivity{
         final TextView mTextView = (TextView) findViewById(R.id.connection_text) ;
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        //String url ="http://10.0.2.2:8000/search_semantic_tags";
-        String url = "http://www.google.com";
-        String jsonrequest = "japanese";
+        String jsonrequest = "trump";
+        String url ="http://10.0.2.2:8000/search_semantic_tags?tag_name="+jsonrequest;
+        //String url = "http://www.google.com";
+        final JSONObject jsonObject = new JSONObject();
         JSONObject requestObj;
+        final JSONArray responseArray;
         requestObj = new JSONObject();
         try {
             requestObj.put("tag_name",jsonrequest);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d(" ", "json : " + requestObj);
 // Request a string response from the provided URL.
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url,requestObj,
-                new Response.Listener<JSONObject>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
+                        editDescriptionTextBox.setText(response);
+                        try {
+                            jsonObject.put("response",response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         Log.d("response", "onResponse: "+ response.toString());
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -86,7 +97,6 @@ public class AddFood extends AppCompatActivity{
 
         semanticTags = new ArrayList<String>();
         foodAdded = new Food();
-
         semanticTags.add("Japanese");
         semanticTags.add("Sushi");
 
@@ -126,12 +136,44 @@ public class AddFood extends AppCompatActivity{
         sendFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("FAB", "onClick: button pressed");
                 foodAdded.setImageUrl(imageUrlBox.getText().toString());
                 foodAdded.setInfo(editDescriptionTextBox.getText().toString());
                 foodAdded.setName(editFoodTextBox.getText().toString());
                 foodAdded.setTagList(semanticTags);
+                String url = "http://10.0.2.2:8000/add_food?food_description=" + editDescriptionTextBox.getText().toString() +"&food_name=" + editFoodTextBox.getText().toString()
+                        +"&food_image="+imageUrlBox.getText().toString()+"&food_owner=1&food_recipe=100 grams potato";
+
+
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                // Display the first 500 characters of the response string.
+                                editFoodTextBox.setText(response);
+                                Log.d("response", "onResponse: "+ response.toString());
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("response","That didn't work!");
+                    }
+                });
+                /*JSONArray foodAddRequest = new JSONArray();
+
+                foodAddRequest.put(new JSONObject().put("food_image",imageUrlBox.getText().toString()));
+                foodAddRequest.put(new JSONObject().put("food_description",editDescriptionTextBox.getText().toString());
+                foodAddRequest.put(new JSONObject().put("food_name",editFoodTextBox.getText().toString());
+                foodAddRequest.put(new JSONObject().put("food_tags",semanticTags.toString());
+                foodAddRequest.put(new JSONObject().put("food_recipe","recipe");
+                foodAddRequest.put(new JSONObject().put("food_owner","owner");
+                Log.d("Json:  ", foodAddRequest.toString());*/
             }
+
         });
+
 
 
     }

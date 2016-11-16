@@ -21,9 +21,10 @@ def get_consumption_history(req):
     return render(req, 'kwue/food.html', {})
 
 def sign_up(req):
-
+    #DB ye user kaydedilsin
     return render(req, 'kwue/food.html', {})
 
 def login(req):
-
+    # DB den user ın var olup olmadığına dair bilgi gelsin
+    # DB bana userın id sini versin ve o id ile session başlasın
     return render(req, 'kwue/food.html', {})

@@ -22,19 +22,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
+import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 
 
@@ -45,7 +42,10 @@ public class AddFood extends AppCompatActivity{
     private Button getTagsButton;
     private EditText semanticTextBox;
     private Food foodAdded;
-    private ArrayList<String> semanticTags;
+    private ArrayList<String> semanticTagNames;
+
+
+    String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,33 +53,21 @@ public class AddFood extends AppCompatActivity{
         final TextView mTextView = (TextView) findViewById(R.id.connection_text) ;
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String jsonrequest = "trump";
-        String url ="http://10.0.2.2:8000/search_semantic_tags?tag_name="+jsonrequest;
-        //String url = "http://www.google.com";
-        final JSONObject jsonObject = new JSONObject();
-        JSONObject requestObj;
-        final JSONArray responseArray;
-        requestObj = new JSONObject();
-        try {
-            requestObj.put("tag_name",jsonrequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d(" ", "json : " + requestObj);
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        editDescriptionTextBox.setText(response);
-                        try {
-                            jsonObject.put("response",response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("response", "onResponse: "+ response.toString());
 
+        Gson gson = new Gson();
+
+        String tagrequest = "trump";
+
+        url ="http://10.0.2.2:8000/search_semantic_tags?tag_name="+tagrequest;
+        //String url = "http://www.google.com";
+        // Request a string response from the provided URL.
+        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(url,SemanticTag[].class,
+                new Response.Listener<SemanticTag[]>() {
+                    @Override
+                    public void onResponse(SemanticTag[] response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: "+ response.toString());
+                        assignTagTitles(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -88,17 +76,15 @@ public class AddFood extends AppCompatActivity{
             }
         });
 // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(gsonRequest);
 
 
         setContentView(R.layout.activity_add_food);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        semanticTags = new ArrayList<String>();
+        semanticTagNames= new ArrayList<String>();
         foodAdded = new Food();
-        semanticTags.add("Japanese");
-        semanticTags.add("Sushi");
 
 
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
@@ -108,7 +94,7 @@ public class AddFood extends AppCompatActivity{
         semanticTextBox = (EditText) findViewById(R.id.semantic_tag_text_box);
 
 
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTags);
+        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
         ListView semanticListView = (ListView) findViewById(R.id.semantic_list);
         semanticListView.setAdapter(listAdapter);
 
@@ -140,7 +126,7 @@ public class AddFood extends AppCompatActivity{
                 foodAdded.setImageUrl(imageUrlBox.getText().toString());
                 foodAdded.setInfo(editDescriptionTextBox.getText().toString());
                 foodAdded.setName(editFoodTextBox.getText().toString());
-                foodAdded.setTagList(semanticTags);
+                foodAdded.setTagList(semanticTagNames);
                 String url = "http://10.0.2.2:8000/add_food?food_description=" + editDescriptionTextBox.getText().toString() +"&food_name=" + editFoodTextBox.getText().toString()
                         +"&food_image="+imageUrlBox.getText().toString()+"&food_owner=1&food_recipe=100 grams potato";
 
@@ -176,5 +162,11 @@ public class AddFood extends AppCompatActivity{
 
 
 
+    }
+
+    protected void assignTagTitles(SemanticTag[] response){
+        for(int i = 0; i < response.length;i++){
+            semanticTagNames.add(response[i].itemLabel);
+        }
     }
 }

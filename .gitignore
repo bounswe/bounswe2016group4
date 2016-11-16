@@ -2,7 +2,7 @@
 .idea
 *.iml
 .gradle
-/local.properties
+kwueAndroid/Kwue/local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store

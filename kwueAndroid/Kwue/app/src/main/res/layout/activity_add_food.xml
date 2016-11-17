@@ -150,11 +150,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
-    <TextView
-        android:id="@+id/connection_text"
-        android:layout_marginEnd="@dimen/text_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 
     <include layout="@layout/content_add_food"

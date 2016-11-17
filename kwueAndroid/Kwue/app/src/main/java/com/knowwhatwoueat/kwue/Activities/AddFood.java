@@ -43,42 +43,16 @@ public class AddFood extends AppCompatActivity{
     private EditText semanticTextBox;
     private Food foodAdded;
     private ArrayList<String> semanticTagNames;
+    private String semanticQuery;
 
 
-    String url;
+    private RequestQueue queue;
+    String url ="http://10.0.2.2:8000/search_semantic_tags?tag_name=";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        final TextView mTextView = (TextView) findViewById(R.id.connection_text) ;
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        Gson gson = new Gson();
-
-        String tagrequest = "trump";
-
-        url ="http://10.0.2.2:8000/search_semantic_tags?tag_name="+tagrequest;
-        //String url = "http://www.google.com";
-        // Request a string response from the provided URL.
-        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(url,SemanticTag[].class,
-                new Response.Listener<SemanticTag[]>() {
-                    @Override
-                    public void onResponse(SemanticTag[] response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: "+ response.toString());
-                        assignTagTitles(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("response","That didn't work!");
-            }
-        });
-// Add the request to the RequestQueue.
-        queue.add(gsonRequest);
-
-
         setContentView(R.layout.activity_add_food);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,12 +60,32 @@ public class AddFood extends AppCompatActivity{
         semanticTagNames= new ArrayList<String>();
         foodAdded = new Food();
 
-
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
         editDescriptionTextBox = (EditText) findViewById(R.id.food_description);
         imageUrlBox = (EditText) findViewById(R.id.FoodThumbNail);
         getTagsButton= (Button) findViewById(R.id.semantic_button);
         semanticTextBox = (EditText) findViewById(R.id.semantic_tag_text_box);
+
+
+        // Instantiate the RequestQueue.
+        queue = Volley.newRequestQueue(this);
+        Gson gson = new Gson();
+
+
+
+        getTagsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                setSemanticQuery(semanticTextBox.getText().toString());
+                Log.d("tag", "onClick: clicked" );
+                sendSemanticHttpRequest(semanticQuery);
+            }
+
+        });
+
+
+
 
 
         ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
@@ -108,15 +102,7 @@ public class AddFood extends AppCompatActivity{
         });
 
 
-        getTagsButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                String semanticQuery = semanticTextBox.getText().toString();
-                Log.d("tag", "onClick: clicked" + semanticQuery);
-            }
-
-        });
 
         FloatingActionButton sendFoodButton = (FloatingActionButton) findViewById(R.id.fab);
         sendFoodButton.setOnClickListener(new View.OnClickListener() {
@@ -168,5 +154,32 @@ public class AddFood extends AppCompatActivity{
         for(int i = 0; i < response.length;i++){
             semanticTagNames.add(response[i].itemLabel);
         }
+    }
+
+
+    protected void setSemanticQuery(String query){
+        semanticQuery = query;
+    }
+
+    protected void sendSemanticHttpRequest(String query){
+
+        String semanticUrl = url + query;
+        // Request a string response from the provided URL.
+        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(semanticUrl,SemanticTag[].class,
+                new Response.Listener<SemanticTag[]>() {
+                    @Override
+                    public void onResponse(SemanticTag[] response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: "+ response.toString());
+                        assignTagTitles(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response","That didn't work!");
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(gsonRequest);
     }
 }

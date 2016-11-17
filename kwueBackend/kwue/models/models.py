@@ -21,8 +21,8 @@ class UserModel(models.Model):
     user_password = models.CharField(max_length=25)
     user_image = models.URLField(default='')
     user_type = models.BooleanField(default=False) ###### False is normal user.
-    unwanted_ingredients = models.ManyToManyField(IngredientModel, related_name='wantedfoods')
-    wanted_ingredients = models.ManyToManyField(IngredientModel, related_name='unwantedfoods')
+    unwanted_ingredients = models.ManyToManyField(IngredientModel, related_name='wantedfoods', blank=True)
+    wanted_ingredients = models.ManyToManyField(IngredientModel, related_name='unwantedfoods', blank=True)
     #######################
     protein_lower_bound = models.FloatField(default=0)
     fat_lower_bound = models.FloatField(default=0)
@@ -96,7 +96,7 @@ class TagModel(models.Model):
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
     def __str__(self):
-        return self.tag_label
+        return str(self.tagged_object_id)+'<<<=====' + self.semantic_tag_item
 
 
 class CommentModel(MPTTModel):
@@ -130,8 +130,8 @@ class ListModel(models.Model):
     list_owner = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     list_name = models.TextField()
     list_description = models.TextField()
-    list_follower = models.ManyToManyField(UserModel, related_name="followers")
-    list_content = models.ManyToManyField(FoodModel, related_name="foods")
+    list_follower = models.ManyToManyField(UserModel, related_name="followers", blank=True)
+    list_content = models.ManyToManyField(FoodModel, related_name="foods", blank=True)
 
     def __str__(self):
         return self.list_name

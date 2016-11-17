@@ -25,7 +25,7 @@ def sign_up(req):
 
     new_user_dict = req.POST.dict()
 
-    #Check that the email adress has not been used before !!!!!!!
+    #Check that the email adress has not been used before !!!!!!!!!!
     user_email_address = new_user_dict['user_email_address']
 
     user_information_dict = dict(

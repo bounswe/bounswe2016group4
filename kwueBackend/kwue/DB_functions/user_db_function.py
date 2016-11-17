@@ -88,6 +88,7 @@ def db_insert_user_unwanted_ing(user_id,ing_name_list):
             try:
                 new_ing = db_insert_ingredient(ing_name)
                 user.unwanted_ingredients.add(new_ing)
+                return True
             except:
                 return False
 
@@ -103,5 +104,6 @@ def db_insert_user_wanted_ing(user_id,ing_name_list):
             try:
                 new_ing = db_insert_ingredient(ing_name)
                 user.wanted_ingredients.add(new_ing)
+                return True
             except:
                 return False

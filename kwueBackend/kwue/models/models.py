@@ -21,8 +21,8 @@ class UserModel(models.Model):
     user_password = models.CharField(max_length=25)
     user_image = models.URLField(default='')
     user_type = models.BooleanField(default=False) ###### False is normal user.
-    unwanted_ingredients = models.ManyToManyField(IngredientModel, related_name='wantedfoods', blank=True)
-    wanted_ingredients = models.ManyToManyField(IngredientModel, related_name='unwantedfoods', blank=True)
+    unwanted_ingredients = models.ManyToManyField(IngredientModel, related_name='wantedIngs', blank=True)
+    wanted_ingredients = models.ManyToManyField(IngredientModel, related_name='unwantedIngs', blank=True)
     #######################
     protein_lower_bound = models.FloatField(default=0)
     fat_lower_bound = models.FloatField(default=0)

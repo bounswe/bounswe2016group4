@@ -1,5 +1,5 @@
 from kwue.models.models import *
-
+from kwue.DB_functions.ingredient_db_functions import db_retrieve_ingredient,db_insert_ingredient
 
 def db_retrieve_user(user_id):
     user = UserModel.objects.get(user_id=user_id)
@@ -75,3 +75,33 @@ def db_update_user_preferences(user_id, user_dict):
         return user
     except:
         return False
+
+
+def db_insert_user_unwanted_ing(user_id,ing_name_list):
+    user = db_retrieve_user(user_id)
+    for ing_name in ing_name_list:
+        try:
+            ing = db_retrieve_ingredient(ing_name)
+            user.unwanted_ingredients.add(ing)
+            return True
+        except:
+            try:
+                new_ing = db_insert_ingredient(ing_name)
+                user.unwanted_ingredients.add(new_ing)
+            except:
+                return False
+
+
+def db_insert_user_wanted_ing(user_id,ing_name_list):
+    user = db_retrieve_user(user_id)
+    for ing_name in ing_name_list:
+        try:
+            ing = db_retrieve_ingredient(ing_name)
+            user.wanted_ingredients.add(ing)
+            return True
+        except:
+            try:
+                new_ing = db_insert_ingredient(ing_name)
+                user.wanted_ingredients.add(new_ing)
+            except:
+                return False

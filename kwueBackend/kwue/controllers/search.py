@@ -4,14 +4,26 @@ from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
 import json
 
 def basic_search(req):
-    # 1 - get user eating preferences from db with session
-    # 2 - get foods and food servers with same text (or the text is in the food/server) considering eating preferences)
-
     # do not know how to get userId from session yet, to be resolved
     user_id = req.GET.dict['userId']
     ep = db_retrieve_eating_preferences(user_id)
 
-    text = req.GET.dict['search_text']
+    search_results = search_alg(req.GET.dict(), ep)
+
+    return render(req, 'kwue/search.html', json.dumps(search_results))
+
+def advanced_search(req):
+    # ignore my eating preferences will be handled in frontend
+
+    dict = req.GET.dict()
+    ep = dict
+
+    search_results = search_alg(dict, ep)
+
+    return render(req, 'kwue/food.html', json.dumps(search_results))
+
+def search_alg(dict, ep):
+    text = dict['search_text']
     results = searrch_by_text(text)
     food_set = results['food_set']
     food_server_set = results['food_server_set']
@@ -25,15 +37,7 @@ def basic_search(req):
                       'food_server_set': food_server_set,
                       'semantic_foods': filtered_semantic_foods,
                       'semantic_users': semantic_users}
-
-    return render(req, 'kwue/search.html', json.dumps(search_results))
-
-def advanced_search(req):
-    # 1 - check if the user checkboxed the "ignore my eating preferences"
-    # 2 - get user eating preferences from db with session
-    # 3 - get all filters
-    # 4 - get foods and food servers with the same text (or the text is in the food/server) considering filters)
-    return render(req, 'kwue/food.html', {})
+    return search_results
 
 def search_by_parameters(ep, foods):
     foods = unwanted_search(ep['unwanted_list'], foods)

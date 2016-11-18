@@ -46,4 +46,5 @@ def search_by_parameters(ep, foods):
     foods = fat_search(ep['fat_lower_bound'], ep['fat_upper_bound'], foods)
     foods = carbohydrate_search(ep['carbohydrate_lower_bound'], ep['carbohydrate_upper_bound'], foods)
     foods = calorie_search(ep['calorie_lower_bound'], ep['calorie_upper_bound'], foods)
+    foods = sugar_search(ep['sugar_lower_bound'], ep['sugar_upper_bound'], foods)
     return foods

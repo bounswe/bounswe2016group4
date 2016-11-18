@@ -2,8 +2,51 @@ from django.conf.urls import url
 from kwue.controllers import food
 from kwue.controllers import home
 from kwue.controllers import tag
+from kwue.controllers import search
+from kwue.controllers import user
 
 urlpatterns = (
+
+    ### REQUEST
+    #
+    #   to be filled
+    #
+    ### RESPONSE
+    #
+    #   to be filled
+    #
+    url(r'^basic_search', search.basic_search), # Renders 'search.html'
+
+    ### REQUEST
+    #
+    #   to be filled
+    #
+    ### RESPONSE
+    #
+    #   to be filled
+    #
+    url(r'^advanced_search', search.advanced_search), # Renders 'search.html'
+
+    ### REQUEST
+    #
+    # 'user_id'
+    #
+    ### RESPONSE
+    #
+    # 'protein_lower_bound'
+    # 'fat_lower_bound'
+    # 'carbohydrate_lower_bound'
+    # 'calorie_lower_bound'
+    # 'sugar_lower_bound'
+    # 'protein_upper_bound'
+    # 'fat_upper_bound'
+    # 'carbohydrate_upper_bound'
+    # 'calorie_upper_bound'
+    # 'sugar_upper_bound'
+    # 'wanted_list'
+    # 'unwanted_list'
+
+    url(r'^get_eating_preferences', user.get_eating_preferences),
 
     ### REQUEST
     # 'tag_name'

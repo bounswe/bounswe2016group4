@@ -24,7 +24,7 @@ def advanced_search(req):
 
 def search_alg(dict, ep):
     text = dict['search_text']
-    results = searrch_by_text(text)
+    results = search_by_text(text)
     food_set = results['food_set']
     food_server_set = results['food_server_set']
     semantic_foods = results['semantic_foods']

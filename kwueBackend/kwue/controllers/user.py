@@ -1,12 +1,10 @@
 from django.shortcuts import render
-from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
+from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
+import json
 
 def get_user(req):
     # 1 - Get user from session from db
-    return render(req, 'kwue/food.html', {})
-
-def update_profile(req):
     return render(req, 'kwue/food.html', {})
 
 def get_consumption_history(req):
@@ -18,3 +16,10 @@ def get_eating_preferences(req):
     user_id = req.GET.dict('user_id')
     ep = db_retrieve_eating_preferences(user_id)
     return HttpResponse(json.dumps(ep), content_type='application/json')
+
+def update_eating_preferences(req):
+    dict = req.GET.dict()
+    user_id = dict['user_id']
+    db_update_user_preferences(user_id, dict)
+    db_insert_user_unwanted_ing(user_id, dict['unwanted_list'])
+    db_insert_user_wanted_ing(user_id, dict['wanted_list'])

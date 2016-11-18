@@ -64,8 +64,30 @@ urlpatterns = (
     # 'sugar_upper_bound'
     # 'wanted_list'
     # 'unwanted_list'
-
     url(r'^get_eating_preferences', user.get_eating_preferences),
+
+
+    ### REQUEST
+    #
+    # 'user_id'
+    # 'protein_lower_bound'
+    # 'fat_lower_bound'
+    # 'carbohydrate_lower_bound'
+    # 'calorie_lower_bound'
+    # 'sugar_lower_bound'
+    # 'protein_upper_bound'
+    # 'fat_upper_bound'
+    # 'carbohydrate_upper_bound'
+    # 'calorie_upper_bound'
+    # 'sugar_upper_bound'
+    # 'wanted_list'
+    # 'unwanted_list'
+    #
+    ### RESPONSE
+    #
+    # ''
+    #
+    url(r'^update_eating_preferences', user.update_eating_preferences),
 
     ### REQUEST
     # 'tag_name'

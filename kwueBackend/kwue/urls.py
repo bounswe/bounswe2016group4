@@ -9,23 +9,42 @@ urlpatterns = (
 
     ### REQUEST
     #
-    #   to be filled
+    # 'user_id'
+    # 'search_text'
     #
     ### RESPONSE
     #
-    #   to be filled
+    # 'food_set' : Food dicts filtered by search_text and user's eating preferences
+    # 'food_server_set' : Users, may be either a user or food server, filtered by search_text
+    # 'semantic_foods' : Foods semantically found and filtered by user's eating preferences
+    # 'semantic_users' : Semantically found users, may be either a user or food server
     #
-    url(r'^basic_search', search.basic_search), # Renders 'search.html'
+    url(r'^basic_search', search.basic_search),  # Renders 'search.html'
 
     ### REQUEST
     #
-    #   to be filled
+    # 'search_text'
+    # 'protein_lower_bound'
+    # 'fat_lower_bound'
+    # 'carbohydrate_lower_bound'
+    # 'calorie_lower_bound'
+    # 'sugar_lower_bound'
+    # 'protein_upper_bound'
+    # 'fat_upper_bound'
+    # 'carbohydrate_upper_bound'
+    # 'calorie_upper_bound'
+    # 'sugar_upper_bound'
+    # 'wanted_list'
+    # 'unwanted_list'
     #
     ### RESPONSE
     #
-    #   to be filled
+    # 'food_set' : Food dicts filtered by search_text and user's eating preferences
+    # 'food_server_set' : Users, may be either a user or food server, filtered by search_text
+    # 'semantic_foods' : Foods semantically found and filtered by user's eating preferences
+    # 'semantic_users' : Semantically found users, may be either a user or food server
     #
-    url(r'^advanced_search', search.advanced_search), # Renders 'search.html'
+    url(r'^advanced_search', search.advanced_search),  # Renders 'search.html'
 
     ### REQUEST
     #

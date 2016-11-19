@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'js/food.js' %}"></script>
     <title>KWUE</title>
@@ -48,6 +48,15 @@
                     <a href="#" id="tag_button" class="btn btn-default">Get Semantic Tags</a>
                 </div>
                 <button type="submit" form="food-form" class="btn btn-default">Submit</button>
+            </div>
+            <div class="col-md-4" id="ingredient-table">
+                <div class="form-group">
+                    <label for="ingredient-1">Ingredient 1</label>
+                    <a href="#" class="btn btn-danger" id="ingredient-delete">Delete this ingredient</a>
+                    <input type="text" class="form-control" id="ingredient-1" value="">
+                    <input type="number" class="form-control" id="ingredient-1-val" value="">
+                </div>
+                <a href="#" class="btn btn-success" id="ingredient-add"><span class="glyphicon glyphicon-plus-sign"></span></a>
             </div>
         </div>
     </div>

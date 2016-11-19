@@ -242,7 +242,7 @@ urlpatterns = (
     # 'food_name'
     # 'food_image' : should be a url
     # 'food_owner'
-    # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
+    # 'ingredients' : should be in json format [{"ingredient":ing1, "value":val1},{"ingredient":ing2, "value": val2}]"
     # 'food_tags' : should be array of "tag_name" and "tag_id" "tag_label" "tag_description" given from semantic tag api.
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not

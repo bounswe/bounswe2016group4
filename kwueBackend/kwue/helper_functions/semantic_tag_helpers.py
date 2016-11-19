@@ -26,3 +26,7 @@ def get_semantic_tags(tag_name):
         )
         semanticTags.append(semanticTag)
     return semanticTags
+
+
+def most_common(lst):
+        return max(set(lst), key=lst.count)

@@ -54,7 +54,7 @@ urlpatterns = (
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
     #
-    url(r'^user_profile_page', user.get_user),  # Renders 'user_profile_page.html'
+    url(r'^get_user', user.get_user),  # Renders 'user_profile_page.html'
 
     ### REQUEST
     #

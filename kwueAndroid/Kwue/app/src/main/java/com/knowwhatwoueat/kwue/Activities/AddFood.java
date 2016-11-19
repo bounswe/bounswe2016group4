@@ -41,8 +41,20 @@ public class AddFood extends AppCompatActivity{
     private EditText imageUrlBox;
     private Button getTagsButton;
     private EditText semanticTextBox;
+    private EditText ingredientName;
+    private EditText ingredientQty;
+    private Button addIngredientButton;
+    private ListView semanticListView;
+    private ListView ingredientListView;
+
+    //food model
     private Food foodAdded;
+    private ArrayList<String> ingredients;
+    private ArrayList<SemanticTag> semanticTags;
     private ArrayList<String> semanticTagNames;
+    private ArrayList<Integer> ingredientGrams;
+
+
     private String semanticQuery;
 
 
@@ -58,13 +70,25 @@ public class AddFood extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         semanticTagNames= new ArrayList<String>();
+        ingredients = new ArrayList<>();
+        semanticTags = new ArrayList<>();
+        ingredientGrams = new ArrayList<>();
+
         foodAdded = new Food();
+
+        semanticListView = (ListView) findViewById(R.id.semantic_list);
+        ingredientListView = (ListView) findViewById(R.id.ingredient_list);
+
 
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
         editDescriptionTextBox = (EditText) findViewById(R.id.food_description);
         imageUrlBox = (EditText) findViewById(R.id.FoodThumbNail);
         getTagsButton= (Button) findViewById(R.id.semantic_button);
         semanticTextBox = (EditText) findViewById(R.id.semantic_tag_text_box);
+        ingredientName = (EditText) findViewById(R.id.ingredient_name);
+        ingredientQty = (EditText) findViewById(R.id.ingredient_quantity);
+        addIngredientButton = (Button) findViewById(R.id.addIngredientButton);
+
 
 
         // Instantiate the RequestQueue.
@@ -84,13 +108,22 @@ public class AddFood extends AppCompatActivity{
 
         });
 
+        addIngredientButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                addIngredient();
+                Log.d("add", "onClick: clicked");
+            }
+        });
 
 
+        //// TODO: 19.11.2016 do list adapter
+        //ListAdapter ingredientListAdapter = new ArrayAdapter<String>(this,R.layout.activity_consumption_history);
 
+        ListAdapter semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
-        ListAdapter listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
-        ListView semanticListView = (ListView) findViewById(R.id.semantic_list);
-        semanticListView.setAdapter(listAdapter);
+        semanticListView.setAdapter(semanticListAdapter);
 
         semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,10 +182,17 @@ public class AddFood extends AppCompatActivity{
 
 
     }
+    protected void addIngredient(){
+        ingredients.add(ingredientName.getText().toString());
+        ingredientGrams.add(Integer.valueOf(ingredientQty.getText().toString()));
+        ingredientName.setText("");
+        ingredientQty.setText("");
+    }
 
     protected void assignTagTitles(SemanticTag[] response){
         for(int i = 0; i < response.length;i++){
             semanticTagNames.add(response[i].itemLabel);
+            semanticTags.add(response[i]);
         }
     }
 

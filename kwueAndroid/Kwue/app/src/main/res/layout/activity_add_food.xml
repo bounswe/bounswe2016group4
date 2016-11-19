@@ -64,7 +64,7 @@
             <EditText
                 android:id="@+id/food_description"
                 android:layout_width="200dp"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="@dimen/text_margin"
                 android:hint="@string/enter_food_description"
                 android:textSize="14sp"
@@ -94,6 +94,74 @@
                 android:hint="@string/enter_food_image_url"
                 android:textSize="14sp"
                 android:inputType="text"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="fill_vertical"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="37dp"
+                android:gravity="fill_vertical"
+                android:text="@string/food_ingredients"
+                android:textSize="14dp"/>
+            <LinearLayout
+                android:layout_width="230dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="55dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:textAlignment="center"
+                    android:layout_gravity="center">
+                    <EditText
+                        android:id="@+id/ingredient_name"
+                        android:layout_width="90dp"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:hint="Enter name"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"/>
+                    <EditText
+                        android:id="@+id/ingredient_quantity"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:hint="Qty"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"/>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:gravity="fill_vertical"
+                        android:text="gr"
+                        android:textSize="20sp" />
+                    <Button
+                        android:id="@+id/addIngredientButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:background="@android:color/transparent"
+                        android:drawableTop="@android:drawable/ic_input_add" />
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/ingredient_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </ListView>
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
@@ -149,7 +217,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
-
 
 
     <include layout="@layout/content_add_food"

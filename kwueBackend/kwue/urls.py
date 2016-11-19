@@ -9,6 +9,26 @@ from kwue.controllers import consumption_history
 urlpatterns = (
 
     ### REQUEST
+    # POST
+    # 'tagged_user_id'
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    url(r'^tag_user', tag.tag_user),
+
+    ### REQUEST
+    # POST
+    # 'tagged_food_id'
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    url(r'^tag_food', tag.tag_food),
+
+    ### REQUEST
     # GET
     # 'user_id'
     # 'setting' : 'daily', 'weekly', 'monthly', 'alltime' available so far.
@@ -222,13 +242,9 @@ urlpatterns = (
     url(r'^add_food', food.add_food, name='add_food'),
 
     ### REQUEST
-    #
     # empty
-    #
     ### RESPONSE
-    #
     # empty
-    #
     url(r'^new_food', food.get_add_food_page, name='new_food'), # Renders "add_food.html"
 
     ### REQUEST

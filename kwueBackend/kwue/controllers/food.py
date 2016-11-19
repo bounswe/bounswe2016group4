@@ -29,12 +29,12 @@ def add_food(req):
     reason = ""
     if nutrition_dict is not None:
         if db_insert_food(food_dict, nutrition_dict, ingredient_list):
+            print(req.session['username'] + " has added a food successfully.")
             is_success = True
         else:
             reason = 'Adding food failed.'
     else:
         reason = 'Nutritional value calculation failed.'
-
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 

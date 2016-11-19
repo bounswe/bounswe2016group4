@@ -4,8 +4,31 @@ from kwue.controllers import home
 from kwue.controllers import tag
 from kwue.controllers import search
 from kwue.controllers import user
+from kwue.controllers import consumption_history
 
 urlpatterns = (
+
+    ### REQUEST
+    #
+    # 'user_id'
+    # 'setting' : 'daily', 'weekly', 'monthly', 'alltime' available so far.
+    #
+    ### RESPONSE
+    #
+    # under construction
+    #
+    url(r'^get_consumption_history', consumption_history.get_consumption_history),
+
+    ### REQUEST
+    #
+    # 'user_id'
+    # 'food_id'
+    #
+    ### RESPONSE
+    #
+    # nothing
+    #
+    url(r'^mark_as_eaten', consumption_history.mark_as_eaten),
 
     ### REQUEST
     #

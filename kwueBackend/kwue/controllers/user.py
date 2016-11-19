@@ -21,7 +21,7 @@ def get_consumption_history(req):
     return render(req, 'kwue/food.html', {})
 
 def get_eating_preferences(req):
-    user_id = req.GET.dict('user_id')
+    user_id = req.GET.dict['user_id']
     ep = db_retrieve_eating_preferences(user_id)
     return HttpResponse(json.dumps(ep), content_type='application/json')
 

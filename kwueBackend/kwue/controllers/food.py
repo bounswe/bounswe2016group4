@@ -7,7 +7,7 @@ from kwue.controllers.tag import tag_food
 
 
 def get_food(req):
-    food_id = req.GET.dict['food_id']
+    food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
     del food_dict['_state'] # alptekin fix FacePalm
     food_json = json.dumps(food_dict)
@@ -59,7 +59,7 @@ def get_add_food_page(req):
 
 
 def get_nutritional_values(req):
-    ingredients = req.GET.dict['ingredients']
+    ingredients = req.GET.dict()['ingredients']
     food_recipe = ""
     for ingredient in ingredients:
         food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
@@ -68,7 +68,7 @@ def get_nutritional_values(req):
 
 
 def remove_food(req):
-    food_id = req.GET.dict['food_id']
+    food_id = req.GET.dict()['food_id']
     is_success = False
     reason = ""
     if db_delete_food(food_id):

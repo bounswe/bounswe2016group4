@@ -15,15 +15,15 @@ def get_start_timestamp_date(timestamp, setting):
 def get_consumption_history(req):
     date = UnixTimeStampField()
     end_timestamp_date = date.get_timestampnow()
-    setting = req.GET.dict['setting']
+    setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 
-    user_id = req.GET.dict['user_id']
+    user_id = req.GET.dict()['user_id']
     results = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
 
     return HttpResponse(json.dumps(results), content_type='application/json')
 
 def mark_as_eaten(req):
-    user_id = req.POST.dict['user_id']
-    food_id = req.POST.dict['food_id']
+    user_id = req.POST.dict()['user_id']
+    food_id = req.POST.dict()['food_id']
     db_insert_consumption_record(user_id, food_id)

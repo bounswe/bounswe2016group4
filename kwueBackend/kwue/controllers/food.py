@@ -5,6 +5,7 @@ from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
 
+
 def get_food(req):
     food_id = req.GET.dict['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
@@ -12,14 +13,22 @@ def get_food(req):
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
 
+
 def add_food(req):
     food_dict = req.POST.dict()
-    raw_recipe = food_dict['food_recipe']
-    nutrition_dict = request_nutrition(raw_recipe)
+
+    ingredients = req.GET.dict['ingredients']
+    food_recipe = ""
+    ingredient_list = []
+    for ingredient in ingredients:
+        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+        ingredient_list.append(ingredient[0])
+    nutrition_dict = request_nutrition(food_recipe)
+
     is_success = False
     reason = ""
     if nutrition_dict is not None:
-        if db_insert_food(food_dict, nutrition_dict):
+        if db_insert_food(food_dict, nutrition_dict, ingredient_list):
             is_success = True
         else:
             reason = 'Adding food failed.'
@@ -28,14 +37,19 @@ def add_food(req):
 
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
+
 def get_add_food_page(req):
     return render(req, 'kwue/add_food.html', {})
 
 
 def get_nutritional_values(req):
-    raw_recipe = req.GET.dict['food_recipe']
-    nutrition_dict = request_nutrition(raw_recipe)
+    ingredients = req.GET.dict['ingredients']
+    food_recipe = ""
+    for ingredient in ingredients:
+        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+    nutrition_dict = request_nutrition(food_recipe)
     return HttpResponse(json.dumps(nutrition_dict))
+
 
 def remove_food(req):
     food_id = req.GET.dict['food_id']

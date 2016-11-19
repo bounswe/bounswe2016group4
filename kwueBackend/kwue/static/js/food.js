@@ -27,9 +27,18 @@ $(document).ready(function(){
             }
         })
     });
-    
-    $("#ingredient-add").click(function () {
 
+    $("#ingredient-add").click(function () {
+        var html = "<div class='form-group ing-group'>" +
+            "<label for='ingredient-1'>Ingredient 1</label>" +
+            "<a href='#' class='btn btn-danger ingredient-delete' id='ingredient-delete'><span class='glyphicon glyphicon-minus-sign'></span></a>" +
+            "<input type='text' class='form-control' id='ingredient-1' value=''>" +
+            "<input type='number' class='form-control' id='ingredient-1-val' value=''>" +
+            "</div>"
+        $("#ingredient-add").before(html);
     })
-    
 });
+
+$(document).on('click', '.ingredient-delete', function () {
+    $(this).parent().remove();
+})

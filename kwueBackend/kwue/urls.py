@@ -11,6 +11,10 @@ urlpatterns = (
     ### REQUEST
     # POST
     # 'tagged_user_id'
+    # 'tag_name'
+    # 'tag_id'
+    # 'tag_label'
+    # 'tag_description'
     #
     ### RESPONSE
     #
@@ -21,6 +25,10 @@ urlpatterns = (
     ### REQUEST
     # POST
     # 'tagged_food_id'
+    # 'tag_name'
+    # 'tag_id'
+    # 'tag_label'
+    # 'tag_description'
     #
     ### RESPONSE
     #
@@ -235,7 +243,7 @@ urlpatterns = (
     # 'food_image' : should be a url
     # 'food_owner'
     # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
-    # 'food_tags' : should be array of "tag_name" "item" "itemLabel" "itemDescription" given from semantic tag api.
+    # 'food_tags' : should be array of "tag_name" and "tag_id" "tag_label" "tag_description" given from semantic tag api.
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not
     # 'reason' : if not successful, the reason of it

@@ -10,6 +10,59 @@ urlpatterns = (
     ### REQUEST
     #
     # 'user_id'
+    #
+    ### RESPONSE
+    #
+    # 'user_name'
+    # 'user_nick'
+    # 'user_email_address'
+    # 'user_image'
+    # 'user_type'
+    # 'unwanted_ingredients'
+    # 'wanted_ingredients'
+    # 'protein_lower_bound'
+    # 'fat_lower_bound'
+    # 'carbohydrate_lower_bound'
+    # 'calorie_lower_bound'
+    # 'sugar_lower_bound'
+    # 'protein_upper_bound'
+    # 'fat_upper_bound'
+    # 'carbohydrate_upper_bound'
+    # 'calorie_upper_bound'
+    # 'sugar_upper_bound'
+    #
+    url(r'^user_profile_page', user.get_user),  # Renders 'user_profile_page.html'
+
+    ### REQUEST
+    #
+    # 'user_id'
+    #
+    ### RESPONSE
+    #
+    # 'user_name'
+    # 'user_nick'
+    # 'user_email_address'
+    # 'user_image'
+    # 'user_type'
+    # 'unwanted_ingredients'
+    # 'wanted_ingredients'
+    # 'protein_lower_bound'
+    # 'fat_lower_bound'
+    # 'carbohydrate_lower_bound'
+    # 'calorie_lower_bound'
+    # 'sugar_lower_bound'
+    # 'protein_upper_bound'
+    # 'fat_upper_bound'
+    # 'carbohydrate_upper_bound'
+    # 'calorie_upper_bound'
+    # 'sugar_upper_bound'
+    #
+    url(r'^user_profile_page', user.get_user_profile_page),
+
+
+    ### REQUEST
+    #
+    # 'user_id'
     # 'search_text'
     #
     ### RESPONSE

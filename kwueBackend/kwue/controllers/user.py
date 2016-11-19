@@ -4,8 +4,16 @@ from django.http import HttpResponse
 import json
 
 def get_user(req):
-    # 1 - Get user from session from db
-    return render(req, 'kwue/food.html', {})
+    user_id = req.GET.dict['user_id']
+    user_dict = db_retrieve_user(user_id).__dict__
+    del user_dict['_state'] # alptekin fix FacePalm
+    return HttpResponse(json.dumps(user_dict), content_type='application/json')
+
+def get_user_profile_page(req):
+    user_id = req.GET.dict['user_id']
+    user_dict = db_retrieve_user(user_id).__dict__
+    del user_dict['_state']  # alptekin fix FacePalm
+    return render(req, 'kwue/user_profile_page.html', json.dumps(user_dict))
 
 def get_consumption_history(req):
     # 1 - From the tabs "last one day" "last one week" "last one month" "all time" the last one day is default.

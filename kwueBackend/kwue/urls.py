@@ -190,9 +190,9 @@ urlpatterns = (
     # 'tag_name'
     ### RESPONSE
     # Array of semantic tags
-    # 'item'
-    # 'itemLabel'
-    # 'itemDescription'
+    # 'tag_id'
+    # 'tag_label'
+    # 'tag_description'
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST

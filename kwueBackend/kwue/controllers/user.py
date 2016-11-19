@@ -29,7 +29,7 @@ def get_eating_preferences(req):
     return HttpResponse(json.dumps(ep), content_type='application/json')
 
 def update_eating_preferences(req):
-    dict = req.GET.dict()
+    dict = req.POST.dict()
     user_id = dict['user_id']
     db_update_user_preferences(user_id, dict)
     db_insert_user_unwanted_ing(user_id, dict['unwanted_list'])

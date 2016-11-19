@@ -9,7 +9,7 @@ from kwue.controllers import consumption_history
 urlpatterns = (
 
     ### REQUEST
-    #
+    # GET
     # 'user_id'
     # 'setting' : 'daily', 'weekly', 'monthly', 'alltime' available so far.
     #
@@ -20,7 +20,7 @@ urlpatterns = (
     url(r'^get_consumption_history', consumption_history.get_consumption_history),
 
     ### REQUEST
-    #
+    # POST
     # 'user_id'
     # 'food_id'
     #
@@ -31,7 +31,7 @@ urlpatterns = (
     url(r'^mark_as_eaten', consumption_history.mark_as_eaten),
 
     ### REQUEST
-    #
+    # GET
     # 'user_id'
     #
     ### RESPONSE
@@ -57,7 +57,7 @@ urlpatterns = (
     url(r'^get_user', user.get_user),  # Renders 'user_profile_page.html'
 
     ### REQUEST
-    #
+    # GET
     # 'user_id'
     #
     ### RESPONSE
@@ -84,7 +84,7 @@ urlpatterns = (
 
 
     ### REQUEST
-    #
+    # GET
     # 'user_id'
     # 'search_text'
     #
@@ -98,7 +98,7 @@ urlpatterns = (
     url(r'^basic_search', search.basic_search),  # Renders 'search.html'
 
     ### REQUEST
-    #
+    # GET
     # 'search_text'
     # 'protein_lower_bound'
     # 'fat_lower_bound'
@@ -123,7 +123,7 @@ urlpatterns = (
     url(r'^advanced_search', search.advanced_search),  # Renders 'search.html'
 
     ### REQUEST
-    #
+    # GET
     # 'user_id'
     #
     ### RESPONSE
@@ -144,7 +144,7 @@ urlpatterns = (
 
 
     ### REQUEST
-    #
+    # POST
     # 'user_id'
     # 'protein_lower_bound'
     # 'fat_lower_bound'
@@ -166,6 +166,7 @@ urlpatterns = (
     url(r'^update_eating_preferences', user.update_eating_preferences),
 
     ### REQUEST
+    # GET
     # 'tag_name'
     ### RESPONSE
     # Array of semantic tags
@@ -175,6 +176,7 @@ urlpatterns = (
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST
+    # GET
     # 'food_id'
     ### RESPONSE
     # 'serving_weight_grams'
@@ -194,6 +196,7 @@ urlpatterns = (
     url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
 
     ### REQUEST
+    # GET
     # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
     ### RESPONSE
     # 'calorie_value'
@@ -206,6 +209,7 @@ urlpatterns = (
     url(r'^get_nutritional_values', food.get_nutritional_values),
 
     ### REQUEST
+    # POST
     # 'food_description'
     # 'food_name'
     # 'food_image' : should be a url
@@ -219,15 +223,16 @@ urlpatterns = (
 
     ### REQUEST
     #
-    #   to be filled
+    # empty
     #
     ### RESPONSE
     #
-    #   to be filled
+    # empty
     #
     url(r'^new_food', food.get_add_food_page, name='new_food'), # Renders "add_food.html"
 
     ### REQUEST
+    # POST
     # 'food_id'
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not

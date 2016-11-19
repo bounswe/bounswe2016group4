@@ -17,7 +17,7 @@ def get_food(req):
 def add_food(req):
     food_dict = req.POST.dict()
 
-    ingredients = req.GET.dict['ingredients']
+    ingredients = food_dict['ingredients']
     food_recipe = ""
     ingredient_list = []
     for ingredient in ingredients:
@@ -52,7 +52,7 @@ def get_nutritional_values(req):
 
 
 def remove_food(req):
-    food_id = req.GET.dict['food_id']
+    food_id = req.POST.dict['food_id']
     is_success = False
     reason = ""
     if db_delete_food(food_id):
@@ -65,9 +65,6 @@ def rate_food(req):
     return render(req, 'kwue/food.html', {})
 
 def comment_food(req):
-    return render(req, 'kwue/food.html', {})
-
-def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
 
 def update_food(req):

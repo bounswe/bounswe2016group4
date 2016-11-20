@@ -10,10 +10,10 @@ def db_insert_tag(tag_dict):
     else:
         generic_object = db_retrieve_user(generic_id)
     new_tag = TagModel(
-        tag_label=tag_dict['tag_label'],
-        semantic_tag_item=tag_dict['semantic_tag_item'],
-        semantic_tag_item_label=tag_dict['semantic_tag_item_label'],
-        semantic_tag_item_description=tag_dict['semantic_tag_description'],
+        tag_label=tag_dict['tag_name'],
+        semantic_tag_item=tag_dict['tag_id'],
+        semantic_tag_item_label=tag_dict['tag_label'],
+        semantic_tag_item_description=tag_dict['tag_description'],
         tagged_food=generic_object
     )
     try:

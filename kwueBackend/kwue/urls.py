@@ -292,7 +292,7 @@ urlpatterns = (
     ### RESPONSE
     # 'is_success' : if adding food process is successful or not
     # 'reason' : if not successful, the reason of it
-    url(r'^remove__food', food.remove_food),
+    # NOT USED. url(r'^remove__food', food.remove_food),
 
     url(r'^$', home.get_home, name='home'),
 )

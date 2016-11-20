@@ -40,9 +40,9 @@ def add_food(req):
             tag_list = food_dict['food_tags']
             for tag_item in tag_list:
                 tag_dict['tag_label'] = tag_item['tag_name']
-                tag_dict['semantic_tag_item'] = tag_item['item']
-                tag_dict['semantic_tag_item_label'] = tag_item['itemLabel']
-                tag_dict['semantic_tag_description'] = tag_item['itemDescription']
+                tag_dict['semantic_tag_item'] = tag_item['tag_id']
+                tag_dict['semantic_tag_item_label'] = tag_item['tag_label']
+                tag_dict['semantic_tag_description'] = tag_item['tag_description']
                 tag_food(tag_dict)
 
             print(req.session['username'] + " has added a food successfully.")

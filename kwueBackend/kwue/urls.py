@@ -143,10 +143,10 @@ urlpatterns = (
     #
     ### RESPONSE
     #
-    # 'food_set' : Food dicts filtered by search_text and user's eating preferences
-    # 'user_set' : Users, may be either a user or food server, filtered by search_text
-    # 'semantic_food_set' : Foods semantically found and filtered by user's eating preferences
-    # 'semantic_user_set' : Semantically found users, may be either a user or food server
+    # 'food_set' : Food dicts filtered by search_text and user's eating preferences==(food_name, food_id , food_image, calori value)
+    # 'user_set' : Users, may be either a user or food server, filtered by search_text==(food_name, food_id , food_image , calori_value)
+    # 'semantic_food_set' : Foods semantically found and filtered by user's eating preferences==(user_id,user_name,user_image)
+    # 'semantic_user_set' : Semantically found users, may be either a user or food server==(user_id,user_name,user_image)
     #
     url(r'^advanced_search', search.advanced_search),  # Renders 'search.html'
 

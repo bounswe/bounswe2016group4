@@ -7,7 +7,7 @@ from collections import Counter
 #     return foods
 
 
-def searrch_by_text(focus_string):
+def search_by_text(focus_string):
     semantic_relation_food = FoodModel.objects.filter(food_name__icontains=focus_string).values_list('food_id')
     semantic_tags = list(TagModel.objects.filter(tagged_object_id__in=semantic_relation_food,content_type__model="foodmodel").values_list('semantic_tag_item'))
 

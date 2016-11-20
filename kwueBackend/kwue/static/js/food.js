@@ -2,10 +2,6 @@
  * Created by alper on 09/11/2016.
  */
 $(document).ready(function(){
-    $("#555").click(function(){
-        $("#555").hide();
-    });
-
     $("#submit-button").click(function () {
         var data = $('#food-form').serializeArray();
         var ingredients = [];

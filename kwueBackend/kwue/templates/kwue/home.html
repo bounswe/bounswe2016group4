@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'js/food.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <title>KWUE</title>
 </head>
@@ -20,17 +20,78 @@
         {% include 'kwue/navigation_bar.html' %}
 
         <div class="row">
-            <div class="col-md-12">
-                {% for food in foods %}
-                    <div>
-                        <p>id: {{ food.food_id }}</p>
-                        <p>name: {{ food.food_name }}</p>
-                        <p>description: {{ food.food_description }}</p>
-                        <p>owner: {{ food.food_owner }}</p>
-                        <p>image: {{ food.food_image}}</p>
-                        <p>rate: {{ food.food_rate }}</p>
+            <div class="col-md-4 result-bar" id="featured-foods">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Featured Foods: (all foods for now)
                     </div>
-                {% endfor %}
+                    <div class="panel-body" style="overflow: auto; height: 400px;">
+                        <div class="list-group">
+                        {% for food in foods %}
+                            <a href="#" class="list-group-item">
+                                <p>id: {{ food.food_id }}</p>
+                                <p>name: {{ food.food_name }}</p>
+                                <p>description: {{ food.food_description }}</p>
+                                <p>owner: {{ food.food_owner }}</p>
+                                <p>image: {{ food.food_image}}</p>
+                                <p>rate: {{ food.food_rate }}</p>
+                            </a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 result-bar" hidden id="food-results">
+                <div class="panel panel-info" style="overflow: auto; height: 300px;">
+                    <div class="panel-heading">
+                        Foods
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 result-bar" hidden id="server-results">
+                <div class="panel panel-danger" style="overflow: auto; height: 300px;">
+                    <div class="panel-heading">
+                        Food Servers
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 result-bar" hidden id="sem-food-results">
+                <div class="panel panel-success" style="overflow: auto; height: 300px;">
+                    <div class="panel-heading">
+                        Foods you may like
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 result-bar" hidden id="sem-server-results">
+                <div class="panel panel-warning" style="overflow: auto; height: 300px;">
+                    <div class="panel-heading">
+                        Food Servers you may like
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

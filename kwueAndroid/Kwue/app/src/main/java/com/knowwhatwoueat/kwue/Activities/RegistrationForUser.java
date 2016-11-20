@@ -112,12 +112,15 @@ public class RegistrationForUser extends AppCompatActivity  implements AdapterVi
                 password = passwordTextbox.getText().toString();
                 passwordAgain = passwordAgainTextbox.getText().toString();
 
+                /*
                 Intent i = new Intent(RegistrationForUser.this, RegistrationForFoodServer.class);
 
                 i.putExtra("first", gender);
                 i.putExtra("second", day);
                 i.putExtra("third", name);
                 startActivity(i);
+
+                */
 
             }
         });

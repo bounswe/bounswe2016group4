@@ -1,13 +1,8 @@
 from kwue.models.models import FoodModel, TagModel, UserModel
-from django.contrib.postgres.search import TrigramSimilarity
-from kwue.helper_functions.semantic_tag_helpers import most_common
 from collections import Counter
-# def allergic_excluder(foods, ingredient):
-#     foods.exclude(ingredient_list__in=[ingredient])
-#     return foods
 
 
-def searrch_by_text(focus_string):
+def search_by_text(focus_string):
     semantic_relation_food = FoodModel.objects.filter(food_name__icontains=focus_string).values_list('food_id')
     semantic_tags = list(TagModel.objects.filter(tagged_object_id__in=semantic_relation_food,content_type__model="foodmodel").values_list('semantic_tag_item'))
 
@@ -52,7 +47,6 @@ def semantic_search(semantic_item):
     return [food_common,user_common]
 
 
-
 def unwanted_search(ingredient_list, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
@@ -93,3 +87,9 @@ def rate_search(lower_bound=0, upper_bound=5, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
     return foods.filter(food_rate__range=(lower_bound, upper_bound))
+
+
+def sugar_search(lower_bound=0, upper_bound=1000, foods=None):
+    if foods is None:
+        foods = FoodModel.objects.all()
+    return foods.filter(sugar_rate__range=(lower_bound, upper_bound))

@@ -1,6 +1,7 @@
 from kwue.models.models import *
 from kwue.DB_functions.ingredient_db_functions import db_retrieve_ingredient,db_insert_ingredient
 
+
 def db_retrieve_user(user_id):
     user = UserModel.objects.get(user_id=user_id)
     return user
@@ -21,10 +22,9 @@ def db_retrieve_eating_preferences(user_id):
             fat_upper_bound=user.fat_upper_bound,
             carbohydrate_upper_bound=user.carbohydrate_upper_bound,
             calorie_upper_bound=user.calorie_upper_bound,
-            sugar_upper_bound=user.sugar_upper_bound,
-            wanted_list=wanted_list,
-            unwanted_list=unwanted_list,
+            sugar_upper_bound=user.sugar_upper_bound
         )
+
         return eating_preferences_dict
     except:
         return False
@@ -58,9 +58,6 @@ def db_update_user_preferences(user_id, user_dict):
     user = UserModel.objects.filter(user_id=user_id)
     try:
         user.update(
-            user_nick=user_dict["user_nick"],
-            user_password=user_dict["user_password"],
-            user_image=models.URLField(default=''),
             fat_lower_bound=user_dict["fat_lower_bound"],
             protein_lower_bound=user_dict["protein_lower_bound"],
             carbohydrate_lower_bound=user_dict[""],
@@ -107,3 +104,17 @@ def db_insert_user_wanted_ing(user_id,ing_name_list):
                 return True
             except:
                 return False
+
+
+def db_update_user_profile(user_id, user_dict):
+    user = UserModel.objects.filter(user_id=user_id)
+    try:
+        user.update(
+            user_nick=user_dict["user_nick"],
+            user_password=user_dict["user_password"],
+            user_image=models.URLField(default=''),
+            user_email=user_dict["user_email"]
+        )
+        return user
+    except:
+        return False

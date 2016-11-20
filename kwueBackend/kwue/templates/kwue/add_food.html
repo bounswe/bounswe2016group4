@@ -48,14 +48,14 @@
                 <div>
                     <a href="#" id="tag_button" class="btn btn-default">Get Semantic Tags</a>
                 </div>
-                <button type="submit" form="food-form" class="btn btn-default">Submit</button>
+                <a href="#submit-button" form="food-form" class="btn btn-default" id="submit-button">Submit</a>
             </div>
             <div class="col-md-4" id="ingredient-table">
                 <div class="form-group ing-group">
                     <label for="ingredient-1">Ingredient 1</label>
-                    <a href="#" class="btn btn-danger ingredient-delete" id="ingredient-delete"><span class="glyphicon glyphicon-minus-sign"></span></a>
-                    <input type="text" class="form-control" id="ingredient-1" value="">
-                    <input type="number" class="form-control" id="ingredient-1-val" value="">
+                    <a href="#" class="btn btn-danger ingredient-delete"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                    <input type="text" class="form-control" id="ingredient-1" value="" placeholder="Ingredient name">
+                    <input type="number" class="form-control" id="ingredient-1-val" value="" min="1" placeholder="Amount in grams">
                 </div>
                 <a href="#" class="btn btn-success" id="ingredient-add"><span class="glyphicon glyphicon-plus-sign"></span></a>
             </div>

@@ -1,5 +1,6 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -60,6 +61,8 @@ public class RegistrationForFoodServer extends AppCompatActivity implements  Ada
                 passwordAgainFoodServer = passwordAgainFoodServerTextbox.getText().toString();
                 cityFoodServer = cityOptionFoodServer.getSelectedItem().toString();
 
+                Intent intent = new Intent(RegistrationForFoodServer.this, HomePageActivity.class);
+                startActivity(intent);
 
 
             }

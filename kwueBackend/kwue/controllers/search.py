@@ -3,6 +3,7 @@ from kwue.DB_functions.search_db_function import *
 from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
 import json
 
+
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
     user_id = req.GET.dict()['userId']
@@ -11,6 +12,7 @@ def basic_search(req):
     search_results = search_alg(req.GET.dict(), ep)
 
     return render(req, 'kwue/search.html', json.dumps(search_results))
+
 
 def advanced_search(req):
     # ignore my eating preferences will be handled in frontend
@@ -22,22 +24,31 @@ def advanced_search(req):
 
     return render(req, 'kwue/food.html', json.dumps(search_results))
 
+
 def search_alg(dict, ep):
     text = dict['search_text']
     results = search_by_text(text)
     food_set = results['food_set']
     food_server_set = results['food_server_set']
-    semantic_foods = results['semantic_foods']
-    semantic_users = results['semantic_users']
+    semantic_foods = results['semantic_food_set']
+    semantic_users = results['semantic_user_set']
 
     filtered_food_set = search_by_parameters(ep, food_set)
     filtered_semantic_foods = search_by_parameters(ep, semantic_foods)
 
-    search_results = {'food_set': filtered_food_set,
-                      'food_server_set': food_server_set,
-                      'semantic_foods': filtered_semantic_foods,
-                      'semantic_users': semantic_users}
+    filtered_food_set_result = filtered_food_set.distinct().values("food_name", "food_id", "food_image", "calorie_value")
+    filtered_semantic_foods_result = filtered_semantic_foods.distinct().values("food_name", "food_id", "food_image", "calorie_value")
+    food_server_set_result = food_server_set.distinct().values("user_id", "user_name", "user_image")
+    semantic_users_result = semantic_users.distinct().values("user_id", "user_name", "user_image")
+
+    search_results = {'food_set': filtered_food_set_result,
+                      'user_set': food_server_set_result,
+                      'semantic_food_set': filtered_semantic_foods_result,
+                      'semantic_user_set': semantic_users_result}
+
+
     return search_results
+
 
 def search_by_parameters(ep, foods):
     foods = unwanted_search(ep['unwanted_list'], foods)

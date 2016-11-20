@@ -43,7 +43,38 @@ urlpatterns = (
     #
     ### RESPONSE
     #
-    # under construction
+    # 'foods' : Array of 'food_id', 'food_name', 'food_image' and 'time_added'
+    # 'nutritional_values_dict' : Array of nutritional values ->
+    #     'protein_value'
+    #     'fat_value'
+    #     'carbohydrate_value'
+    #     'fiber_value'
+    #     'calorie_value'
+    #     'sugar_value'
+    #     'serving_weight_grams'
+    #     'vitamin_A'
+    #     'vitamin_C'
+    #     'vitamin_D'
+    #     'vitamin_E'
+    #     'vitamin_K'
+    #     'thiamin'
+    #     'riboflavin'
+    #     'niacin'
+    #     'vitamin_B6'
+    #     'folatem'
+    #     'vitamin_B12'
+    #     'pantothenic_acid'
+    #     'choline'
+    #     'calcium'
+    #     'copper'
+    #     'flouride'
+    #     'iron_Fe'
+    #     'magnesium'
+    #     'manganese'
+    #     'sodium_Na'
+    #     'phosphorus'
+    #     'selenium'
+    #     'zinc'
     #
     url(r'^get_consumption_history', consumption_history.get_consumption_history),
 

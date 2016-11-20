@@ -4,12 +4,14 @@ from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
 from kwue.controllers.tag import tag_food
-
+from kwue.DB_functions.tag_db_functions import *
 
 def get_food(req):
     food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
-    del food_dict['_state'] # alptekin fix FacePalm
+    del food_dict['_state']  # alptekin fix FacePalm
+    tag_list = return_tags(food_id, "Food")
+    food_dict['tag_list'] = tag_list
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
 

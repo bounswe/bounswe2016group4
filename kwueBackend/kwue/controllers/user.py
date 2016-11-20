@@ -2,11 +2,14 @@ from django.shortcuts import render
 from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
 import json
+from kwue.DB_functions.tag_db_functions import *
 
 def get_user(req):
     user_id = req.GET.dict()['user_id']
     user_dict = db_retrieve_user(user_id).__dict__
     del user_dict['_state'] # alptekin fix FacePalm
+    tag_list = return_tags(user_id, "User")
+    user_dict['tag_list'] = tag_list
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):

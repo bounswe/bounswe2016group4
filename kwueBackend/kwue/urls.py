@@ -100,6 +100,7 @@ urlpatterns = (
     # 'user_email_address'
     # 'user_image'
     # 'user_type'
+    # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
     # 'unwanted_ingredients'
     # 'wanted_ingredients'
     # 'protein_lower_bound'
@@ -252,6 +253,7 @@ urlpatterns = (
     # 'food_rate'
     # 'food_id'
     # 'carbohydrate_value'
+    # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
     url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
 
     ### REQUEST

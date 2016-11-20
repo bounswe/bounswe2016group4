@@ -36,3 +36,20 @@ def db_delete_food(tag_id):
     except:
         return False
 
+
+def return_tags(generic_id, type):
+    if type == "User":
+        tags = list(TagModel.objects.filter(tagged_object_id=generic_id, content_type__model="usermodel"))
+    else:
+        tags = list(TagModel.objects.filter(tagged_object_id=generic_id, content_type__model="foodmodel"))
+    tag_list = []
+    for tag in tags:
+        tag_dict = dict(
+            tag_name=tag.tag_label,
+            tag_id=tag.semantic_tag_item,
+            tag_label=tag.semantic_tag_item_label,
+            tag_description=tag.semantic_tag_item_description
+        )
+        tag_list.append(tag_dict)
+    return tag_list
+

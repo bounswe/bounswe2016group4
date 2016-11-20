@@ -12,6 +12,7 @@ def get_start_timestamp_date(timestamp, setting):
         'alltime': 0
     }.get(setting, 0)
 
+
 def get_consumption_history(req):
     date = UnixTimeStampField()
     end_timestamp_date = date.get_timestampnow()
@@ -22,6 +23,7 @@ def get_consumption_history(req):
     results = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
 
     return HttpResponse(json.dumps(results), content_type='application/json')
+
 
 def mark_as_eaten(req):
     user_id = req.POST.dict()['user_id']

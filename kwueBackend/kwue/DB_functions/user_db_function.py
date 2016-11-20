@@ -22,7 +22,9 @@ def db_retrieve_eating_preferences(user_id):
             fat_upper_bound=user.fat_upper_bound,
             carbohydrate_upper_bound=user.carbohydrate_upper_bound,
             calorie_upper_bound=user.calorie_upper_bound,
-            sugar_upper_bound=user.sugar_upper_bound
+            sugar_upper_bound=user.sugar_upper_bound,
+            unwanted_list=unwanted_list,
+            wanted_list=wanted_list
         )
 
         return eating_preferences_dict

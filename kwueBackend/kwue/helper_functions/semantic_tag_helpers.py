@@ -28,6 +28,7 @@
 
 import requests
 
+
 def get_semantic_tags(tag_name):
     url = 'https://www.wikidata.org/w/api.php?action=wbsearchentities&search=%s&format=json&language=en&type=item&continue=0' % tag_name
     r = requests.get(url)

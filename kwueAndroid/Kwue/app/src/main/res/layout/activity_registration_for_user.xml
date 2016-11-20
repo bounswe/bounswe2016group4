@@ -74,7 +74,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/emailTextbox"
+            android:id="@+id/emailTextboxR"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -98,7 +98,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/passwordTextbox"
+            android:id="@+id/passwordTextboxR"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="Password"

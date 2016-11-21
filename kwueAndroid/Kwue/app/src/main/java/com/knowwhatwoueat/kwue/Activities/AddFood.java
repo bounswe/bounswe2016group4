@@ -71,7 +71,7 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<String> semanticTagNames;
     private ArrayList<Integer> ingredientGrams;
     private ArrayList<Ingredient> ingredients;
-    private ArrayList<Boolean> checkedSemanticTags;
+    private ArrayList<Long> checkedSemanticTags;
 
     private ListAdapter semanticListAdapter;
     private ArrayAdapter ingredientListAdapter;
@@ -156,6 +156,11 @@ public class AddFood extends AppCompatActivity{
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
         final AlertDialog.Builder build = new AlertDialog.Builder(AddFood.this);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+            }
+        });
         alertDialog = build.create();
         LayoutInflater inflater = getLayoutInflater();
         View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
@@ -164,16 +169,19 @@ public class AddFood extends AppCompatActivity{
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
         lv.setAdapter(semanticListAdapter);
 
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // change the checkbox state
                 CheckedTextView checkedTextView = ((CheckedTextView)view);
                 checkedTextView.setChecked(!checkedTextView.isChecked());
-                checkedSemanticTags.add(position,checkedTextView.isChecked());
+                if(checkedTextView.isChecked())
+                    checkedSemanticTags.add(id);
+                else
+                    checkedSemanticTags.remove(id);
             }
         });
-        alertDialog.show();
 
         //semanticListView.setAdapter(semanticListAdapter);
 
@@ -216,13 +224,13 @@ public class AddFood extends AppCompatActivity{
     }
     protected void assignTagTitles(SemanticTag[] response){
         for(int i = 0; i < response.length;i++){
-            semanticTagNames.add(response[i].itemLabel);
+            semanticTagNames.add(response[i].tag_description);
             semanticTags.add(response[i]);
         }
     }
 
     protected void sendAddFoodRequest(){
-        String addFoodUrl = url;
+        String addFoodUrl = url + "add_food";
         final JsonArray ingredientArray = new JsonArray();
         final String semanticsResponse;
         Gson gson = new Gson();
@@ -233,7 +241,7 @@ public class AddFood extends AppCompatActivity{
             ingredientArray.add(obj);
         }
 
-        semanticsResponse =gson.toJson(semanticTags,SemanticTag.class);
+        semanticsResponse =gson.toJson(semanticTags.toArray(),SemanticTag[].class);
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

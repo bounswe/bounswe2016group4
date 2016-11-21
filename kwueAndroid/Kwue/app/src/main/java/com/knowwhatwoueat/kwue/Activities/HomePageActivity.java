@@ -65,11 +65,11 @@ public class HomePageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_basicSearch:
-                Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
+                Intent i = new Intent(HomePageActivity.this, BasicSearch.class);
                 startActivity(i);
                 break;
             case R.id.action_advancedSearch:
-                Intent j = new Intent(HomePageActivity.this, LoginActivity.class);
+                Intent j = new Intent(HomePageActivity.this, AdvancedSearch.class);
                 startActivity(j);
                 break;
 

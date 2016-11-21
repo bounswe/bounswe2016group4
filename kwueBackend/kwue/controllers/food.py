@@ -25,7 +25,7 @@ def add_food(req):
     food_recipe = ""
     ingredient_list = []
     for ingredient in ingredients:
-        food_recipe += ingredient["ingredient"] + " " + ingredient["value"] + "\n"
+        food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
         ingredient_list.append(ingredient[0])
     nutrition_dict = request_nutrition(food_recipe)
 

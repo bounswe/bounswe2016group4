@@ -1,5 +1,6 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,7 +25,7 @@ import com.knowwhatwoueat.kwue.R;
 
 import java.net.URL;
 
-public class HomePageActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class HomePageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,71 +54,30 @@ public class HomePageActivity extends AppCompatActivity implements SearchView.On
         fifthActivity.setText("Activity5");
         sixthActivity.setText("Activity6");
 
-
-
-
-        /*
-        String emailText = getIntent().getStringExtra("EmailTextView");
-        String passwordText = getIntent().getStringExtra("PasswordTextView");
-        TextView emailTextView = (TextView) findViewById(R.id.emailTextView);
-        TextView passwordTextView = (TextView) findViewById(R.id.passwordTextView);
-        emailTextView.setText(emailText);
-        passwordTextView.setText(passwordText);
-        */
-
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
+        inflater.inflate(R.menu.search_button, menu);
+        return true;
+    }
 
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case R.id.action_basicSearch:
+                Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
+                startActivity(i);
+                break;
+            case R.id.action_advancedSearch:
+                Intent j = new Intent(HomePageActivity.this, LoginActivity.class);
+                startActivity(j);
+                break;
 
-        /*
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(this);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        searchView.setSubmitButtonEnabled(true);
-
-        */
+            default:
+                break;
+        }
         return true;
     }
 
 
-
-    /*
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, "Searching by: "+ query, Toast.LENGTH_SHORT).show();
-
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            String uri = intent.getDataString();
-            Toast.makeText(this, "Suggestion: "+ uri, Toast.LENGTH_SHORT).show();
-        }
-    }
-    */
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
-    }
 }

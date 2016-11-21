@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_basicSearch"
+        android:icon="@drawable/balik"
+        android:showAsAction="always"
+        android:orderInCategory="0"
+        android:title="Basic Search" />
+    <item
+        android:id="@+id/action_advancedSearch"
+        android:icon="@drawable/balik"
+        android:showAsAction="always"
+        android:orderInCategory="0"
+        android:title="Advanced Search" />
+</menu>

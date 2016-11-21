@@ -51,7 +51,7 @@ def add_food(req):
                 tag_dict['tag_description'] = tag_item['tag_description']
                 db_insert_tag(tag_dict)
 
-            print(req.session['username'] + " has added a food successfully.")
+            #print(req.session['username'] + " has added a food successfully.")
             is_success = True
         else:
             reason = 'Adding food failed.'

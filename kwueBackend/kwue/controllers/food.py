@@ -49,7 +49,7 @@ def add_food(req):
                 tag_dict['semantic_tag_item'] = tag_item['tag_id']
                 tag_dict['semantic_tag_item_label'] = tag_item['tag_label']
                 tag_dict['semantic_tag_description'] = tag_item['tag_description']
-                tag_food(tag_dict)
+                db_insert_tag(tag_dict)
 
             print(req.session['username'] + " has added a food successfully.")
             is_success = True

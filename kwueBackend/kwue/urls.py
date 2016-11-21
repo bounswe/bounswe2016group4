@@ -170,8 +170,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list'
-    # 'unwanted_list'
+    # 'wanted_list' : json of array of items
+    # 'unwanted_list' : json of array of items
     #
     ### RESPONSE
     #
@@ -216,8 +216,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list'
-    # 'unwanted_list'
+    # 'wanted_list' : json of array of items
+    # 'unwanted_list' : json of array of items
     #
     ### RESPONSE
     #

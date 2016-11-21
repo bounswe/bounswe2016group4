@@ -16,15 +16,17 @@ def basic_search(req):
     #return render(req, 'kwue/search.html', json.dumps(search_results))
 
 
+
 def advanced_search(req):
     # ignore my eating preferences will be handled in frontend
 
     dict = req.GET.dict()
     ep = dict
+    ep['wanted_list'] = json.loads(ep['wanted_list'])
+    ep['unwanted_list'] = json.loads(ep['unwanted_list'])
 
     search_results = search_alg(dict, ep)
-
-    return render(req, 'kwue/food.html', json.dumps(search_results))
+    return HttpResponse(json.dumps(search_results), content_type='application/json')
 
 
 def search_alg(dict, ep):

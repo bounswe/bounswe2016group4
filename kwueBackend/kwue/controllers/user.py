@@ -35,8 +35,8 @@ def update_eating_preferences(req):
     dict = req.POST.dict()
     user_id = dict['user_id']
     db_update_user_preferences(user_id, dict)
-    db_insert_user_unwanted_ing(user_id, dict['unwanted_list'])
-    db_insert_user_wanted_ing(user_id, dict['wanted_list'])
+    db_insert_user_unwanted_ing(user_id, json.loads(dict['unwanted_list']))
+    db_insert_user_wanted_ing(user_id, json.loads(dict['wanted_list']))
 
 def sign_up(req):
     #DB ye user kaydedilsin

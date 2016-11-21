@@ -76,6 +76,8 @@ def unwanted_search(ingredient_list, foods=None):
 def wanted_search(ingredient_list, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
+    if len(ingredient_list) == 0:
+        return foods
     return foods.filter(ingredient_list__in=ingredient_list)
 
 

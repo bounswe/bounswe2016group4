@@ -2,11 +2,14 @@ from django.shortcuts import render
 from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
 import json
+from kwue.DB_functions.tag_db_functions import *
 
 def get_user(req):
     user_id = req.GET.dict()['user_id']
     user_dict = db_retrieve_user(user_id).__dict__
     del user_dict['_state'] # alptekin fix FacePalm
+    tag_list = return_tags(user_id, "User")
+    user_dict['tag_list'] = tag_list
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):
@@ -32,8 +35,8 @@ def update_eating_preferences(req):
     dict = req.POST.dict()
     user_id = dict['user_id']
     db_update_user_preferences(user_id, dict)
-    db_insert_user_unwanted_ing(user_id, dict['unwanted_list'])
-    db_insert_user_wanted_ing(user_id, dict['wanted_list'])
+    db_insert_user_unwanted_ing(user_id, json.loads(dict['unwanted_list']))
+    db_insert_user_wanted_ing(user_id, json.loads(dict['wanted_list']))
 
 def sign_up(req):
     #DB ye user kaydedilsin

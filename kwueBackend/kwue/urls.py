@@ -100,6 +100,7 @@ urlpatterns = (
     # 'user_email_address'
     # 'user_image'
     # 'user_type'
+    # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
     # 'unwanted_ingredients'
     # 'wanted_ingredients'
     # 'protein_lower_bound'
@@ -150,9 +151,9 @@ urlpatterns = (
     ### RESPONSE
     #
     # 'food_set' : Food dicts filtered by search_text and user's eating preferences
-    # 'food_server_set' : Users, may be either a user or food server, filtered by search_text
-    # 'semantic_foods' : Foods semantically found and filtered by user's eating preferences
-    # 'semantic_users' : Semantically found users, may be either a user or food server
+    # 'user_set' : Users, may be either a user or food server, filtered by search_text
+    # 'semantic_food_set' : Foods semantically found and filtered by user's eating preferences
+    # 'semantic_user_set' : Semantically found users, may be either a user or food server
     #
     url(r'^basic_search', search.basic_search),  # Renders 'search.html'
 
@@ -169,8 +170,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list'
-    # 'unwanted_list'
+    # 'wanted_list' : json of array of items
+    # 'unwanted_list' : json of array of items
     #
     ### RESPONSE
     #
@@ -215,8 +216,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list'
-    # 'unwanted_list'
+    # 'wanted_list' : json of array of items
+    # 'unwanted_list' : json of array of items
     #
     ### RESPONSE
     #
@@ -252,6 +253,7 @@ urlpatterns = (
     # 'food_rate'
     # 'food_id'
     # 'carbohydrate_value'
+    # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
     url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
 
     ### REQUEST

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from kwue.DB_functions.search_db_function import *
 from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
 import json
@@ -6,12 +7,14 @@ import json
 
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
-    user_id = req.GET.dict()['userId']
+    user_id = req.GET.dict()['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
     search_results = search_alg(req.GET.dict(), ep)
 
-    return render(req, 'kwue/search.html', json.dumps(search_results))
+    return HttpResponse(json.dumps(search_results), content_type='application/json')
+    #return render(req, 'kwue/search.html', json.dumps(search_results))
+
 
 
 def advanced_search(req):
@@ -19,10 +22,11 @@ def advanced_search(req):
 
     dict = req.GET.dict()
     ep = dict
+    ep['wanted_list'] = json.loads(ep['wanted_list'])
+    ep['unwanted_list'] = json.loads(ep['unwanted_list'])
 
     search_results = search_alg(dict, ep)
-
-    return render(req, 'kwue/food.html', json.dumps(search_results))
+    return HttpResponse(json.dumps(search_results), content_type='application/json')
 
 
 def search_alg(dict, ep):
@@ -41,10 +45,10 @@ def search_alg(dict, ep):
     food_server_set_result = food_server_set.distinct().values("user_id", "user_name", "user_image")
     semantic_users_result = semantic_users.distinct().values("user_id", "user_name", "user_image")
 
-    search_results = {'food_set': filtered_food_set_result,
-                      'user_set': food_server_set_result,
-                      'semantic_food_set': filtered_semantic_foods_result,
-                      'semantic_user_set': semantic_users_result}
+    search_results = {'food_set': list(filtered_food_set_result),
+                      'user_set': list(food_server_set_result),
+                      'semantic_food_set': list(filtered_semantic_foods_result),
+                      'semantic_user_set': list(semantic_users_result)}
 
 
     return search_results

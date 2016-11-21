@@ -4,12 +4,14 @@ from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
 from kwue.controllers.tag import tag_food
-
+from kwue.DB_functions.tag_db_functions import *
 
 def get_food(req):
     food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
-    del food_dict['_state'] # alptekin fix FacePalm
+    del food_dict['_state']  # alptekin fix FacePalm
+    tag_list = return_tags(food_id, "Food")
+    food_dict['tag_list'] = tag_list
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
 
@@ -18,7 +20,8 @@ def add_food(req):
     food_dict = req.POST.dict()
 
     # get nutrition values from api
-    ingredients = food_dict['ingredients']
+    ingredients = json.loads(food_dict['ingredients'])
+
     food_recipe = ""
     ingredient_list = []
     for ingredient in ingredients:
@@ -37,7 +40,7 @@ def add_food(req):
             tag_dict = {}
             tag_dict['generic_id'] = new_food_id
             tag_dict["Type"] = "Food"
-            tag_list = food_dict['food_tags']
+            tag_list = json.loads(food_dict['food_tags'])
             for tag_item in tag_list:
                 tag_dict['tag_label'] = tag_item['tag_name']
                 tag_dict['semantic_tag_item'] = tag_item['tag_id']
@@ -59,7 +62,7 @@ def get_add_food_page(req):
 
 
 def get_nutritional_values(req):
-    ingredients = req.GET.dict()['ingredients']
+    ingredients = json.loads(req.POST.dict()['ingredients'])
     food_recipe = ""
     for ingredient in ingredients:
         food_recipe += ingredient[0] + " " + ingredient[1] + "\n"

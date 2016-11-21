@@ -5,7 +5,7 @@ import json
 
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
-    user_id = req.GET.dict['userId']
+    user_id = req.GET.dict()['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
     search_results = search_alg(req.GET.dict(), ep)

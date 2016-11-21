@@ -18,7 +18,8 @@ def add_food(req):
     food_dict = req.POST.dict()
 
     #ingredients = req.GET.dict['ingredients']
-    ingredients = food_dict['ingredients']
+    #ingredients = food_dict['ingredients']
+    ingredients = json.loads(food_dict['ingredients'])
     food_recipe = ""
     ingredient_list = []
     for ingredient in ingredients:

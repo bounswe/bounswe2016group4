@@ -45,10 +45,10 @@ def add_food(req):
             tag_dict["type"] = "Food"
             tag_list = json.loads(food_dict['food_tags'])
             for tag_item in tag_list:
-                tag_dict['tag_label'] = tag_item['tag_name']
-                tag_dict['semantic_tag_item'] = tag_item['tag_id']
-                tag_dict['semantic_tag_item_label'] = tag_item['tag_label']
-                tag_dict['semantic_tag_description'] = tag_item['tag_description']
+                tag_dict['tag_name'] = tag_item['tag_name']
+                tag_dict['tag_id'] = tag_item['tag_id']
+                tag_dict['tag_label'] = tag_item['tag_label']
+                tag_dict['tag_description'] = tag_item['tag_description']
                 db_insert_tag(tag_dict)
 
             print(req.session['username'] + " has added a food successfully.")

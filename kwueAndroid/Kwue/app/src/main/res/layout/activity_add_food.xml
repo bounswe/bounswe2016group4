@@ -129,7 +129,7 @@
                         android:textSize="14sp"
                         android:hint="Enter name"
                         android:inputType="text"
-                        android:imeOptions="actionDone"/>
+                        android:imeOptions="actionNext"/>
                     <EditText
                         android:id="@+id/ingredient_quantity"
                         android:layout_marginLeft="20dp"
@@ -137,7 +137,7 @@
                         android:layout_height="match_parent"
                         android:hint="Qty"
                         android:inputType="number"
-                        android:imeOptions="actionDone"/>
+                        android:imeOptions="actionNext"/>
                     <TextView
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
@@ -217,9 +217,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_save" />
-
-
-    <include layout="@layout/content_add_food"
-        android:id="@+id/include" />
+    
 
 </android.support.design.widget.CoordinatorLayout>

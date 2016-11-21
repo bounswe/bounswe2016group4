@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
@@ -18,6 +20,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,12 +30,21 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.knowwhatwoueat.kwue.Adapters.IngredientListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.Ingredient;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
+import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AddFood extends AppCompatActivity{
@@ -49,17 +61,19 @@ public class AddFood extends AppCompatActivity{
 
     //food model
     private Food foodAdded;
-    private ArrayList<String> ingredients;
+    private ArrayList<String> ingredientNames;
     private ArrayList<SemanticTag> semanticTags;
     private ArrayList<String> semanticTagNames;
     private ArrayList<Integer> ingredientGrams;
+    private ArrayList<Ingredient> ingredients;
+    private ArrayList<Boolean> checkedSemanticTags;
 
-
+    private ArrayAdapter ingredientListAdapter;
     private String semanticQuery;
 
 
     private RequestQueue queue;
-    String url ="http://10.0.2.2:8000/search_semantic_tags?tag_name=";
+    String url = Constants.endPoint;
 
 
     @Override
@@ -70,9 +84,11 @@ public class AddFood extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         semanticTagNames= new ArrayList<String>();
-        ingredients = new ArrayList<>();
+        ingredientNames = new ArrayList<>();
         semanticTags = new ArrayList<>();
         ingredientGrams = new ArrayList<>();
+        ingredients = new ArrayList<>();
+        checkedSemanticTags = new ArrayList<>();
 
         foodAdded = new Food();
 
@@ -117,9 +133,8 @@ public class AddFood extends AppCompatActivity{
             }
         });
 
-
-        //// TODO: 19.11.2016 do list adapter
-        //ListAdapter ingredientListAdapter = new ArrayAdapter<String>(this,R.layout.activity_consumption_history);
+        ingredientListAdapter = new IngredientListAdapter(this,ingredients);
+        ingredientListView.setAdapter(ingredientListAdapter);
 
         ListAdapter semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
@@ -131,6 +146,7 @@ public class AddFood extends AppCompatActivity{
                 // change the checkbox state
                 CheckedTextView checkedTextView = ((CheckedTextView)view);
                 checkedTextView.setChecked(!checkedTextView.isChecked());
+                checkedSemanticTags.add(position,checkedTextView.isChecked());
             }
         });
 
@@ -141,40 +157,7 @@ public class AddFood extends AppCompatActivity{
         sendFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("FAB", "onClick: button pressed");
-                foodAdded.setImageUrl(imageUrlBox.getText().toString());
-                foodAdded.setInfo(editDescriptionTextBox.getText().toString());
-                foodAdded.setName(editFoodTextBox.getText().toString());
-                foodAdded.setTagList(semanticTagNames);
-                String url = "http://10.0.2.2:8000/add_food?food_description=" + editDescriptionTextBox.getText().toString() +"&food_name=" + editFoodTextBox.getText().toString()
-                        +"&food_image="+imageUrlBox.getText().toString()+"&food_owner=1&food_recipe=100 grams potato";
-
-
-
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // Display the first 500 characters of the response string.
-                                editFoodTextBox.setText(response);
-                                Log.d("response", "onResponse: "+ response.toString());
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("response","That didn't work!");
-                    }
-                });
-                /*JSONArray foodAddRequest = new JSONArray();
-
-                foodAddRequest.put(new JSONObject().put("food_image",imageUrlBox.getText().toString()));
-                foodAddRequest.put(new JSONObject().put("food_description",editDescriptionTextBox.getText().toString());
-                foodAddRequest.put(new JSONObject().put("food_name",editFoodTextBox.getText().toString());
-                foodAddRequest.put(new JSONObject().put("food_tags",semanticTags.toString());
-                foodAddRequest.put(new JSONObject().put("food_recipe","recipe");
-                foodAddRequest.put(new JSONObject().put("food_owner","owner");
-                Log.d("Json:  ", foodAddRequest.toString());*/
+                sendAddFoodRequest();
             }
 
         });
@@ -183,12 +166,19 @@ public class AddFood extends AppCompatActivity{
 
     }
     protected void addIngredient(){
-        ingredients.add(ingredientName.getText().toString());
-        ingredientGrams.add(Integer.valueOf(ingredientQty.getText().toString()));
+        String str = ingredientName.getText().toString();
+        int qty = 0;
+        if(ingredientQty.getText().length()>1)
+             qty= Integer.valueOf(ingredientQty.getText().toString());
+        ingredientNames.add(str);
+        ingredientGrams.add(qty);
+        ingredientListAdapter.add(new Ingredient(str,qty));
         ingredientName.setText("");
         ingredientQty.setText("");
     }
-
+    protected ListAdapter getIngredientListAdapter(){
+        return ingredientListAdapter;
+    }
     protected void assignTagTitles(SemanticTag[] response){
         for(int i = 0; i < response.length;i++){
             semanticTagNames.add(response[i].itemLabel);
@@ -196,16 +186,65 @@ public class AddFood extends AppCompatActivity{
         }
     }
 
+    protected void sendAddFoodRequest(){
+        String addFoodUrl = url;
+        final JsonArray ingredientArray = new JsonArray();
+        final String semanticsResponse;
+        Gson gson = new Gson();
+        for(int i = 0 ; i < ingredients.size();i++){
+            JsonObject obj = new JsonObject();
+            obj.addProperty("ingredient",ingredients.get(i).getName());
+            obj.addProperty("value",ingredients.get(i).getQuantity());
+            ingredientArray.add(obj);
+        }
+
+        semanticsResponse =gson.toJson(semanticTags,SemanticTag.class);
+        StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("food_description",editDescriptionTextBox.getText().toString());
+                params.put("food_name",editFoodTextBox.getText().toString());
+                params.put("food_image",imageUrlBox.getText().toString() );
+                params.put("food_owner","1");
+                params.put("ingredients", ingredientArray.toString());
+                params.put("food_tags",semanticsResponse);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
 
     protected void setSemanticQuery(String query){
         semanticQuery = query;
     }
 
+
+
     protected void sendSemanticHttpRequest(String query){
 
-        String semanticUrl = url + query;
+        String semanticUrl = url +"search_semantic_tags?tag_name="+ query;
         // Request a string response from the provided URL.
-        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(semanticUrl,SemanticTag[].class,
+        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(semanticUrl,SemanticTag[].class, Request.Method.GET,
                 new Response.Listener<SemanticTag[]>() {
                     @Override
                     public void onResponse(SemanticTag[] response) {

@@ -27,9 +27,9 @@ public class GsonRequest<T> extends Request<T> {
      * @param url URL of the request to make
      * @param clazz Relevant class object, for Gson's reflection
      */
-    public GsonRequest(String url, Class<T> clazz,
+    public GsonRequest(String url, Class<T> clazz,int method,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(Method.GET, url, errorListener);
+        super(method, url, errorListener);
         this.clazz = clazz;
         this.listener = listener;
     }

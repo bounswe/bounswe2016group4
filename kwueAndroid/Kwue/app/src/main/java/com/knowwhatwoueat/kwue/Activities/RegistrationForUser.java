@@ -38,8 +38,8 @@ public class RegistrationForUser extends AppCompatActivity  implements AdapterVi
 
         final EditText nameTextBox = (EditText) findViewById(R.id.nameTextbox);
         final EditText surnameTextBox = (EditText) findViewById(R.id.surnameTextbox);
-        final EditText emailTextBox = (EditText) findViewById(R.id.emailTextboxR);
-        final EditText passwordTextbox = (EditText) findViewById(R.id.passwordTextboxR);
+        final EditText emailTextBox = (EditText) findViewById(R.id.emailTextbox);
+        final EditText passwordTextbox = (EditText) findViewById(R.id.passwordTextbox);
         final EditText passwordAgainTextbox =(EditText) findViewById(R.id.passwordAgainTextbox);
 
 

@@ -7,7 +7,7 @@ $(document).ready(function () {
         $.ajax({
             url: "basic_search",
             data: {
-                user_id: '0',
+                user_id: '1',
                 search_text: query
             },
             success: function (result) {
@@ -24,5 +24,16 @@ $(document).ready(function () {
     $("#adv-search-btn").click(function () {
         $(".result-bar").hide();
         $("#featured-foods").show();
-    })
+        $("#adv-search-bar").toggle();
+
+
+    });
+
+    $(".food-ing").on('change', function () {
+        $(this).next().text($(this).val());
+    });
+
+    $("#adv-search-submit").click(function () {
+
+    });
 });

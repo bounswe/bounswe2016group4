@@ -5,13 +5,33 @@ $(document).ready(function(){
     $("#submit-button").click(function () {
         var data = $('#food-form').serializeArray();
         var ingredients = [];
+        var tobepushed = {};
+        for(i=1; i<data.length; i++) {
+            var fieldName = data[i]['name'];
+            var fieldValue = data[i]['value'];
+            tobepushed[fieldName] = fieldValue;
+        }
         $(".ing-group").each(function () {
-            var name = $(this).children("#ingredient-1").val();
-            var value = $(this).children("#ingredient-1-val").val();
-            var temp = {'ingredient': name, 'value': value};
+            var fieldName = $(this).children("#ingredient-1").val();
+            var fieldValue = $(this).children("#ingredient-1-val").val();
+            var temp = {'ingredient': fieldName, 'value': fieldValue};
+            ingredients.push(temp);
         });
-        data.push({name: 'ingredients', value: ingredients});
-        $.post("add_food", data);
+        tobepushed['ingredients'] = JSON.stringify(ingredients);
+        //data.push({name: 'ingredients', value: ingredients});
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", data[0]['value']);
+            }
+        });
+        $.ajax({
+            url: "add_food",
+            method: "post",
+            data: tobepushed,
+            success: function (e) {
+                console.log(e);
+            }
+        });
     });
 
     $("#tag_button").click(function () {

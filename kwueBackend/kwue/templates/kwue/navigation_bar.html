@@ -1,4 +1,13 @@
 <div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-pills">
+          <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
+          <li role="presentation"><a href="{% url 'new_food' %}">add a food</a></li>
+          <li role="presentation"><a href="{% url 'get_food' %}">Foods</a></li>
+        </ul>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-6">
         <h4>Welcome User</h4>
     </div>
@@ -10,14 +19,43 @@
             <a href="#" id="search-btn" class="btn btn-default" type="button" value="Submit">Go!</a>
           </span>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <ul class="nav nav-pills">
-          <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
-          <li role="presentation"><a href="{% url 'new_food' %}">add a food</a></li>
-          <li role="presentation"><a href="{% url 'get_food' %}">Foods</a></li>
-        </ul>
+        <div id="adv-search-bar" hidden>
+            <form id="advanced-search-form">
+                <div class="input-group range">
+                    <span class="input-group-addon">Protein Amount</span>
+                    <input type="range" class="form-control food-ing" name="protein-bound" value="50" id="protein-bound" min="0" max="1000">
+                    <span class="input-group-addon" id="amount">50</span>
+                </div>
+                <div class="input-group range">
+                    <span class="input-group-addon">Fat Amount</span>
+                    <input type="range" class="form-control food-ing" name="fat-bound" value="50" id="protein-bound" min="0" max="1000">
+                    <span class="input-group-addon" id="amount">50</span>
+                </div>
+                <div class="input-group range">
+                    <span class="input-group-addon">Carbohydrate Amount</span>
+                    <input type="range" class="form-control food-ing" name="carbohydrate-bound" value="50" id="protein-bound" min="0" max="1000">
+                    <span class="input-group-addon" id="amount">50</span>
+                </div>
+                <div class="input-group range">
+                    <span class="input-group-addon">Calorie Amount</span>
+                    <input type="range" class="form-control food-ing" name="calorie-bound" value="50" id="protein-bound" min="0" max="1000">
+                    <span class="input-group-addon" id="amount">50</span>
+                </div>
+                <div class="input-group range">
+                    <span class="input-group-addon">Suger Amount</span>
+                    <input type="range" class="form-control food-ing" name="sugar-bound" value="50" id="protein-bound" min="0" max="1000">
+                    <span class="input-group-addon" id="amount">50</span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Wanted List</span>
+                    <input type="text" class="form-control food-ing" name="wanted">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Unwanted List</span>
+                    <input type="text" class="form-control food-ing" name="wanted">
+                </div>
+                <a href="#" class="btn btn-primary" id="adv-search-submit"><span class="glyphicon glyphicon-search"></span></a>
+            </form>
+        </div>
     </div>
 </div>

@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
-from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
-
+from kwue.controllers.tag import tag_food
+from kwue.DB_functions.tag_db_functions import *
 
 def get_food(req):
-    food_id = req.GET.dict['food_id']
+    food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
-    del food_dict['_state'] # alptekin fix FacePalm
+    del food_dict['_state']  # alptekin fix FacePalm
+    tag_list = return_tags(food_id, "Food")
+    food_dict['tag_list'] = tag_list
     food_json = json.dumps(food_dict)
     return render(req, 'kwue/food.html', food_json)
 
@@ -30,7 +32,22 @@ def add_food(req):
     is_success = False
     reason = ""
     if nutrition_dict is not None:
-        if db_insert_food(food_dict, nutrition_dict, ingredient_list):
+        # insert food
+        new_food_id = db_insert_food(food_dict, nutrition_dict, ingredient_list)
+
+        if new_food_id:
+            # add tags
+            tag_dict = {}
+            tag_dict['generic_id'] = new_food_id
+            tag_dict["Type"] = "Food"
+            tag_list = food_dict['food_tags']
+            for tag_item in tag_list:
+                tag_dict['tag_label'] = tag_item['tag_name']
+                tag_dict['semantic_tag_item'] = tag_item['tag_id']
+                tag_dict['semantic_tag_item_label'] = tag_item['tag_label']
+                tag_dict['semantic_tag_description'] = tag_item['tag_description']
+                tag_food(tag_dict)
+
             print(req.session['username'] + " has added a food successfully.")
             is_success = True
         else:
@@ -45,7 +62,7 @@ def get_add_food_page(req):
 
 
 def get_nutritional_values(req):
-    ingredients = req.GET.dict['ingredients']
+    ingredients = req.GET.dict()['ingredients']
     food_recipe = ""
     for ingredient in ingredients:
         food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
@@ -53,23 +70,20 @@ def get_nutritional_values(req):
     return HttpResponse(json.dumps(nutrition_dict))
 
 
-def remove_food(req):
-    food_id = req.GET.dict['food_id']
-    is_success = False
-    reason = ""
-    if db_delete_food(food_id):
-        is_success = True
-    else:
-        reason = 'Removing food failed.'
-    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
+# def remove_food(req):
+#     food_id = req.GET.dict()['food_id']
+#     is_success = False
+#     reason = ""
+#     if db_delete_food(food_id):
+#         is_success = True
+#     else:
+#         reason = 'Removing food failed.'
+#     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def rate_food(req):
     return render(req, 'kwue/food.html', {})
 
 def comment_food(req):
-    return render(req, 'kwue/food.html', {})
-
-def mark_as_eaten(req):
     return render(req, 'kwue/food.html', {})
 
 def update_food(req):

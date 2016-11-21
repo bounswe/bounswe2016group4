@@ -10,10 +10,10 @@ def db_insert_tag(tag_dict):
     else:
         generic_object = db_retrieve_user(generic_id)
     new_tag = TagModel(
-        tag_label=tag_dict['tag_label'],
-        semantic_tag_item=tag_dict['semantic_tag_item'],
-        semantic_tag_item_label=tag_dict['semantic_tag_item_label'],
-        semantic_tag_item_description=tag_dict['semantic_tag_description'],
+        tag_label=tag_dict['tag_name'],
+        semantic_tag_item=tag_dict['tag_id'],
+        semantic_tag_item_label=tag_dict['tag_label'],
+        semantic_tag_item_description=tag_dict['tag_description'],
         tagged_food=generic_object
     )
     try:
@@ -35,4 +35,21 @@ def db_delete_food(tag_id):
         return True
     except:
         return False
+
+
+def return_tags(generic_id, type):
+    if type == "User":
+        tags = list(TagModel.objects.filter(tagged_object_id=generic_id, content_type__model="usermodel"))
+    else:
+        tags = list(TagModel.objects.filter(tagged_object_id=generic_id, content_type__model="foodmodel"))
+    tag_list = []
+    for tag in tags:
+        tag_dict = dict(
+            tag_name=tag.tag_label,
+            tag_id=tag.semantic_tag_item,
+            tag_label=tag.semantic_tag_item_label,
+            tag_description=tag.semantic_tag_item_description
+        )
+        tag_list.append(tag_dict)
+    return tag_list
 

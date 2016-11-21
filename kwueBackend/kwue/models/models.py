@@ -87,10 +87,10 @@ class FoodModel(models.Model):
 
 class TagModel(models.Model):
     tag_id = models.AutoField(primary_key=True)
-    tag_label = models.TextField()
-    semantic_tag_item = models.TextField()
-    semantic_tag_item_label = models.TextField()
-    semantic_tag_item_description = models.TextField()
+    tag_label = models.TextField(blank=True)
+    semantic_tag_item = models.TextField(blank=True)
+    semantic_tag_item_label = models.TextField(blank=True)
+    semantic_tag_item_description = models.TextField(blank=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, default=None, blank=True)
     tagged_object_id = models.PositiveIntegerField()
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
@@ -140,8 +140,15 @@ class ListModel(models.Model):
 class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+    food = models.ForeignKey(FoodModel)
     date = UnixTimeStampField(use_numeric=True, auto_now_add=True)
+    fid = models.PositiveIntegerField()
+    f_name = models.TextField(blank=True)
+
+    def save(self):
+        self.fid = self.food.food_id
+        self.fname = self.food.food_name
+        super().save(self)
 
     def __str__(self):
         return show_date(self.date)

@@ -13,8 +13,8 @@ $(document).ready(function () {
             success: function (result) {
                 $("#food-results").html(result['food_set']);
                 $("#server-results").html(result['food_server_set']);
-                $("#sem-food-results").html(result['semantic_foods']);
-                $("#sem-server-results").html(result['semantic_users']);
+                $("#sem-food-results").html(result['semantic_food_set'][0]);
+                $("#sem-server-results").html(result['semantic_user_set'][0]['user_name']);
             }
         });
         $(".result-bar").show();

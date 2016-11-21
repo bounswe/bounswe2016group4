@@ -1,13 +1,17 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -16,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -68,8 +73,11 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Boolean> checkedSemanticTags;
 
+    private ListAdapter semanticListAdapter;
     private ArrayAdapter ingredientListAdapter;
     private String semanticQuery;
+
+    private AlertDialog alertDialog;
 
 
     private RequestQueue queue;
@@ -118,8 +126,9 @@ public class AddFood extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 setSemanticQuery(semanticTextBox.getText().toString());
-                Log.d("tag", "onClick: clicked" );
+                Log.d("tags button", "onClick: clicked" );
                 sendSemanticHttpRequest(semanticQuery);
+
             }
 
         });
@@ -130,17 +139,32 @@ public class AddFood extends AppCompatActivity{
             public void onClick(View v) {
                 addIngredient();
                 Log.d("add", "onClick: clicked");
+                if(ingredients.size() > 5){
+                    View item = ingredientListAdapter.getView(0, null, ingredientListView);
+                    item.measure(0, 0);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, (int) (5.5 * item.getMeasuredHeight()));
+                    ingredientListView.setLayoutParams(params);
+                }
             }
         });
 
         ingredientListAdapter = new IngredientListAdapter(this,ingredients);
         ingredientListView.setAdapter(ingredientListAdapter);
+        ingredientListView.setVerticalScrollBarEnabled(true);
 
-        ListAdapter semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
-        semanticListView.setAdapter(semanticListAdapter);
+        semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
-        semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final AlertDialog.Builder build = new AlertDialog.Builder(AddFood.this);
+        alertDialog = build.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("List");
+        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+        lv.setAdapter(semanticListAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // change the checkbox state
@@ -149,8 +173,19 @@ public class AddFood extends AppCompatActivity{
                 checkedSemanticTags.add(position,checkedTextView.isChecked());
             }
         });
+        alertDialog.show();
 
+        //semanticListView.setAdapter(semanticListAdapter);
 
+        /*semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // change the checkbox state
+                CheckedTextView checkedTextView = ((CheckedTextView)view);
+                checkedTextView.setChecked(!checkedTextView.isChecked());
+                checkedSemanticTags.add(position,checkedTextView.isChecked());
+            }
+        });*/
 
 
         FloatingActionButton sendFoodButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -249,8 +284,9 @@ public class AddFood extends AppCompatActivity{
                     @Override
                     public void onResponse(SemanticTag[] response) {
                         // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: "+ response.toString());
+                        Log.d("response", "onResponse: in");
                         assignTagTitles(response);
+                        showAlertDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -261,4 +297,8 @@ public class AddFood extends AppCompatActivity{
 // Add the request to the RequestQueue.
         queue.add(gsonRequest);
     }
+    protected void showAlertDialog(){
+        alertDialog.show();
+    }
+
 }

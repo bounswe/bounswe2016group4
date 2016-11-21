@@ -45,6 +45,7 @@ public class IngredientListAdapter extends ArrayAdapter<Ingredient> {
         txtIngredient.setText(ingredients.get(position).getName());
         txtGrams.setText(String.valueOf(ingredients.get(position).getQuantity()));
 
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

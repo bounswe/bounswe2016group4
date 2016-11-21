@@ -5,7 +5,7 @@ package com.knowwhatwoueat.kwue.DataModels;
  */
 
 public class SemanticTag {
-    public String item;
-    public String itemLabel;
-    public String itemDescription;
+    public String tag_id;
+    public String tag_label;
+    public String tag_description;
 }

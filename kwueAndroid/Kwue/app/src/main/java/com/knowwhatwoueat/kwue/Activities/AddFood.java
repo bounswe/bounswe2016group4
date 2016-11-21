@@ -71,7 +71,7 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<String> semanticTagNames;
     private ArrayList<Integer> ingredientGrams;
     private ArrayList<Ingredient> ingredients;
-    private ArrayList<Boolean> checkedSemanticTags;
+    private ArrayList<Long> checkedSemanticTags;
 
     private ListAdapter semanticListAdapter;
     private ArrayAdapter ingredientListAdapter;
@@ -170,10 +170,12 @@ public class AddFood extends AppCompatActivity{
                 // change the checkbox state
                 CheckedTextView checkedTextView = ((CheckedTextView)view);
                 checkedTextView.setChecked(!checkedTextView.isChecked());
-                checkedSemanticTags.add(position,checkedTextView.isChecked());
+                if(checkedTextView.isChecked())
+                    checkedSemanticTags.add(id);
+                else
+                    checkedSemanticTags.remove(id);
             }
         });
-        alertDialog.show();
 
         //semanticListView.setAdapter(semanticListAdapter);
 
@@ -216,13 +218,13 @@ public class AddFood extends AppCompatActivity{
     }
     protected void assignTagTitles(SemanticTag[] response){
         for(int i = 0; i < response.length;i++){
-            semanticTagNames.add(response[i].itemLabel);
+            semanticTagNames.add(response[i].tag_description);
             semanticTags.add(response[i]);
         }
     }
 
     protected void sendAddFoodRequest(){
-        String addFoodUrl = url;
+        String addFoodUrl = url + "add_food";
         final JsonArray ingredientArray = new JsonArray();
         final String semanticsResponse;
         Gson gson = new Gson();
@@ -233,7 +235,7 @@ public class AddFood extends AppCompatActivity{
             ingredientArray.add(obj);
         }
 
-        semanticsResponse =gson.toJson(semanticTags,SemanticTag.class);
+        semanticsResponse =gson.toJson(semanticTags.toArray(),SemanticTag[].class);
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

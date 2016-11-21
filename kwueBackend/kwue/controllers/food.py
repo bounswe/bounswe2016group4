@@ -20,7 +20,8 @@ def add_food(req):
     food_dict = req.POST.dict()
 
     # get nutrition values from api
-    ingredients = food_dict['ingredients']
+    ingredients = json.loads(food_dict['ingredients'])
+
     food_recipe = ""
     ingredient_list = []
     for ingredient in ingredients:
@@ -39,7 +40,7 @@ def add_food(req):
             tag_dict = {}
             tag_dict['generic_id'] = new_food_id
             tag_dict["Type"] = "Food"
-            tag_list = food_dict['food_tags']
+            tag_list = json.loads(food_dict['food_tags'])
             for tag_item in tag_list:
                 tag_dict['tag_label'] = tag_item['tag_name']
                 tag_dict['semantic_tag_item'] = tag_item['tag_id']
@@ -61,7 +62,7 @@ def get_add_food_page(req):
 
 
 def get_nutritional_values(req):
-    ingredients = req.GET.dict()['ingredients']
+    ingredients = json.loads(req.POST.dict()['ingredients'])
     food_recipe = ""
     for ingredient in ingredients:
         food_recipe += ingredient[0] + " " + ingredient[1] + "\n"

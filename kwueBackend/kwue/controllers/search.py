@@ -19,6 +19,8 @@ def advanced_search(req):
 
     dict = req.GET.dict()
     ep = dict
+    ep['wanted_list'] = json.loads(ep['wanted_list'])
+    ep['unwanted_list'] = json.loads(ep['unwanted_list'])
 
     search_results = search_alg(dict, ep)
 

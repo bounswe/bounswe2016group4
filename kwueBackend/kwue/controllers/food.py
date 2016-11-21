@@ -5,6 +5,7 @@ import json
 from django.http import HttpResponse
 from kwue.controllers.tag import tag_food
 from kwue.DB_functions.tag_db_functions import *
+from django.views.decorators.csrf import csrf_exempt
 
 def get_food(req):
     food_id = req.GET.dict()['food_id']
@@ -16,6 +17,7 @@ def get_food(req):
     return render(req, 'kwue/food.html', food_json)
 
 
+@csrf_exempt
 def add_food(req):
     food_dict = req.POST.dict()
 

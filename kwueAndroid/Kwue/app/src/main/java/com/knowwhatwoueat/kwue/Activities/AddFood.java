@@ -156,6 +156,11 @@ public class AddFood extends AppCompatActivity{
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
         final AlertDialog.Builder build = new AlertDialog.Builder(AddFood.this);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+            }
+        });
         alertDialog = build.create();
         LayoutInflater inflater = getLayoutInflater();
         View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
@@ -163,6 +168,7 @@ public class AddFood extends AppCompatActivity{
         alertDialog.setTitle("List");
         ListView lv = (ListView) convertView.findViewById(R.id.listView1);
         lv.setAdapter(semanticListAdapter);
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

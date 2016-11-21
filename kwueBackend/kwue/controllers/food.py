@@ -42,7 +42,7 @@ def add_food(req):
             # add tags
             tag_dict = {}
             tag_dict['generic_id'] = new_food_id
-            tag_dict["Type"] = "Food"
+            tag_dict["type"] = "Food"
             tag_list = json.loads(food_dict['food_tags'])
             for tag_item in tag_list:
                 tag_dict['tag_label'] = tag_item['tag_name']

@@ -16,5 +16,5 @@ def tag_food(req):
 def tag_user(req):
     dict = req.POST.dict()
     dict['generic_id'] = dict['tagged_user_id']
-    dict["Type"] = "User"
+    dict["type"] = "User"
     db_insert_tag(dict)

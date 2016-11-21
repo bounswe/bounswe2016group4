@@ -29,11 +29,10 @@
                         <div class="list-group">
                         {% for food in foods %}
                             <a href="#" class="list-group-item">
-                                <p>id: {{ food.food_id }}</p>
                                 <p>name: {{ food.food_name }}</p>
                                 <p>description: {{ food.food_description }}</p>
                                 <p>owner: {{ food.food_owner }}</p>
-                                <p>image: {{ food.food_image}}</p>
+                                <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
                                 <p>rate: {{ food.food_rate }}</p>
                             </a>
                         {% endfor %}
@@ -61,7 +60,7 @@
                         Users
                     </div>
                     <div class="panel-body">
-                        <div class="list-group" id="server-results">
+                        <div class="list-group" id="user-results">
 
                         </div>
                     </div>
@@ -87,7 +86,7 @@
                         Users you might follow
                     </div>
                     <div class="panel-body">
-                        <div class="list-group" id="sem-server-results">
+                        <div class="list-group" id="sem-user-results">
 
                         </div>
                     </div>

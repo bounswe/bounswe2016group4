@@ -237,7 +237,7 @@ public class AddFood extends AppCompatActivity{
         for(int i = 0 ; i < ingredients.size();i++){
             JsonObject obj = new JsonObject();
             obj.addProperty("ingredient",ingredients.get(i).getName());
-            obj.addProperty("value",ingredients.get(i).getQuantity());
+            obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
             ingredientArray.add(obj);
         }
 
@@ -245,7 +245,7 @@ public class AddFood extends AppCompatActivity{
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                
             }
         }, new Response.ErrorListener() {
             @Override

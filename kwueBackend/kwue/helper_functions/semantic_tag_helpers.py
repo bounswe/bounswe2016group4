@@ -38,7 +38,7 @@ def get_semantic_tags(tag_name):
         semantic_tag = dict(
             tag_id=tag['id'],
             tag_label=tag['label'],
-            tag_description=tag['description']
+            tag_description=tag['description'] if 'description' in tag else ""
         )
         semantic_tags.append(semantic_tag)
     return semantic_tags

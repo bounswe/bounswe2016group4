@@ -230,6 +230,7 @@ urlpatterns = (
     # 'tag_name'
     ### RESPONSE
     # Array of semantic tags
+    # 'tag_name'
     # 'tag_id'
     # 'tag_label'
     # 'tag_description'

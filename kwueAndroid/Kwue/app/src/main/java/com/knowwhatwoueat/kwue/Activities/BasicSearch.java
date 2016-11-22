@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
@@ -31,6 +33,10 @@ public class BasicSearch extends AppCompatActivity {
 
 
     private String searchQuery;
+
+    private ArrayAdapter searchListAdapter;
+    private ArrayList<String> responseList;
+    private ArrayList<String> responseNamesList;
 
     private AlertDialog alertDialog;
 
@@ -53,6 +59,12 @@ public class BasicSearch extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         Gson gson = new Gson();
 
+        responseNamesList= new ArrayList<String>();
+        responseList = new ArrayList<>();
+
+        searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, responseNamesList);
+
+
         final AlertDialog.Builder build = new AlertDialog.Builder(BasicSearch.this);
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -61,11 +73,11 @@ public class BasicSearch extends AppCompatActivity {
         });
         alertDialog = build.create();
         LayoutInflater inflater = getLayoutInflater();
-        View convertView =  inflater.inflate(R.layout.basic_search_list, null);
+        View convertView = inflater.inflate(R.layout.basic_search_list, null);
         alertDialog.setView(convertView);
         alertDialog.setTitle("List");
         ListView lv = (ListView) convertView.findViewById(R.id.listView3);
-
+        lv.setAdapter(searchListAdapter);
 
 
         basicSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +85,7 @@ public class BasicSearch extends AppCompatActivity {
             public void onClick(View view) {
                 setSearchQuery(basicSearchTextBox.getText().toString());
                 Log.d("search button", "onClick: clicked");
-                showAlertDialog();
+                sendBasicSearchHttpRequest(searchQuery);
 
             }
         });
@@ -83,8 +95,34 @@ public class BasicSearch extends AppCompatActivity {
         searchQuery = query;
     }
 
-    protected void showAlertDialog(){
+    protected void showAlertDialog() {
         alertDialog.show();
+    }
+
+    protected void sendBasicSearchHttpRequest(String query) {
+
+        String searchUrl = url + "basic_search?user_id=1&search_text=" + query;
+
+        // Request a string response from the provided URL.
+        GsonRequest<BasicSearchResult[]> gsonRequest = new GsonRequest<>(searchUrl, BasicSearchResult[].class, Request.Method.GET,
+                new Response.Listener<BasicSearchResult[]>() {
+                    @Override
+                    public void onResponse(BasicSearchResult[] response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: in");
+                        //assignTagTitles(response);
+                        showAlertDialog();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response", "That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(gsonRequest);
     }
 
 

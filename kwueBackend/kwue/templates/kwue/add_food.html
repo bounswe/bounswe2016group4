@@ -44,23 +44,24 @@
                     <label for="sem-tags">Tags:</label>
                     <input type="text" class="form-control" form="food-form" name="food_tags" id="sem-tags" value="">
                 </div>
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        Selected Tags
-                    </div>
-                    <div class="panel-body" id="semantic-tag-selected" style="overflow: auto">
+                <div hidden id="tag-result-panel">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Selected Tags
+                        </div>
+                        <div class="panel-body" id="semantic-tag-selected" style="overflow: auto">
 
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Tags
+                        </div>
+                        <div class="panel-body" id="semantic-tag-result" style="overflow: auto">
+
+                        </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Tags
-                    </div>
-                    <div class="panel-body" id="semantic-tag-result" style="overflow: auto">
-
-                    </div>
-                </div>
-
                 <div>
                     <a href="#" id="tag_button" class="btn btn-default">Get Semantic Tags</a>
                 </div>

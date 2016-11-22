@@ -47,6 +47,7 @@ $(document).ready(function(){
 
     $("#tag_button").click(function () {
         var tag_name = $("#sem-tags").val();
+        $("#tag-result-panel").show();
         $.ajax({
             url: "search_semantic_tags",
             data: {

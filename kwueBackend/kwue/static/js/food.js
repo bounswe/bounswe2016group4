@@ -48,7 +48,7 @@ $(document).ready(function(){
                     }
                     var res = "";
                     for(i=0; i<result.length; i++) {
-                        res = res + "<p>" + result[i]['itemLabel'] + ": " + result[i]['itemDescription'] + "</p>"
+                        res = res + "<p>" + result[i]['tag_label'] + ": " + result[i]['tag_description'] + "</p>"
                     }
                     return res;
                 });

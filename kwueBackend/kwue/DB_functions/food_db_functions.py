@@ -60,7 +60,7 @@ def db_insert_food(food_dict, nutrition_dict, ingredient_list):
     try:
         for ing in ingredient_object_list:
             new_food.ingredient_list.add(ing)
-            print(ing,' IS ADDED')
+            print(ing, ' IS ADDED')
         return new_food.food_id
     except:
         print('cannot handle saving food')

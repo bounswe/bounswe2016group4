@@ -1,0 +1,51 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/consumption.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>KWUE</title>
+</head>
+<body>
+<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+        {% include 'kwue/navigation_bar.html' %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">
+                        <ul class="nav nav-pills nav-justified">
+                            <li role="presentation" class="active"><a class="history-setting" id="daily">Daily</a></li>
+                            <li role="presentation"><a class="history-setting" id="weekly">Weekly</a></li>
+                            <li role="presentation"><a class="history-setting" id="monthly">Monthly</a></li>
+                            <li role="presentation"><a class="history-setting" id="alltime">All Time</a></li>
+                        </ul>
+                    </div>
+                    <div class="panel panel-body list-group" id="consumption-panel">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-warning">
+                    <div class="panel panel-heading">
+                        You consumed:
+                    </div>
+                    <div class="panel panel-body list-group" id="nutrition-panel">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'kwue/search_result_template.html' %}
+    </div>
+</body>
+</html>

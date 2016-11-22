@@ -252,7 +252,7 @@ public class AddFood extends AppCompatActivity{
             StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
+                    Log.d("nutritioanl response", "onResponse: " + response);
                 }
             }, new Response.ErrorListener() {
                 @Override

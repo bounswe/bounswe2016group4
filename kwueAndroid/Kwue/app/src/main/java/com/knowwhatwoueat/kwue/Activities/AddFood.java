@@ -40,6 +40,7 @@ import com.google.gson.JsonObject;
 import com.knowwhatwoueat.kwue.Adapters.IngredientListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.Ingredient;
+import com.knowwhatwoueat.kwue.DataModels.Nutrition;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -67,6 +68,7 @@ public class AddFood extends AppCompatActivity{
 
     //food model
     private Food foodAdded;
+    private Nutrition nutrition;
     private ArrayList<String> ingredientNames;
     private ArrayList<SemanticTag> semanticTags;
     private ArrayList<String> semanticTagNames;
@@ -189,7 +191,7 @@ public class AddFood extends AppCompatActivity{
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        requestCalorie();
+                        requestNutritional();
                     }
                 }
 
@@ -241,7 +243,7 @@ public class AddFood extends AppCompatActivity{
             semanticTags.add(response[i]);
         }
     }
-    protected void requestCalorie(){
+    protected void requestNutritional(){
         String calculateColieURL = url + "get_nutritional_values";
         final JsonArray ingredientArray = new JsonArray();
         for(int i = 0 ; i < ingredients.size();i++) {
@@ -254,6 +256,7 @@ public class AddFood extends AppCompatActivity{
             @Override
             public void onResponse(String response) {
                 Log.d("nutritioanl response", "onResponse: " + response);
+                assignNutritional(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -330,6 +333,10 @@ public class AddFood extends AppCompatActivity{
         semanticQuery = query;
     }
 
+    protected void assignNutritional(String response){
+        Gson gson = new Gson();
+        nutrition = gson.fromJson(response,Nutrition.class);
+    }
 
 
     protected void sendSemanticHttpRequest(String query){

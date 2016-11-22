@@ -132,13 +132,14 @@ public class ProfilePageActivity extends AppCompatActivity {
     private void addDummyFood(){
         consumptionHistory = new ArrayList<Food>();
         String url =  "http://adanamreklam.com/firmalar/s_176_Adana.png";
+        /*
         consumptionHistory.add(new Food(new Server(),"description","Balik",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Kebap",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Tatlı",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Su",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Kola",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Sandviç",null,null,null,url));
-
+        */
     }
     /*
     private String[] getFoodNames(){

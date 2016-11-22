@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.FoodBasicSearch;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.DataModels.Server;
 import com.knowwhatwoueat.kwue.R;
@@ -65,7 +66,7 @@ public class BasicSearch extends AppCompatActivity {
         responseList = new ArrayList<>();
         responseFood = new ArrayList<>();
 
-        searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, responseFood);
+        searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, responseNamesList);
 
 
         final AlertDialog.Builder build = new AlertDialog.Builder(BasicSearch.this);
@@ -102,8 +103,7 @@ public class BasicSearch extends AppCompatActivity {
       int foodNumber = response.food_set.length;
         for(int i=0;i<foodNumber;i++){
             Food find = response.food_set[i];
-            String name = find.getName();
-            responseFood.add(find);
+            responseNamesList.add(find.getFood_name());
         }
 
     }

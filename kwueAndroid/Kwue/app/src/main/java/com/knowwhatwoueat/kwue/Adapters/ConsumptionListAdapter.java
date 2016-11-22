@@ -49,10 +49,10 @@ public class ConsumptionListAdapter extends ArrayAdapter<Food> {
         TextView txtTitle = (TextView) rowView.findViewById(R.id.FoodName);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.FoodThumbNail);
         TextView extratxt = (TextView) rowView.findViewById(R.id.Description);
-        imageLoader.displayImage(foods.get(position).getImageUrl(),imageView);
+        //imageLoader.displayImage(foods.get(position).getImageUrl(),imageView);
 
-        txtTitle.setText(foods.get(position).getName());
-        extratxt.setText("Description "+foods.get(position).getInfo());
+        //txtTitle.setText(foods.get(position).getName());
+        //extratxt.setText("Description "+foods.get(position).getInfo());
         return rowView;
 
     }

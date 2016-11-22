@@ -75,6 +75,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private void addDummyFood(){
         consumptionHistory = new ArrayList<Food>();
         String url =  "http://adanamreklam.com/firmalar/s_176_Adana.png";
+        /*
         consumptionHistory.add(new Food(new Server(),"description","Balik",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Kebap",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Tatlı",null,null,null,url));
@@ -84,12 +85,13 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         consumptionHistory.add(new Food(new Server(),"description","Boza",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Brokoli",null,null,null,url));
         consumptionHistory.add(new Food(new Server(),"description","Tavuk",null,null,null,url));
+    */
     }
 
     private String[] getFoodNames(){
         String[] foods = new String[consumptionHistory.size()];
         for(int i = 0 ; i< consumptionHistory.size();i++){
-            foods[i] = consumptionHistory.get(i).getName();
+            //foods[i] = consumptionHistory.get(i).getName();
         }
         return foods;
     }
@@ -98,9 +100,10 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         String[] urls = new String[consumptionHistory.size()];
 
         for(int i = 0 ; i< consumptionHistory.size();i++){
-            urls[i] = consumptionHistory.get(i).getImageUrl();
+           // urls[i] = consumptionHistory.get(i).getImageUrl();
         }
         return urls;
     }
+
 
 }

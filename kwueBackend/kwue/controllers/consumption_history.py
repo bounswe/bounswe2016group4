@@ -103,7 +103,7 @@ def get_consumption_history(req):
         'foods': foods,
         'nutritional_values_dict': nutritional_values_dict
     }
-
+    print(results_dict)
     return HttpResponse(json.dumps(results_dict), content_type='application/json')
 
 

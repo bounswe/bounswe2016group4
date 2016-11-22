@@ -14,7 +14,7 @@ def db_insert_tag(tag_dict):
         semantic_tag_item=tag_dict['tag_id'],
         semantic_tag_item_label=tag_dict['tag_label'],
         semantic_tag_item_description=tag_dict['tag_description'],
-        tagged_food=generic_object
+        tagged_object=generic_object
     )
     try:
         new_tag.save()

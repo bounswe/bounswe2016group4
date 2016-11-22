@@ -12,6 +12,8 @@
 
 # ignore database
 ./kwueBackend/db.sqlite3
+kwueBackend/db.sqlite3
+/kwueBackend/db.sqlite3
 
 # Python, Django, PyCharm related ignored items.
 
@@ -30,3 +32,4 @@ tests/.coverage
 build/
 tests/report/
 ./kwueBackend/kwue/migrations/
+kwueBackend/kwue/migrations/

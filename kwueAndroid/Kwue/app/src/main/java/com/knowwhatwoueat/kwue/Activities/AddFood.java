@@ -62,9 +62,10 @@ public class AddFood extends AppCompatActivity{
     private EditText ingredientName;
     private EditText ingredientQty;
     private Button addIngredientButton;
-    private ListView semanticListView;
     private ListView ingredientListView;
     private Button calculateCalorieButton;
+    private ListView nutritionalSimpleList;
+    private ListView nutritionalList;
 
     //food model
     private Food foodAdded;
@@ -75,6 +76,7 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<Integer> ingredientGrams;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Long> checkedSemanticTags;
+    private ArrayList<String> basicNutritions;
 
     private ListAdapter semanticListAdapter;
     private ArrayAdapter ingredientListAdapter;
@@ -100,11 +102,12 @@ public class AddFood extends AppCompatActivity{
         ingredientGrams = new ArrayList<>();
         ingredients = new ArrayList<>();
         checkedSemanticTags = new ArrayList<>();
+        basicNutritions = new ArrayList<>();
 
         foodAdded = new Food();
 
-        semanticListView = (ListView) findViewById(R.id.semantic_list);
         ingredientListView = (ListView) findViewById(R.id.ingredient_list);
+        nutritionalSimpleList = (ListView) findViewById(R.id.nutritionalvaluelist);
 
 
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
@@ -156,6 +159,8 @@ public class AddFood extends AppCompatActivity{
         ingredientListView.setAdapter(ingredientListAdapter);
         ingredientListView.setVerticalScrollBarEnabled(true);
 
+        ListAdapter basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
+        nutritionalSimpleList.setAdapter(basicNutritionalAdapter);
 
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
@@ -191,24 +196,15 @@ public class AddFood extends AppCompatActivity{
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        requestNutritional();
+                        if(!ingredients.isEmpty())
+                            requestNutritional();
                     }
                 }
 
         );
 
 
-        //semanticListView.setAdapter(semanticListAdapter);
 
-        /*semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // change the checkbox state
-                CheckedTextView checkedTextView = ((CheckedTextView)view);
-                checkedTextView.setChecked(!checkedTextView.isChecked());
-                checkedSemanticTags.add(position,checkedTextView.isChecked());
-            }
-        });*/
 
 
         FloatingActionButton sendFoodButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -292,12 +288,11 @@ public class AddFood extends AppCompatActivity{
             obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
             ingredientArray.add(obj);
         }
-
         semanticsResponse =gson.toJson(semanticTags.toArray(),SemanticTag[].class);
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.d("add food", "onResponse: added" + response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -336,6 +331,10 @@ public class AddFood extends AppCompatActivity{
     protected void assignNutritional(String response){
         Gson gson = new Gson();
         nutrition = gson.fromJson(response,Nutrition.class);
+        basicNutritions.add(String.valueOf(nutrition.getFat_value()) + "gr");
+        basicNutritions.add(String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
+        basicNutritions.add(String.valueOf(nutrition.getProtein_value())+"gr");
+        basicNutritions.add(String.valueOf(nutrition.getCalorie_value())+ "cal");
     }
 
 

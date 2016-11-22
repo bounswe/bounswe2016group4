@@ -3,7 +3,6 @@ from kwue.DB_functions.food_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
-from kwue.controllers.tag import tag_food
 from kwue.DB_functions.tag_db_functions import *
 from django.views.decorators.csrf import csrf_exempt
 
@@ -64,6 +63,7 @@ def get_add_food_page(req):
     return render(req, 'kwue/add_food.html', {})
 
 
+@csrf_exempt
 def get_nutritional_values(req):
     ingredients = json.loads(req.POST.dict()['ingredients'])
     food_recipe = ""

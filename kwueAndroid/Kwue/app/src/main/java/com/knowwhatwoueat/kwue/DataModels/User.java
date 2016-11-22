@@ -10,7 +10,7 @@ public class User {
     public String user_nick;
     public String user_email_address;
     public String user_image;
-    public int user_type;
+    public boolean user_type;
     public String[] tag_list;
     public String[] unwanted_ingredience;
     public String[] wanted_ingredience;
@@ -24,6 +24,7 @@ public class User {
     public double carbonhydrate_upper_bound;
     public double calorie_upper_bound;
     public double sugar_upper_bound;
+    public String user_password;
 
 
 

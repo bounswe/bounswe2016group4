@@ -90,7 +90,7 @@ urlpatterns = (
     #
     ### RESPONSE
     #
-    # 'food_set' : Food dicts filtered by search_text and user's eating preferences
+    # 'food_set' : Food dicts filtered by search_text and user's eateing preferences
     # 'food_server_set' : Users, may be either a user or food server, filtered by search_text
     # 'semantic_foods' : Foods semantically found and filtered by user's eating preferences
     # 'semantic_users' : Semantically found users, may be either a user or food server

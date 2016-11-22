@@ -38,7 +38,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.knowwhatwoueat.kwue.Adapters.IngredientListAdapter;
-import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.Ingredient;
 import com.knowwhatwoueat.kwue.DataModels.Nutrition;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
@@ -68,7 +67,6 @@ public class AddFood extends AppCompatActivity{
     private ListView nutritionalList;
 
     //food model
-    private Food foodAdded;
     private Nutrition nutrition;
     private ArrayList<String> ingredientNames;
     private ArrayList<SemanticTag> semanticTags;
@@ -103,8 +101,6 @@ public class AddFood extends AppCompatActivity{
         ingredients = new ArrayList<>();
         checkedSemanticTags = new ArrayList<>();
         basicNutritions = new ArrayList<>();
-
-        foodAdded = new Food();
 
         ingredientListView = (ListView) findViewById(R.id.ingredient_list);
         nutritionalSimpleList = (ListView) findViewById(R.id.nutritionalvaluelist);

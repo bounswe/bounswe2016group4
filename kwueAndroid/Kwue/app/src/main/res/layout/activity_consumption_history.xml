@@ -18,12 +18,41 @@
             android:fitsSystemWindows="true"
             android:theme="@style/Base.Widget.AppCompat.SearchView" />
     </android.support.design.widget.AppBarLayout>
-    <RelativeLayout
-        android:layout_marginTop="200px"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/content_consumption_history" />
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consumption List"/>
+        <LinearLayout
+
+            android:layout_marginTop="200px"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp">
+            <include layout="@layout/content_consumption_history" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Periodic Nutritional Values"/>
+            <ListView
+                android:id="@+id/simpleNutritionList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.knowwhatwoueat.kwue.Activities.ConsumptionHistoryActivity"
+                tools:showIn="@layout/activity_consumption_history">
+
+            </ListView>
+
+        </LinearLayout>
+    </LinearLayout>
 
 
 

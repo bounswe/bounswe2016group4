@@ -6,7 +6,7 @@ package com.knowwhatwoueat.kwue.DataModels;
 
 public class ConsumptionItem {
     private Food[] foods;
-    private Nutrition[] nutritional_values_dict;
+    private Nutrition nutritional_values_dict;
 
     public Food[] getFoods() {
         return foods;
@@ -16,11 +16,11 @@ public class ConsumptionItem {
         this.foods = foods;
     }
 
-    public Nutrition[] getNutritional_values_dict() {
+    public Nutrition getNutritional_values_dict() {
         return nutritional_values_dict;
     }
 
-    public void setNutritional_values_dict(Nutrition[] nutritional_values_dict) {
+    public void setNutritional_values_dict(Nutrition nutritional_values_dict) {
         this.nutritional_values_dict = nutritional_values_dict;
     }
 }

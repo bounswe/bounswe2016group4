@@ -1,6 +1,7 @@
 package com.knowwhatwoueat.kwue.Utils;
 
 import android.net.http.HttpResponseCache;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;

@@ -98,6 +98,8 @@ public class ProfilePageActivity extends AppCompatActivity {
     }
     protected void assignUserInfo(User response){
         //user = response;
+        Log.d("print", "assignUserInfo: " + response.user_email_address);
+        Log.d("print", "assignUserInfo: " + response.user_name);
         user.user_name = response.user_name;
     }
 
@@ -109,14 +111,14 @@ public class ProfilePageActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(User response) {
                         // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: in");
+                        Log.d("response", "onResponse: in" + response);
                         assignUserInfo(response);
                         showAlertDialog();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("response","That didn't work!");
+                Log.d("response","That didn't work!" + error);
             }
         });
 // Add the request to the RequestQueue.

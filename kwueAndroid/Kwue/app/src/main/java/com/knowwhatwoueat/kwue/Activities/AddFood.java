@@ -63,6 +63,7 @@ public class AddFood extends AppCompatActivity{
     private Button addIngredientButton;
     private ListView semanticListView;
     private ListView ingredientListView;
+    private Button calculateCalorieButton;
 
     //food model
     private Food foodAdded;
@@ -112,6 +113,7 @@ public class AddFood extends AppCompatActivity{
         ingredientName = (EditText) findViewById(R.id.ingredient_name);
         ingredientQty = (EditText) findViewById(R.id.ingredient_quantity);
         addIngredientButton = (Button) findViewById(R.id.addIngredientButton);
+        calculateCalorieButton = (Button) findViewById(R.id.calculate_button);
 
 
 
@@ -183,6 +185,17 @@ public class AddFood extends AppCompatActivity{
             }
         });
 
+        calculateCalorieButton.setOnClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        requestCalorie();
+                    }
+                }
+
+        );
+
+
         //semanticListView.setAdapter(semanticListAdapter);
 
         /*semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -228,7 +241,42 @@ public class AddFood extends AppCompatActivity{
             semanticTags.add(response[i]);
         }
     }
+    protected void requestCalorie(){
+        String calculateColieURL = url + "get_nutritional_values";
+        final JsonArray ingredientArray = new JsonArray();
+        for(int i = 0 ; i < ingredients.size();i++){
+            JsonObject obj = new JsonObject();
+            obj.addProperty("ingredient",ingredients.get(i).getName());
+            obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
+            ingredientArray.add(obj);
+            StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("ingredients", ingredientArray.toString());
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("Content-Type","application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            queue.add(sr);
+        }
+    }
     protected void sendAddFoodRequest(){
         String addFoodUrl = url + "add_food";
         final JsonArray ingredientArray = new JsonArray();
@@ -245,7 +293,7 @@ public class AddFood extends AppCompatActivity{
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                
+
             }
         }, new Response.ErrorListener() {
             @Override

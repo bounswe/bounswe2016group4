@@ -60,8 +60,7 @@ $(document).ready(function(){
                     }
                     var res = "";
                     for(i=0; i<result.length; i++) {
-                        res = res + "<h4><p><a href='#"+
-                            result[i]['tag_id'] +"' id='"+
+                        res = res + "<h4><p><a id='"+
                             result[i]['tag_id'] +
                             "' class='sem-tag label label-default' data-label='"+
                             result[i]['tag_label'] +"' data-description='" +
@@ -78,7 +77,7 @@ $(document).ready(function(){
     $("#ingredient-add").click(function () {
         var html = "<div class='form-group ing-group'>" +
             "<label for='ingredient-1'>Ingredient</label>" +
-            "<a href='#' class='btn btn-danger ingredient-delete' id='ingredient-delete'><span class='glyphicon glyphicon-minus-sign'></span></a>" +
+            "<a class='btn btn-danger ingredient-delete' id='ingredient-delete'><span class='glyphicon glyphicon-minus-sign'></span></a>" +
             "<input type='text' class='form-control ing-gram' id='ingredient-1-val' value='' placeholder='Amount'>" +
             "<input type='text' class='form-control ing-name' id='ingredient-1' value='' placeholder='Ingredient name'>" +
             "</div>";
@@ -100,8 +99,7 @@ $(document).on('click', '.sem-tag', function () {
         var name = $(this).data('name');
         var description = $(this).data('description');
         $("#semantic-tag-selected").append(function () {
-            var res = "<h4><p><a href='#"+
-                id +"' id='"+
+            var res = "<h4><p><a id='"+
                 id +"' class='sem-tag-selected label label-success' data-label='"+
                 label +"' data-name='"+
                 name +"' data-description='"+

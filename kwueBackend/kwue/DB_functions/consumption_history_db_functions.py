@@ -23,7 +23,7 @@ def db_search_consumption_records(start_timestamp_date,end_timestamp_date,user_i
         records = list(ConsumptionHistory.objects.filter(date__range=(start_timestamp_date,end_timestamp_date), user=user))
         history = []
         for record in records:
-            history.append(dict(food=record.food_name, date=record.date))
+            history.append(dict(food=record.food, date=record.date))
         return history
     except:
         return False

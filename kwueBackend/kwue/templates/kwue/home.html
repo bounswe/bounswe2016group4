@@ -41,58 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6 result-bar" hidden>
-                <div class="panel panel-info" style="overflow: auto; height: 300px;">
-                    <div class="panel-heading">
-                        Foods
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group" id="food-results">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 result-bar" hidden>
-                <div class="panel panel-danger" style="overflow: auto; height: 300px;">
-                    <div class="panel-heading">
-                        Users
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group" id="user-results">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 result-bar" hidden>
-                <div class="panel panel-success" style="overflow: auto; height: 300px;">
-                    <div class="panel-heading">
-                        Foods you may like
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group" id="sem-food-results">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 result-bar" hidden>
-                <div class="panel panel-warning" style="overflow: auto; height: 300px;">
-                    <div class="panel-heading">
-                        Users you might follow
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group" id="sem-user-results">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include 'kwue/search_result_template.html' %}
     </div>
 </body>
 </html>

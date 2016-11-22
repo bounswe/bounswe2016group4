@@ -5,6 +5,10 @@ from django.http import HttpResponse
 import json
 from kwue.helper_functions.time_helpers import *
 
+
+def get_consumption_page(req):
+    return render(req, 'kwue/consumption_history.html', {})
+
 def get_start_timestamp_date(timestamp, setting):
     return {
         'daily': timestamp - 86400,  # 24*60*60

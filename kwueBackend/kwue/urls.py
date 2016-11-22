@@ -296,5 +296,15 @@ urlpatterns = (
     # 'reason' : if not successful, the reason of it
     # NOT USED. url(r'^remove__food', food.remove_food),
 
+    ### REQUEST
+    #
+    #
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    url(r'^consumption_history', consumption_history.get_consumption_page, name='consumption_history'),
+
     url(r'^$', home.get_home, name='home'),
 )

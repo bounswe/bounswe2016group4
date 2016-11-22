@@ -5,9 +5,9 @@ package com.knowwhatwoueat.kwue.DataModels;
  */
 
 public class BasicSearchResult {
-    public Server[] user_set;
-    public Server[] semantic_user_set;
-    public Food[] semantic_food_set;
-    public Food[] food_set;
+    public FoodServerBasicSearch[] user_set;
+    public FoodServerBasicSearch[] semantic_user_set;
+    public FoodBasicSearch[] semantic_food_set;
+    public FoodBasicSearch[] food_set;
 
 }

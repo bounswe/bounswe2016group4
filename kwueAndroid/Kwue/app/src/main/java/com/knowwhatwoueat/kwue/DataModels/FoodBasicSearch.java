@@ -19,6 +19,11 @@ public class FoodBasicSearch {
         this.calorie_value = calorie_value;
     }
 
+    public FoodBasicSearch(){
+
+    }
+
+
     public String getFood_image() {
         return food_image;
     }

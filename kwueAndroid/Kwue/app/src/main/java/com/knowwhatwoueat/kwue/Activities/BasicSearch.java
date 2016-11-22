@@ -21,8 +21,7 @@ import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.FoodBasicSearch;
-import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
-import com.knowwhatwoueat.kwue.DataModels.Server;
+import com.knowwhatwoueat.kwue.DataModels.FoodServerBasicSearch;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
@@ -62,7 +61,7 @@ public class BasicSearch extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         Gson gson = new Gson();
 
-        responseNamesList= new ArrayList<String>();
+        responseNamesList = new ArrayList<String>();
         responseList = new ArrayList<>();
         responseFood = new ArrayList<>();
 
@@ -87,6 +86,7 @@ public class BasicSearch extends AppCompatActivity {
         basicSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                responseNamesList.clear();
                 setSearchQuery(basicSearchTextBox.getText().toString());
                 Log.d("search button", "onClick: clicked");
                 sendBasicSearchHttpRequest(searchQuery);
@@ -99,11 +99,31 @@ public class BasicSearch extends AppCompatActivity {
         searchQuery = query;
     }
 
-    protected void assignSearchTitles (BasicSearchResult response){
-      int foodNumber = response.food_set.length;
-        for(int i=0;i<foodNumber;i++){
-            Food find = response.food_set[i];
-            responseNamesList.add(find.getFood_name());
+    protected void assignSearchTitles(BasicSearchResult response) {
+        int foodNumber = response.food_set.length;
+        for (int i = 0; i < foodNumber; i++) {
+            FoodBasicSearch find = response.food_set[i];
+
+                responseNamesList.add(find.getFood_name());
+
+        }
+
+        int semanticFoodNumber= response.semantic_food_set.length;
+        for (int i = 0; i < semanticFoodNumber; i++) {
+            FoodBasicSearch findSF = response.semantic_food_set[i];
+            responseNamesList.add(findSF.getFood_name());
+        }
+
+        int semanticFoodServerNumber = response.semantic_user_set.length;
+        for(int j=0;j<semanticFoodServerNumber;j++){
+            FoodServerBasicSearch findSF = response.user_set[j];
+            responseNamesList.add(findSF.getUser_name());
+        }
+
+        int foodServerNumber = response.user_set.length;
+        for(int j=0;j<foodServerNumber;j++){
+            FoodServerBasicSearch findS = response.user_set[j];
+            responseNamesList.add(findS.getUser_name());
         }
 
     }

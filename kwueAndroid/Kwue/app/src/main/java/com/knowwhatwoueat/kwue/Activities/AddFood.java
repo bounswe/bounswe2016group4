@@ -244,38 +244,39 @@ public class AddFood extends AppCompatActivity{
     protected void requestCalorie(){
         String calculateColieURL = url + "get_nutritional_values";
         final JsonArray ingredientArray = new JsonArray();
-        for(int i = 0 ; i < ingredients.size();i++){
+        for(int i = 0 ; i < ingredients.size();i++) {
             JsonObject obj = new JsonObject();
-            obj.addProperty("ingredient",ingredients.get(i).getName());
-            obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
+            obj.addProperty("ingredient", ingredients.get(i).getName());
+            obj.addProperty("value", "" + ingredients.get(i).getQuantity() + " gr");
             ingredientArray.add(obj);
-            StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("nutritioanl response", "onResponse: " + response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }){
-                @Override
-                protected Map<String,String> getParams(){
-                    Map<String,String> params = new HashMap<String, String>();
-                    params.put("ingredients", ingredientArray.toString());
-                    return params;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> params = new HashMap<String, String>();
-                    params.put("Content-Type","application/x-www-form-urlencoded");
-                    return params;
-                }
-            };
-            queue.add(sr);
         }
+        StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nutritioanl response", "onResponse: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("ingredients", ingredientArray.toString());
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+
     }
     protected void sendAddFoodRequest(){
         String addFoodUrl = url + "add_food";

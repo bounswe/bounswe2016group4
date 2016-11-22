@@ -40,6 +40,7 @@ import com.google.gson.JsonObject;
 import com.knowwhatwoueat.kwue.Adapters.IngredientListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.Ingredient;
+import com.knowwhatwoueat.kwue.DataModels.Nutrition;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -61,18 +62,21 @@ public class AddFood extends AppCompatActivity{
     private EditText ingredientName;
     private EditText ingredientQty;
     private Button addIngredientButton;
-    private ListView semanticListView;
     private ListView ingredientListView;
     private Button calculateCalorieButton;
+    private ListView nutritionalSimpleList;
+    private ListView nutritionalList;
 
     //food model
     private Food foodAdded;
+    private Nutrition nutrition;
     private ArrayList<String> ingredientNames;
     private ArrayList<SemanticTag> semanticTags;
     private ArrayList<String> semanticTagNames;
     private ArrayList<Integer> ingredientGrams;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Long> checkedSemanticTags;
+    private ArrayList<String> basicNutritions;
 
     private ListAdapter semanticListAdapter;
     private ArrayAdapter ingredientListAdapter;
@@ -98,11 +102,12 @@ public class AddFood extends AppCompatActivity{
         ingredientGrams = new ArrayList<>();
         ingredients = new ArrayList<>();
         checkedSemanticTags = new ArrayList<>();
+        basicNutritions = new ArrayList<>();
 
         foodAdded = new Food();
 
-        semanticListView = (ListView) findViewById(R.id.semantic_list);
         ingredientListView = (ListView) findViewById(R.id.ingredient_list);
+        nutritionalSimpleList = (ListView) findViewById(R.id.nutritionalvaluelist);
 
 
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
@@ -154,6 +159,8 @@ public class AddFood extends AppCompatActivity{
         ingredientListView.setAdapter(ingredientListAdapter);
         ingredientListView.setVerticalScrollBarEnabled(true);
 
+        ListAdapter basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
+        nutritionalSimpleList.setAdapter(basicNutritionalAdapter);
 
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
@@ -189,24 +196,15 @@ public class AddFood extends AppCompatActivity{
                 new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        requestCalorie();
+                        if(!ingredients.isEmpty())
+                            requestNutritional();
                     }
                 }
 
         );
 
 
-        //semanticListView.setAdapter(semanticListAdapter);
 
-        /*semanticListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // change the checkbox state
-                CheckedTextView checkedTextView = ((CheckedTextView)view);
-                checkedTextView.setChecked(!checkedTextView.isChecked());
-                checkedSemanticTags.add(position,checkedTextView.isChecked());
-            }
-        });*/
 
 
         FloatingActionButton sendFoodButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -241,41 +239,43 @@ public class AddFood extends AppCompatActivity{
             semanticTags.add(response[i]);
         }
     }
-    protected void requestCalorie(){
+    protected void requestNutritional(){
         String calculateColieURL = url + "get_nutritional_values";
         final JsonArray ingredientArray = new JsonArray();
-        for(int i = 0 ; i < ingredients.size();i++){
+        for(int i = 0 ; i < ingredients.size();i++) {
             JsonObject obj = new JsonObject();
-            obj.addProperty("ingredient",ingredients.get(i).getName());
-            obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
+            obj.addProperty("ingredient", ingredients.get(i).getName());
+            obj.addProperty("value", "" + ingredients.get(i).getQuantity() + " gr");
             ingredientArray.add(obj);
-            StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("nutritioanl response", "onResponse: " + response);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }){
-                @Override
-                protected Map<String,String> getParams(){
-                    Map<String,String> params = new HashMap<String, String>();
-                    params.put("ingredients", ingredientArray.toString());
-                    return params;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> params = new HashMap<String, String>();
-                    params.put("Content-Type","application/x-www-form-urlencoded");
-                    return params;
-                }
-            };
-            queue.add(sr);
         }
+        StringRequest sr = new StringRequest(Request.Method.POST,calculateColieURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("nutritioanl response", "onResponse: " + response);
+                assignNutritional(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("ingredients", ingredientArray.toString());
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+
     }
     protected void sendAddFoodRequest(){
         String addFoodUrl = url + "add_food";
@@ -288,12 +288,11 @@ public class AddFood extends AppCompatActivity{
             obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
             ingredientArray.add(obj);
         }
-
         semanticsResponse =gson.toJson(semanticTags.toArray(),SemanticTag[].class);
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Log.d("add food", "onResponse: added" + response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -329,6 +328,14 @@ public class AddFood extends AppCompatActivity{
         semanticQuery = query;
     }
 
+    protected void assignNutritional(String response){
+        Gson gson = new Gson();
+        nutrition = gson.fromJson(response,Nutrition.class);
+        basicNutritions.add(String.valueOf(nutrition.getFat_value()) + "gr");
+        basicNutritions.add(String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
+        basicNutritions.add(String.valueOf(nutrition.getProtein_value())+"gr");
+        basicNutritions.add(String.valueOf(nutrition.getCalorie_value())+ "cal");
+    }
 
 
     protected void sendSemanticHttpRequest(String query){

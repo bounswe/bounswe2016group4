@@ -104,16 +104,36 @@
             android:orientation="horizontal"
             android:gravity="fill_vertical"
             android:weightSum="1">
-            <TextView
+            <LinearLayout
                 android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:paddingLeft="37dp"
-                android:gravity="fill_vertical"
-                android:text="@string/food_ingredients"
-                android:textSize="14dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="37dp"
+                    android:gravity="fill_vertical"
+                    android:text="@string/food_ingredients"
+                    android:textSize="14dp"/>
+                <Button
+                    android:id="@+id/calculate_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingTop="3dp"
+                    android:gravity="center"
+                    android:drawableTop="@android:drawable/ic_menu_more"/>
+                <ListView
+                    android:layout_gravity="center"
+                    android:id="@+id/nutritionalvaluelist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </ListView>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="230dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginLeft="55dp">
                 <LinearLayout
@@ -159,11 +179,7 @@
                     android:layout_height="wrap_content">
 
                 </ListView>
-                <Button
-                    android:id="@+id/calculate_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="calorie" />
+
 
             </LinearLayout>
 
@@ -185,7 +201,7 @@
                 android:textSize="14dp"/>
             <EditText
                 android:id="@+id/semantic_tag_text_box"
-                android:layout_width="200dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_margin"
                 android:hint="@string/enter_food_semantic_tag"
@@ -193,23 +209,17 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLength="2000"
                 android:maxLines="4"/>
+            <Button
+                android:id="@+id/semantic_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/holo_green_light"
+                android:drawableTop="@android:drawable/ic_menu_view"
+                />
 
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/semantic_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tag"
-            />
-
-        <ListView
-            android:id="@+id/semantic_list"
-            android:layout_width="match_parent"
-            android:layout_height="150dp">
-
-        </ListView>
 
 
 

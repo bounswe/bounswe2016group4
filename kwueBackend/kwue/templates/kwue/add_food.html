@@ -42,22 +42,39 @@
                 <textarea class="form-control" form ="food-form" name="food_recipe" id="food_recipe" cols="35" wrap="soft"></textarea>
                 <div>
                     <label for="sem-tags">Tags:</label>
-                    <input type="text" class="form-control" id="sem-tags" value="">
+                    <input type="text" class="form-control" form="food-form" name="food_tags" id="sem-tags" value="">
                 </div>
-                <div id="semantic-tag-result"></div>
+                <div hidden id="tag-result-panel">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Selected Tags
+                        </div>
+                        <div class="panel-body" id="semantic-tag-selected" style="overflow: auto">
+
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Tags
+                        </div>
+                        <div class="panel-body" id="semantic-tag-result" style="overflow: auto">
+
+                        </div>
+                    </div>
+                </div>
                 <div>
-                    <a href="#" id="tag_button" class="btn btn-default">Get Semantic Tags</a>
+                    <a id="tag_button" class="btn btn-default">Get Semantic Tags</a>
                 </div>
-                <a href="#submit-button" form="food-form" class="btn btn-default" id="submit-button">Submit</a>
+                <a form="food-form" class="btn btn-default" id="submit-button">Submit</a>
             </div>
             <div class="col-md-4" id="ingredient-table">
                 <div class="form-group ing-group">
-                    <label for="ingredient-1">Ingredient 1</label>
-                    <a href="#" class="btn btn-danger ingredient-delete"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                    <label for="ingredient-1">Ingredient</label>
+                    <a class="btn btn-danger ingredient-delete"><span class="glyphicon glyphicon-minus-sign"></span></a>
+                    <input type="text" class="form-control" id="ingredient-1-val" value="" placeholder="Amount">
                     <input type="text" class="form-control" id="ingredient-1" value="" placeholder="Ingredient name">
-                    <input type="number" class="form-control" id="ingredient-1-val" value="" min="1" placeholder="Amount in grams">
                 </div>
-                <a href="#" class="btn btn-success" id="ingredient-add"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                <a class="btn btn-success" id="ingredient-add"><span class="glyphicon glyphicon-plus-sign"></span></a>
             </div>
         </div>
     </div>

@@ -5,11 +5,13 @@ $(document).ready(function(){
     $("#submit-button").click(function () {
         var data = $('#food-form').serializeArray();
         var ingredients = [];
+        var tags = []
         var tobepushed = {};
         for(i=1; i<data.length; i++) {
             var fieldName = data[i]['name'];
             var fieldValue = data[i]['value'];
             tobepushed[fieldName] = fieldValue;
+
         }
         $(".ing-group").each(function () {
             var fieldName = $(this).children("#ingredient-1").val();
@@ -17,8 +19,17 @@ $(document).ready(function(){
             var temp = {'ingredient': fieldName, 'value': fieldValue};
             ingredients.push(temp);
         });
+
+        $(".sem-tag-selected").each(function () {
+            var name = $(this).data('name');
+            var id = $(this).attr('id');
+            var label = $(this).data('label');
+            var description = $(this).data('description');
+            var temp = {'tag_name': name, 'tag_id': id, 'tag_label': label, 'tag_description': description};
+            tags.push(temp);
+        })
         tobepushed['ingredients'] = JSON.stringify(ingredients);
-        //data.push({name: 'ingredients', value: ingredients});
+        tobepushed['food_tags'] = JSON.stringify(tags);
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 xhr.setRequestHeader("X-CSRFToken", data[0]['value']);
@@ -36,6 +47,7 @@ $(document).ready(function(){
 
     $("#tag_button").click(function () {
         var tag_name = $("#sem-tags").val();
+        $("#tag-result-panel").show();
         $.ajax({
             url: "search_semantic_tags",
             data: {
@@ -48,20 +60,26 @@ $(document).ready(function(){
                     }
                     var res = "";
                     for(i=0; i<result.length; i++) {
-                        res = res + "<p>" + result[i]['tag_label'] + ": " + result[i]['tag_description'] + "</p>"
+                        res = res + "<h4><p><a id='"+
+                            result[i]['tag_id'] +
+                            "' class='sem-tag label label-default' data-label='"+
+                            result[i]['tag_label'] +"' data-description='" +
+                            result[i]['tag_description'] +"' data-name='"+ tag_name +"'>" +
+                            result[i]['tag_label'] + ": " + result[i]['tag_description'] + "</a></p></h4>"
                     }
                     return res;
                 });
+                //$("#semantic-tag-result").show();
             }
         })
     });
 
     $("#ingredient-add").click(function () {
         var html = "<div class='form-group ing-group'>" +
-            "<label for='ingredient-1'>Ingredient 1</label>" +
-            "<a href='#' class='btn btn-danger ingredient-delete' id='ingredient-delete'><span class='glyphicon glyphicon-minus-sign'></span></a>" +
+            "<label for='ingredient-1'>Ingredient</label>" +
+            "<a class='btn btn-danger ingredient-delete' id='ingredient-delete'><span class='glyphicon glyphicon-minus-sign'></span></a>" +
+            "<input type='text' class='form-control ing-gram' id='ingredient-1-val' value='' placeholder='Amount'>" +
             "<input type='text' class='form-control ing-name' id='ingredient-1' value='' placeholder='Ingredient name'>" +
-            "<input type='number' class='form-control ing-gram' id='ingredient-1-val' value='' placeholder='Amount in grams' min='1'>" +
             "</div>";
         $("#ingredient-add").before(html);
     })
@@ -70,3 +88,36 @@ $(document).ready(function(){
 $(document).on('click', '.ingredient-delete', function () {
     $(this).parent().remove();
 });
+
+$(document).on('click', '.sem-tag', function () {
+    if( $(this).hasClass("label-default") ) {
+        $(this).removeClass("label-default");
+        $(this).addClass("label-info");
+        var label_html = $(this).html();
+        var id = $(this).attr('id');
+        var label = $(this).data('label');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+        $("#semantic-tag-selected").append(function () {
+            var res = "<h4><p><a id='"+
+                id +"' class='sem-tag-selected label label-success' data-label='"+
+                label +"' data-name='"+
+                name +"' data-description='"+
+                description +"'>" + label_html +"</a></p></h4>"
+            return res;
+        });
+
+    } else {
+        $(this).removeClass("label-info");
+        $(this).addClass("label-default");
+        var label_id = $(this).attr('id');
+        $("#semantic-tag-selected").find("#" + label_id).remove();
+    }
+});
+
+$(document).on('click', ".sem-tag-selected", function () {
+    var label_id = $(this).attr('id');
+    $("#semantic-tag-result").find("#" + label_id).removeClass("label-info");
+    $("#semantic-tag-result").find("#" + label_id).addClass("label-default");
+    $(this).remove();
+})

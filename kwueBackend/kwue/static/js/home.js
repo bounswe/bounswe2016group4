@@ -11,10 +11,48 @@ $(document).ready(function () {
                 search_text: query
             },
             success: function (result) {
-                $("#food-results").html(result['food_set']);
-                $("#server-results").html(result['food_server_set']);
-                $("#sem-food-results").html(result['semantic_food_set'][0]);
-                $("#sem-server-results").html(result['semantic_user_set'][0]['user_name']);
+                $("#food-results").html(function () {
+                    var response = result['food_set'];
+                    var html = "";
+                    for(i=0; i<response.length; i++) {
+                        html = html + "<a href='#' class='list-group-item'>" +
+                            "<p>Food Name: " + response[i]['food_name'] + "</p>" +
+                            "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
+                            "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
+                    }
+                    return html;
+                });
+                $("#user-results").html(function () {
+                    var response = result['user_set'];
+                    var html = "";
+                    for(i=0; i<response.length; i++) {
+                        html = html + "<a href='#' class='list-group-item'>" +
+                            "<p>User Name: " + response[i]['user_name'] + "</p>" +
+                            "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
+                    }
+                    return html;
+                });
+                $("#sem-food-results").html(function () {
+                    var response = result['semantic_food_set'];
+                    var html = "";
+                    for(i=0; i<response.length; i++) {
+                        html = html + "<a href='#' class='list-group-item'>" +
+                            "<p>Food Name: " + response[i]['food_name'] + "</p>" +
+                            "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
+                            "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
+                    }
+                    return html;
+                });
+                $("#sem-user-results").html(function () {
+                    var response = result['semantic_user_set'];
+                    var html = "";
+                    for(i=0; i<response.length; i++) {
+                        html = html + "<a href='#' class='list-group-item'>" +
+                            "<p>User Name: " + response[i]['user_name'] + "</p>" +
+                            "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
+                    }
+                    return html;
+                });
             }
         });
         $(".result-bar").show();

@@ -24,7 +24,6 @@ import com.google.gson.JsonArray;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
-import com.knowwhatwoueat.kwue.DataModels.Server;
 import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;

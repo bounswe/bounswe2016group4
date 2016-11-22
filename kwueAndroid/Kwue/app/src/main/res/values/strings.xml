@@ -22,6 +22,9 @@
     <string name="title_activity_settings">Settings</string>
     <string name="food_ingredients">Ingredients</string>
 
+    <!-- Strings related to Profile Page-->
+    <string name="title_activity_profile_page">ProfilePageActivity</string>
+
     <!-- Strings related to Settings -->
 
     <string name="user_settings">User Settings</string>

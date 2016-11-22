@@ -232,4 +232,10 @@
         android:textSize="14dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp" />
+    <ListView
+        android:id="@+id/advancedSearchList"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+    </ListView>
 </LinearLayout>

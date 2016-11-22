@@ -36,9 +36,9 @@ public class BasicSearch extends AppCompatActivity {
     private String searchQuery;
 
     private ArrayAdapter searchListAdapter;
-    private ArrayList<String> responseList;
+
     private ArrayList<String> responseNamesList;
-    private ArrayList<Food> responseFood;
+
 
     private AlertDialog alertDialog;
 
@@ -62,8 +62,8 @@ public class BasicSearch extends AppCompatActivity {
         Gson gson = new Gson();
 
         responseNamesList = new ArrayList<String>();
-        responseList = new ArrayList<>();
-        responseFood = new ArrayList<>();
+
+
 
         searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, responseNamesList);
 

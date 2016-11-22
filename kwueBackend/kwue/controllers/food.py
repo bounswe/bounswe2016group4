@@ -68,7 +68,7 @@ def get_nutritional_values(req):
     ingredients = json.loads(req.POST.dict()['ingredients'])
     food_recipe = ""
     for ingredient in ingredients:
-        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+        food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
     nutrition_dict = request_nutrition(food_recipe)
     return HttpResponse(json.dumps(nutrition_dict))
 

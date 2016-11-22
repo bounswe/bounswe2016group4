@@ -35,6 +35,7 @@ def get_semantic_tags(tag_name):
     tags = r.json()['search']
     semantic_tags = []
     for tag in tags:
+        print(tag)
         semantic_tag = dict(
             tag_id=tag['id'],
             tag_label=tag['label'],

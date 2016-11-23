@@ -4,6 +4,7 @@ from unixtimestampfield.fields import UnixTimeStampField
 from django.http import HttpResponse
 import json
 from kwue.helper_functions.time_helpers import *
+from django.views.decorators.csrf import csrf_exempt
 
 
 def get_consumption_page(req):
@@ -111,6 +112,7 @@ def get_consumption_history(req):
     return HttpResponse(json.dumps(results_dict), content_type='application/json')
 
 
+@csrf_exempt
 def mark_as_eaten(req):
     user_id = req.POST.dict()['user_id']
     food_id = req.POST.dict()['food_id']

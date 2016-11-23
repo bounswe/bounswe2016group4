@@ -3,6 +3,8 @@ from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.conversions import *
+from django.views.decorators.csrf import csrf_exempt
+
 
 def get_user(req):
     user_id = req.GET.dict()['user_id']
@@ -43,6 +45,8 @@ def get_eating_preferences(req):
 
     return HttpResponse(json.dumps(ep), content_type='application/json')
 
+
+@csrf_exempt
 def update_eating_preferences(req):
     ep = req.POST.dict()
     user_id = ep['user_id']

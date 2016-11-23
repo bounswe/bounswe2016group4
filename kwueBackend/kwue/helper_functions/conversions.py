@@ -35,3 +35,14 @@ def ingredient_list_to_ingredient_object(list):
         if result is not False:
             obj_list.append(result)
     return obj_list
+
+def ingredient_from_object_to_list(list):
+    wanted_ing_list = []
+    unwanted_ing_list = []
+    for ing in list.wanted_ingredients.values_list('ingredient_name'):
+        wanted_ing_list.append(ing[0])
+    for ing in list.unwanted_ingredients.values_list('ingredient_name'):
+        unwanted_ing_list.append(ing[0])
+    dict = list.__dict__
+    dict.update(wanted_list=wanted_ing_list, unwanted_list=unwanted_ing_list)
+    return dict

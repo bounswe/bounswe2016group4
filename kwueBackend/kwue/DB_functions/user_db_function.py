@@ -10,8 +10,8 @@ def db_retrieve_user(user_id):
 def db_retrieve_eating_preferences(user_id):
     try:
         user = UserModel.objects.get(user_id=user_id)
-        wanted_list = list(user.wanted_ingredients.all())
-        unwanted_list = list(user.unwanted_ingredients.all())
+        wanted_ingredients = list(user.wanted_ingredients.all())
+        unwanted_ingredients = list(user.unwanted_ingredients.all())
         eating_preferences_dict = dict(
             protein_lower_bound=user.protein_lower_bound,
             fat_lower_bound=user.fat_lower_bound,
@@ -23,8 +23,8 @@ def db_retrieve_eating_preferences(user_id):
             carbohydrate_upper_bound=user.carbohydrate_upper_bound,
             calorie_upper_bound=user.calorie_upper_bound,
             sugar_upper_bound=user.sugar_upper_bound,
-            unwanted_list=unwanted_list,
-            wanted_list=wanted_list
+            unwanted_ingredients=unwanted_ingredients,
+            wanted_ingredients=wanted_ingredients
         )
 
         return eating_preferences_dict

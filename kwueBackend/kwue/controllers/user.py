@@ -10,16 +10,8 @@ def get_user(req):
     user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
-    wanted_ing_list = []
-    unwanted_ing_list = []
-    for ing in user.wanted_ingredients.values_list('ingredient_name'):
-        wanted_ing_list.append(ing[0])
-    for ing in user.unwanted_ingredients.values_list('ingredient_name'):
-        unwanted_ing_list.append(ing[0])
-    user_dict = user.__dict__
-    user_dict.update(wanted_list=wanted_ing_list, unwanted_list=unwanted_ing_list)
-
-    ingredients_from_list_to_dict(user_dict)
+    user_dict = ingredient_from_object_to_list(user.__dict__)
+    user_dict = ingredients_from_list_to_dict(user_dict)
 
     del user_dict['_state'] # alptekin fix FacePalm
     tag_list = return_tags(user_id, "User")
@@ -41,6 +33,7 @@ def get_eating_preferences(req):
     user_id = req.GET.dict()['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
+    ep = ingredient_from_object_to_list(ep)
     ep = ingredients_from_list_to_dict(ep)
 
     return HttpResponse(json.dumps(ep), content_type='application/json')

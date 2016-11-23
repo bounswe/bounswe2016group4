@@ -1,18 +1,25 @@
 package com.knowwhatwoueat.kwue.DataModels;
 
+import java.util.ArrayList;
+
 /**
  * Created by Mehmet Akif ÇÖRDÜK on 22.11.2016.
  */
 
 public class ConsumptionItem {
-    private Food[] foods;
+    private ArrayList<Food> foods;
     private Nutrition nutritional_values_dict;
 
-    public Food[] getFoods() {
+
+    public ConsumptionItem(){
+        foods = new ArrayList<>();
+    }
+
+    public ArrayList<Food> getFoods() {
         return foods;
     }
 
-    public void setFoods(Food[] foods) {
+    public void setFoods(ArrayList<Food> foods) {
         this.foods = foods;
     }
 

@@ -21,6 +21,7 @@
     <string name="enter_food_semantic_tag">Enter a keyword than press button to see tags.</string>
     <string name="title_activity_settings">Settings</string>
     <string name="food_ingredients">Ingredients</string>
+    <string name="simple_nutritions">Your weekly nutritions</string>
 
     <!-- Strings related to Profile Page-->
     <string name="title_activity_profile_page">ProfilePageActivity</string>

@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -46,29 +48,33 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ArrayList<String> wholeNutritions;
     private ConsumptionItem consumptionItem;
 
-
     private Toolbar toolbar;
     private ListView simpleNutritionListView;
     private ListView wholeNutritionList;
     private ListView consumptionListView;
+    private TextView intervalView;
+    private Button showMoreButton;
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
 
 
     private String url = Constants.endPoint;
+    private String interval;
 
     private RequestQueue queue;
-
     Gson gson = new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
 
+        interval = " weekly";
+        //interval = getIntent().getExtras().getString("consumption_history_interval");
+
         queue = Volley.newRequestQueue(this);
 
-
+        consumptionItem = new ConsumptionItem();
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
 
@@ -77,13 +83,26 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        showMoreButton = (Button) findViewById(R.id.showMoreNutritions);
         simpleNutritionListView = (ListView) findViewById(R.id.simpleNutritionList);
         consumptionListView = (ListView) findViewById(R.id.consumptionlist);
-
+        intervalView = (TextView) findViewById(R.id.nutrition_interval);
 
         simpleNutiritonAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,simpleNutritions);
+        consumptionListAdapter = new ConsumptionListAdapter(this,consumptionItem.getFoods());
 
         simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
+        consumptionListView.setAdapter(consumptionListAdapter);
+
+        intervalView.setText("Your" + interval+" nutritions:");
+
+        showMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show dialog here
+            }
+        });
 
 
         /*ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
@@ -140,6 +159,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
+        consumptionListAdapter.notifyDataSetChanged();
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
         simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
         simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");

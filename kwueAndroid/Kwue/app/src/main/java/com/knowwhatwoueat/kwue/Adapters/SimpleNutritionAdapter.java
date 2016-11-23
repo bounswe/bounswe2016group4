@@ -20,6 +20,7 @@ import java.util.List;
 public class SimpleNutritionAdapter extends ArrayAdapter<String> {
     List<String> simpleNutritions;
     Context context;
+    String interval;
     public SimpleNutritionAdapter(Context context, int resource, List<String> simpleNutritions) {
         super(context, resource, simpleNutritions);
         this.simpleNutritions = simpleNutritions;

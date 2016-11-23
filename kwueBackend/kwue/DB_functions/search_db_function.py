@@ -28,21 +28,18 @@ def search_by_text(focus_string):
             semantic_user.append(x.tagged_object_id)
     ################
     ################
-    similar_foods = FoodModel.objects.filter(food_name__icontains=focus_string)
-    from_tag = TagModel.objects.filter(tag_label__icontains=focus_string) | TagModel.objects.filter(
+    foods = FoodModel.objects.filter(food_name__icontains=focus_string)
+    #################
+    #################
+    food_servers = UserModel.objects.filter(user_name__icontains=focus_string)
+    ################
+    ################
+    from_tag = TagModel.objects.filter(semantic_tag_item_label__icontains=focus_string) | TagModel.objects.filter(
         semantic_tag_item_label__icontains=focus_string)
-    print(from_tag)
     from_tag_food = from_tag.filter(content_type__model="foodmodel")
-    foods = FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')) | similar_foods
-    #################
-    #################
-    similar_food_servers = UserModel.objects.filter(user_name__icontains=focus_string)
     from_tag_food_server = from_tag.filter(content_type__model='usermodel')
-    food_servers = UserModel.objects.filter(user_id__in=from_tag_food_server.values('tagged_object_id')) | similar_food_servers
-    ################
-    ################
-    semantic_food = FoodModel.objects.filter(food_id__in=semantic_food).exclude(food_id__in=foods.values_list("food_id"))
-    semantic_user = UserModel.objects.filter(user_id__in=semantic_user).exclude(user_id__in=food_servers.values_list("user_id"))
+    semantic_food = FoodModel.objects.filter(food_id__in=semantic_food).exclude(food_id__in=foods.values_list("food_id")) | FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')).exclude(food_id__in=foods.values_list("food_id"))
+    semantic_user = UserModel.objects.filter(user_id__in=semantic_user).exclude(user_id__in=food_servers.values_list("user_id")) | UserModel.objects.filter(user_id__in=from_tag_food_server.values('tagged_object_id')).exclude(user_id__in=food_servers.values_list("user_id"))
     ###############
     return dict(food_set=foods.distinct(), food_server_set=food_servers.distinct(), semantic_food_set=semantic_food.distinct(), semantic_user_set=semantic_user.distinct())
 

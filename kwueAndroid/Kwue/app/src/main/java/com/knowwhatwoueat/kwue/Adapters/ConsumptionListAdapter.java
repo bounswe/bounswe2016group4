@@ -46,14 +46,20 @@ public class ConsumptionListAdapter extends ArrayAdapter<Food> {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.consumption_history_list_item, parent,false);
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.FoodName);
+        TextView nameView = (TextView) rowView.findViewById(R.id.FoodName);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.FoodThumbNail);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.Description);
-        //imageLoader.displayImage(foods.get(position).getImageUrl(),imageView);
+        //TextView descriptionView = (TextView) rowView.findViewById(R.id.Description);
+        TextView timeView = (TextView) rowView.findViewById(R.id.conusmptionTimeAdded);
 
-        //txtTitle.setText(foods.get(position).getName());
-        //extratxt.setText("Description "+foods.get(position).getInfo());
+        imageLoader.displayImage(foods.get(position).getFood_image(),imageView);
+        nameView.setText(foods.get(position).getFood_name());
+        timeView.setText(foods.get(position).getTime_added());
+
         return rowView;
 
+    }
+
+    public void dataReceived(){
+        notifyDataSetChanged();
     }
 }

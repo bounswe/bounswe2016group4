@@ -25,7 +25,7 @@ import com.knowwhatwoueat.kwue.R;
 
 import java.net.URL;
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

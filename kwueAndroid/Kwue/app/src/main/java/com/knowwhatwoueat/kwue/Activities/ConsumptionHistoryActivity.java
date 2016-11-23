@@ -3,17 +3,22 @@ package com.knowwhatwoueat.kwue.Activities;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -46,29 +51,36 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ArrayList<String> wholeNutritions;
     private ConsumptionItem consumptionItem;
 
-
     private Toolbar toolbar;
     private ListView simpleNutritionListView;
     private ListView wholeNutritionList;
     private ListView consumptionListView;
+    private TextView intervalView;
+    private Button showMoreButton;
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
+    private SimpleNutritionAdapter wholeNutritionAdapter;
+
+    private AlertDialog alertDialog;
 
 
     private String url = Constants.endPoint;
+    private String interval;
 
     private RequestQueue queue;
-
     Gson gson = new Gson();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
 
+        interval = " weekly";
+        //interval = getIntent().getExtras().getString("consumption_history_interval");
+
         queue = Volley.newRequestQueue(this);
 
-
+        consumptionItem = new ConsumptionItem();
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
 
@@ -77,13 +89,44 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        showMoreButton = (Button) findViewById(R.id.showMoreNutritions);
         simpleNutritionListView = (ListView) findViewById(R.id.simpleNutritionList);
         consumptionListView = (ListView) findViewById(R.id.consumptionlist);
+        intervalView = (TextView) findViewById(R.id.nutrition_interval);
 
 
         simpleNutiritonAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,simpleNutritions);
+        consumptionListAdapter = new ConsumptionListAdapter(this,consumptionItem.getFoods());
+        wholeNutritionAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,wholeNutritions);
 
         simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
+        consumptionListView.setAdapter(consumptionListAdapter);
+
+
+        intervalView.setText("Your" + interval+" nutritions:");
+
+        final AlertDialog.Builder build = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = build.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView =  inflater.inflate(R.layout.nutrition_list_dialog, null);
+        wholeNutritionList = (ListView) convertView.findViewById(R.id.list_nutrition);
+        wholeNutritionList.setAdapter(wholeNutritionAdapter);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("All Nutritions");
+
+        showMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //dialog for all nutritions
+                alertDialog.show();
+            }
+        });
 
 
         /*ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
@@ -140,6 +183,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
+        consumptionListAdapter.notifyDataSetChanged();
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
         simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
         simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");
@@ -173,7 +217,8 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         wholeNutritions.add("Choline:" + consumptionItem.getNutritional_values_dict().getCholine()+ " mg");
         wholeNutritions.add("Fat :" + consumptionItem.getNutritional_values_dict().getFat_value()+ " gram");
         wholeNutritions.add("Serving Weight:" + consumptionItem.getNutritional_values_dict().getServing_weight_grams()+ " gram");
-        wholeNutritions.add("Vitamin K:" + consumptionItem.getNutritional_values_dict().getVitamin_K()+ " mcg");
+        wholeNutritionAdapter.add("Vitamin K:" + consumptionItem.getNutritional_values_dict().getVitamin_K()+ " mcg");
+        wholeNutritionAdapter.notifyDataSetChanged();
         Log.d("print", simpleNutritions.toString());
         Log.d("print whole",wholeNutritions.toString());
 

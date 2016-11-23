@@ -29,9 +29,9 @@
         </activity>
         <activity
             android:name=".Activities.AddFood"
+            android:exported="true"
             android:label="@string/title_activity_add_food"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,16 +70,18 @@
         <activity android:name=".Activities.RegistrationForUser" />
         <activity android:name=".Activities.RegistrationForFoodServer" />
         <activity android:name=".Activities.AdvancedSearch" />
-        <activity android:name=".Activities.BasicSearch"></activity>
-
-        <activity android:name=".Activities.ProfilePageActivity"
+        <activity
+            android:name=".Activities.BasicSearch"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"></activity>
+        <activity
+            android:name=".Activities.ProfilePageActivity"
+            android:exported="true"
             android:label="ProfilePage"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
-
-        </activity>
-
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.FoodProfile"
+            android:label="@string/title_activity_food_profile"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

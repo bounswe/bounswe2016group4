@@ -16,14 +16,21 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.Gson;
+import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
+import com.knowwhatwoueat.kwue.DataModels.FoodBasicSearch;
+import com.knowwhatwoueat.kwue.DataModels.FoodServerBasicSearch;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
+import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
 import org.w3c.dom.Text;
@@ -241,7 +248,7 @@ public class AdvancedSearch extends AppCompatActivity {
 
         responseNamesList = new ArrayList<String>();
 
-        searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, responseNamesList);
+        searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, responseNamesList);
 
         final AlertDialog.Builder build = new AlertDialog.Builder(AdvancedSearch.this);
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -264,19 +271,75 @@ public class AdvancedSearch extends AppCompatActivity {
                 responseNamesList.clear();
 
                 advancedSearch = advancedsearchTextBox.getText().toString();
+
+                if(advancedSearch.contains(" ")){
+                    advancedSearch= advancedSearch.replace(" ","%20");
+                }
+                System.out.println(advancedSearch);
                 wanted = wantedTextbox.getText().toString();
                 unwanted = unwantedTextbox.getText().toString();
+
+                String[] wanted_List = wanted.split(",");
+                String[] unwanted_list = unwanted.split(",");
+
+                int lengthOfwanted = wanted_List.length;
+                int lengthOfunwanted = unwanted_list.length;
+
+                String[] jsonwanted = new String[lengthOfwanted];
+                String[] jsonunwanted = new String[lengthOfunwanted];
+
+                for(int i =0; i<lengthOfwanted;i++){
+                    String x = wanted_List[i];
+                    jsonwanted[i] = "{\"name\":\""+x+"\"}";
+                    //System.out.println(jsonwanted[i]);
+                }
+
+                for(int i =0; i<lengthOfunwanted;i++){
+                    String x = unwanted_list[i];
+                    jsonunwanted[i] = "{\"name\":\""+x+"\"}";
+                    //System.out.println(jsonunwanted[i]);
+                }
+
 
                 searchQuery = "advanced_search?search_text=" + advancedSearch + "&protein_lower_bound=" + proteinLowerBound +
                         "&fat_lower_bound=" + fatLowerBound + "&carbohydrate_lower_bound=" + carbonhydrateLowerBound +
                         "&calorie_lower_bound=" + calorieLowerBound + "&sugar_lower_bound=" + sugarLowerBound +
                         "&protein_upper_bound=" + proteinUpperBound + "&fat_upper_bound=" + fatUpperBound +
                         "&carbohydrate_upper_bound=" + carbonhydrateUpperBound + "&calorie_upper_bound=" + calorieUpperBound +
-                        "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=" + wanted + "&unwanted_list=" + unwanted;
+                        "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=[";
+
+                for(int i=0;i<jsonwanted.length;i++){
+                    String x = jsonwanted[i];
+                    searchQuery += x;
+                    if(i!=jsonwanted.length-1){
+                        searchQuery += ",";
+                    } else {
+                        searchQuery += "]";
+                    }
+
+                }
+                searchQuery += "&unwanted_list=[";
+
+                for(int i=0;i<jsonunwanted.length;i++){
+                    String x = jsonunwanted[i];
+                    searchQuery += x;
+                    if(i!=jsonunwanted.length-1){
+                        searchQuery += ",";
+                    } else {
+                        searchQuery += "]";
+                    }
+
+                }
+
+
 
                 Log.d("search button", "onClick: clicked");
 
-                System.out.println(searchQuery);
+                sendAdvancedSearchHttpRequest(searchQuery);
+
+                //System.out.println(searchQuery);
+
+
 
             }
         });
@@ -286,6 +349,64 @@ public class AdvancedSearch extends AppCompatActivity {
 
     protected void showAlertDialog() {
         alertDialog.show();
+    }
+
+    protected void assignSearchTitles(BasicSearchResult response) {
+
+        int foodNumber = response.food_set.length;
+        for (int i = 0; i < foodNumber; i++) {
+            FoodBasicSearch find = response.food_set[i];
+
+            responseNamesList.add(find.getFood_name());
+
+        }
+
+        int semanticFoodNumber= response.semantic_food_set.length;
+        for (int i = 0; i < semanticFoodNumber; i++) {
+            FoodBasicSearch findSF = response.semantic_food_set[i];
+            responseNamesList.add(findSF.getFood_name());
+        }
+
+        int semanticFoodServerNumber = response.semantic_user_set.length;
+        for(int j=0;j<semanticFoodServerNumber;j++){
+            FoodServerBasicSearch findSF = response.user_set[j];
+            responseNamesList.add(findSF.getUser_name());
+        }
+
+        int foodServerNumber = response.user_set.length;
+        for(int j=0;j<foodServerNumber;j++){
+            FoodServerBasicSearch findS = response.user_set[j];
+            responseNamesList.add(findS.getUser_name());
+        }
+
+    }
+
+
+    protected void sendAdvancedSearchHttpRequest(String query) {
+
+        String searchUrl = url +  query;
+        System.out.println(searchUrl);
+
+        // Request a string response from the provided URL.
+        GsonRequest<BasicSearchResult> gsonRequest = new GsonRequest<>(searchUrl, BasicSearchResult.class, Request.Method.GET,
+                new Response.Listener<BasicSearchResult>() {
+                    @Override
+                    public void onResponse(BasicSearchResult response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: in");
+                        assignSearchTitles(response);
+                        showAlertDialog();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response", "That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(gsonRequest);
     }
 }
 

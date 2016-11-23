@@ -70,7 +70,9 @@
         <activity android:name=".Activities.RegistrationForUser" />
         <activity android:name=".Activities.RegistrationForFoodServer" />
         <activity android:name=".Activities.AdvancedSearch" />
-        <activity android:name=".Activities.BasicSearch"></activity>
+        <activity android:name=".Activities.BasicSearch"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert">
+        </activity>
 
         <activity android:name=".Activities.ProfilePageActivity"
             android:label="ProfilePage"

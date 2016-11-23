@@ -23,7 +23,7 @@ def advanced_search(req):
 
     dict = req.GET.dict()
     ep = dict
-
+    print(ep)
     ep = ingredients_from_dict_to_list(ep)
     ep['wanted_list'] = ingredient_list_to_ingredient_object(ep['wanted_list'])
     ep['unwanted_list'] = ingredient_list_to_ingredient_object(ep['unwanted_list'])

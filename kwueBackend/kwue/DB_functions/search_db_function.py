@@ -33,7 +33,9 @@ def search_by_text(focus_string):
         semantic_tag_item_label__icontains=focus_string)
     print(from_tag)
     from_tag_food = from_tag.filter(content_type__model="foodmodel")
-    foods = FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')) | similar_foods
+    foods = similar_foods
+    #FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')) |
+
     #################
     #################
     similar_food_servers = UserModel.objects.filter(user_name__icontains=focus_string)

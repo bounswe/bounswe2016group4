@@ -267,16 +267,65 @@ public class AdvancedSearch extends AppCompatActivity {
                 wanted = wantedTextbox.getText().toString();
                 unwanted = unwantedTextbox.getText().toString();
 
+                String[] wanted_List = wanted.split(",");
+                String[] unwanted_list = unwanted.split(",");
+
+                int lengthOfwanted = wanted_List.length;
+                int lengthOfunwanted = unwanted_list.length;
+
+                String[] jsonwanted = new String[lengthOfwanted];
+                String[] jsonunwanted = new String[lengthOfunwanted];
+
+                for(int i =0; i<lengthOfwanted;i++){
+                    String x = wanted_List[i];
+                    jsonwanted[i] = "{\"name\":\""+x+"\"}";
+                    //System.out.println(jsonwanted[i]);
+                }
+
+                for(int i =0; i<lengthOfunwanted;i++){
+                    String x = unwanted_list[i];
+                    jsonunwanted[i] = "{\"name\":\""+x+"\"}";
+                    //System.out.println(jsonunwanted[i]);
+                }
+
+
                 searchQuery = "advanced_search?search_text=" + advancedSearch + "&protein_lower_bound=" + proteinLowerBound +
                         "&fat_lower_bound=" + fatLowerBound + "&carbohydrate_lower_bound=" + carbonhydrateLowerBound +
                         "&calorie_lower_bound=" + calorieLowerBound + "&sugar_lower_bound=" + sugarLowerBound +
                         "&protein_upper_bound=" + proteinUpperBound + "&fat_upper_bound=" + fatUpperBound +
                         "&carbohydrate_upper_bound=" + carbonhydrateUpperBound + "&calorie_upper_bound=" + calorieUpperBound +
-                        "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=" + wanted + "&unwanted_list=" + unwanted;
+                        "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=[";
+
+                for(int i=0;i<jsonwanted.length;i++){
+                    String x = jsonwanted[i];
+                    searchQuery += x;
+                    if(i!=jsonwanted.length-1){
+                        searchQuery += ",";
+                    } else {
+                        searchQuery += "]";
+                    }
+
+                }
+                searchQuery += "&unwanted_list=[";
+
+                for(int i=0;i<jsonunwanted.length;i++){
+                    String x = jsonunwanted[i];
+                    searchQuery += x;
+                    if(i!=jsonunwanted.length-1){
+                        searchQuery += ",";
+                    } else {
+                        searchQuery += "]";
+                    }
+
+                }
+
+
 
                 Log.d("search button", "onClick: clicked");
 
                 System.out.println(searchQuery);
+
+                
 
             }
         });

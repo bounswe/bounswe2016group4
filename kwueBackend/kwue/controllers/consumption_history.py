@@ -112,6 +112,6 @@ def get_consumption_history(req):
 
 
 def mark_as_eaten(req):
-    user_id = req.POST.dict()['user_id']
-    food_id = req.POST.dict()['food_id']
+    user_id = req.GET.dict()['user_id']
+    food_id = req.GET.dict()['food_id']
     db_insert_consumption_record(user_id, food_id)

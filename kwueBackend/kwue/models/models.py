@@ -104,7 +104,7 @@ class TagModel(models.Model):
             return "Tagged Object is deleted"
 
 
-        
+
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)
     comment_text = models.TextField(null=True)

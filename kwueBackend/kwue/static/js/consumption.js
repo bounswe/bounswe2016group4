@@ -18,14 +18,49 @@ $(document).ready(function () {
             var html_foods = "";
             var html_nutritions = "";
             for(i=0; i<foods.length; i++) {
-                html_foods = html_foods + "<div class='list-group-item'><h4><p>"+ foods[i]['food_name'] +"</p></h4>" +
-                        "<img src='"+ foods[i]['food_image'] +"' style='width: 100px; height: auto'></div>";
+                html_foods = html_foods + "<a href='get__food?food_id="+
+                    foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
+                    foods[i]['food_name'] +"</p></h4>" + "<img src='"+
+                    foods[i]['food_image'] +"' style='width: 100px; height: auto'></a>";
             }
             $("#consumption-panel").html(html_foods);
-            for (var key in nutritions) {
-                var value = nutritions[key];
-                html_nutritions = html_nutritions + "<p><strong>" + key + "</strong>: " + value + "</p>";
-            }
+
+            html_nutritions = html_nutritions + "<p><strong>Carbohydrate: </strong>"+ nutritions['carbohydrate_value'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Sugar: </strong>"+ nutritions['sugar_value'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Fat: </strong>"+ nutritions['fat_value'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Protein: </strong>"+ nutritions['protein_value'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Calorie: </strong>"+ nutritions['calorie_value'] +"</p>";
+            html_nutritions = html_nutritions + "<div hidden id='others'>"
+            html_nutritions = html_nutritions + "<p><strong>Fiber: </strong>"+ nutritions['fiber_value'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Serving Weight: </strong>"+ nutritions['serving_weight_grams'] +"</p>";
+            html_nutritions = html_nutritions + "<h4><p><strong style='color: #5bc0de;'>Vitamins</strong></p></h4>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin A: </strong>"+ nutritions['vitamin_A'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin C: </strong>"+ nutritions['vitamin_C'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin D: </strong>"+ nutritions['vitamin_D'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin E: </strong>"+ nutritions['vitamin_E'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin K: </strong>"+ nutritions['vitamin_K'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Thiamin: </strong>"+ nutritions['thiamin'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Riboflavin: </strong>"+ nutritions['riboflavin'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Niacin: </strong>"+ nutritions['niacin'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin B6: </strong>"+ nutritions['vitamin_B6'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Vitamin B12: </strong>"+ nutritions['vitamin_B12'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Pantothenic acid: </strong>"+ nutritions['pantothenic_acid'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Choline: </strong>"+ nutritions['choline'] +"</p>";
+            html_nutritions = html_nutritions + "<h4><p><strong style='color: #f0ad4e;'>Minerals</strong></p></h4>";
+            html_nutritions = html_nutritions + "<p><strong>Calcium: </strong>"+ nutritions['calcium'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Copper: </strong>"+ nutritions['copper'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Flouride: </strong>"+ nutritions['flouride'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>IronFe: </strong>"+ nutritions['iron_Fe'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Magnesium: </strong>"+ nutritions['magnesium'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Manganese: </strong>"+ nutritions['manganese'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Sodium Na: </strong>"+ nutritions['sodium_Na'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Phosphorus: </strong>"+ nutritions['phosphorus'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Selenium: </strong>"+ nutritions['selenium'] +"</p>";
+            html_nutritions = html_nutritions + "<p><strong>Zinc: </strong>"+ nutritions['zinc'] +"</p>";
+            html_nutritions = html_nutritions + "</div>";
+            html_nutritions = html_nutritions + "<a id='more-button'>More...</a>";
+
+
             $("#nutrition-panel").html(html_nutritions);
         }
     });
@@ -48,16 +83,60 @@ $(document).ready(function () {
                 var html_foods = "";
                 var html_nutritions = "";
                 for(i=0; i<foods.length; i++) {
-                    html_foods = html_foods + "<div class='list-group-item'><h4><p>"+ foods[i]['food_name'] +"</p></h4>" +
-                            "<img src='"+ foods[i]['food_image'] +"' style='width: 100px; height: auto'></div>";
+                    html_foods = html_foods + "<a href='get__food?food_id=" +
+                        foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
+                        foods[i]['food_name'] +"</p></h4>" + "<img src='"+
+                        foods[i]['food_image'] +"' style='width: 100px; height: auto'></a>";
                 }
                 $("#consumption-panel").html(html_foods);
-                for (var key in nutritions) {
-                    var value = nutritions[key];
-                    html_nutritions = html_nutritions + "<p><strong>" + key + "</strong>: " + value + "</p>";
-                }
+                html_nutritions = html_nutritions + "<p><strong>Carbohydrate: </strong>"+ nutritions['carbohydrate_value'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Sugar: </strong>"+ nutritions['sugar_value'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Fat: </strong>"+ nutritions['fat_value'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Protein: </strong>"+ nutritions['protein_value'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Calorie: </strong>"+ nutritions['calorie_value'] +"</p>";
+                html_nutritions = html_nutritions + "<div hidden id='others'>"
+                html_nutritions = html_nutritions + "<p><strong>Fiber: </strong>"+ nutritions['fiber_value'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Serving Weight: </strong>"+ nutritions['serving_weight_grams'] +"</p>";
+                html_nutritions = html_nutritions + "<h4><p><strong style='color: #5bc0de;'>Vitamins</strong></p></h4>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin A: </strong>"+ nutritions['vitamin_A'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin C: </strong>"+ nutritions['vitamin_C'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin D: </strong>"+ nutritions['vitamin_D'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin E: </strong>"+ nutritions['vitamin_E'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin K: </strong>"+ nutritions['vitamin_K'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Thiamin: </strong>"+ nutritions['thiamin'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Riboflavin: </strong>"+ nutritions['riboflavin'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Niacin: </strong>"+ nutritions['niacin'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin B6: </strong>"+ nutritions['vitamin_B6'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin B12: </strong>"+ nutritions['vitamin_B12'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Pantothenic acid: </strong>"+ nutritions['pantothenic_acid'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Choline: </strong>"+ nutritions['choline'] +"</p>";
+                html_nutritions = html_nutritions + "<h4><p><strong style='color: #f0ad4e;'>Minerals</strong></p></h4>";
+                html_nutritions = html_nutritions + "<p><strong>Calcium: </strong>"+ nutritions['calcium'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Copper: </strong>"+ nutritions['copper'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Flouride: </strong>"+ nutritions['flouride'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>IronFe: </strong>"+ nutritions['iron_Fe'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Magnesium: </strong>"+ nutritions['magnesium'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Manganese: </strong>"+ nutritions['manganese'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Sodium Na: </strong>"+ nutritions['sodium_Na'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Phosphorus: </strong>"+ nutritions['phosphorus'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Selenium: </strong>"+ nutritions['selenium'] +"</p>";
+                html_nutritions = html_nutritions + "<p><strong>Zinc: </strong>"+ nutritions['zinc'] +"</p>";
+                html_nutritions = html_nutritions + "</div>";
+                html_nutritions = html_nutritions + "<a id='more-button'>More...</a>";
+
                 $("#nutrition-panel").html(html_nutritions);
             }
         });
     });
+});
+
+$(document).on("click", "#more-button", function () {
+    var toggle = $(this).text();
+    if(toggle == "More...") {
+        $("#others").show();
+        $(this).text("Less");
+    } else {
+        $("#others").hide();
+        $(this).text("More...");
+    }
 });

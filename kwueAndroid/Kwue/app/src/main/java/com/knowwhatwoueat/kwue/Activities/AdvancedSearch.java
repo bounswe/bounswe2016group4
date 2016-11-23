@@ -1,6 +1,7 @@
 package com.knowwhatwoueat.kwue.Activities;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,27 +12,36 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class AdvancedSearch extends AppCompatActivity {
     private String advancedSearch;
-    private int proteinLowerBound;
-    private int proteinUpperBound;
-    private int fatLowerBound;
-    private int fatUpperBound;
-    private int carbonhydrateLowerBound;
-    private int carbonhydrateUpperBound;
-    private int calorieLowerBound;
-    private int calorieUpperBound;
-    private int sugarLowerBound;
-    private int sugarUpperBound;
+    private int proteinLowerBound=0;
+    private int proteinUpperBound=1000;
+    private int fatLowerBound=0;
+    private int fatUpperBound=1000;
+    private int carbonhydrateLowerBound=0;
+    private int carbonhydrateUpperBound=1000;
+    private int calorieLowerBound=0;
+    private int calorieUpperBound=1000;
+    private int sugarLowerBound=0;
+    private int sugarUpperBound=1000;
     private String wanted;
     private String unwanted;
 
@@ -54,27 +64,174 @@ public class AdvancedSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_search);
 
+        // get seekbar from view
+        final CrystalRangeSeekbar rangeSeekbarProtein = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarProtein);
+        rangeSeekbarProtein.setMinValue(0);
+        rangeSeekbarProtein.setMaxValue(1000);
+        rangeSeekbarProtein.setBarHighlightColor(Color.RED);
+        rangeSeekbarProtein.setLeftThumbColor(Color.DKGRAY);
+        rangeSeekbarProtein.setRightThumbColor(Color.DKGRAY);
+
+        final CrystalRangeSeekbar rangeSeekbarFat = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarFat);
+        rangeSeekbarFat.setMinValue(0);
+        rangeSeekbarFat.setMaxValue(1000);
+        rangeSeekbarFat.setBarHighlightColor(Color.RED);
+        rangeSeekbarFat.setLeftThumbColor(Color.DKGRAY);
+        rangeSeekbarFat.setRightThumbColor(Color.DKGRAY);
+
+        final CrystalRangeSeekbar rangeSeekbarCarbonhydrate = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarCarbonHydrate);
+        rangeSeekbarCarbonhydrate.setMinValue(0);
+        rangeSeekbarCarbonhydrate.setMaxValue(1000);
+        rangeSeekbarCarbonhydrate.setBarHighlightColor(Color.RED);
+        rangeSeekbarCarbonhydrate.setLeftThumbColor(Color.DKGRAY);
+        rangeSeekbarCarbonhydrate.setRightThumbColor(Color.DKGRAY);
+
+        final CrystalRangeSeekbar rangeSeekbarCalorie = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarCalorie);
+        rangeSeekbarCalorie.setMinValue(0);
+        rangeSeekbarCalorie.setMaxValue(1000);
+        rangeSeekbarCalorie.setBarHighlightColor(Color.RED);
+        rangeSeekbarCalorie.setLeftThumbColor(Color.DKGRAY);
+        rangeSeekbarCalorie.setRightThumbColor(Color.DKGRAY);
+
+        final CrystalRangeSeekbar rangeSeekbarSugar = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarSugar);
+        rangeSeekbarSugar.setMinValue(0);
+        rangeSeekbarSugar.setMaxValue(1000);
+        rangeSeekbarSugar.setBarHighlightColor(Color.RED);
+        rangeSeekbarSugar.setLeftThumbColor(Color.DKGRAY);
+        rangeSeekbarSugar.setRightThumbColor(Color.DKGRAY);
+
+
+
+        // get min and max text view
+
+        final TextView proteinLower = (TextView) findViewById(R.id.proteinLowerBoundTextBox);
+        final TextView proteinUpper = (TextView) findViewById(R.id.proteinUpperBoundTextBox);
+        final TextView fatLower = (TextView) findViewById(R.id.fatLowerBoundTextBox);
+        final TextView fatUpper = (TextView) findViewById(R.id.fatUpperBoundTextBox);
+        final TextView carbonhydrateLower = (TextView) findViewById(R.id.carbonhydrateLowerBoundTextBox);
+        final TextView carbonhydrateUpper = (TextView) findViewById(R.id.carbonhydrateUpperBoundTextBox);
+        final TextView calorieLower = (TextView) findViewById(R.id.calorieLowerBoundTextBox);
+        final TextView calorieUpper = (TextView) findViewById(R.id.calorieUpperBoundTextBox);
+        final TextView sugarLower = (TextView) findViewById(R.id.sugarLowerBoundTextBox);
+        final TextView sugarUpper = (TextView) findViewById(R.id.sugarUpperBoundTextBox);
+
+
+        // set listener
+        rangeSeekbarProtein.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                proteinLower.setText(String.valueOf(minValue));
+                proteinUpper.setText(String.valueOf(maxValue));
+            }
+        });
+
+        // set final value listener
+        rangeSeekbarProtein.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                String x = String.valueOf(minValue);
+                String y = String.valueOf(maxValue);
+                proteinLowerBound = Integer.parseInt(x);
+                proteinUpperBound = Integer.parseInt(y);
+
+                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
+        // set listener
+        rangeSeekbarFat.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                fatLower.setText(String.valueOf(minValue));
+                fatUpper.setText(String.valueOf(maxValue));
+            }
+        });
+
+        // set final value listener
+        rangeSeekbarFat.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                String x = String.valueOf(minValue);
+                String y = String.valueOf(maxValue);
+                fatLowerBound= Integer.parseInt(x);
+                fatUpperBound = Integer.parseInt(y);
+
+                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
+        // set listener
+        rangeSeekbarCarbonhydrate.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                carbonhydrateLower.setText(String.valueOf(minValue));
+                carbonhydrateUpper.setText(String.valueOf(maxValue));
+            }
+        });
+
+        // set final value listener
+        rangeSeekbarCarbonhydrate.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                String x = String.valueOf(minValue);
+                String y = String.valueOf(maxValue);
+                carbonhydrateLowerBound = Integer.parseInt(x);
+                carbonhydrateUpperBound = Integer.parseInt(y);
+                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
+        // set listener
+        rangeSeekbarCalorie.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                calorieLower.setText(String.valueOf(minValue));
+                calorieUpper.setText(String.valueOf(maxValue));
+            }
+        });
+
+        // set final value listener
+        rangeSeekbarCalorie.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                String x = String.valueOf(minValue);
+                String y = String.valueOf(maxValue);
+                calorieLowerBound = Integer.parseInt(x);
+                calorieUpperBound = Integer.parseInt(y);
+
+                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
+        // set listener
+        rangeSeekbarSugar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                sugarLower.setText(String.valueOf(minValue));
+                sugarUpper.setText(String.valueOf(maxValue));
+            }
+        });
+
+        // set final value listener
+        rangeSeekbarSugar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                String x = String.valueOf(minValue);
+                String y = String.valueOf(maxValue);
+                sugarLowerBound = Integer.parseInt(x);
+                sugarUpperBound = Integer.parseInt(y);
+                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+            }
+        });
+
+
+
         final EditText advancedsearchTextBox = (EditText) findViewById(R.id.advancedSearchTextBox);
-
-        final EditText proteinLowerBoundTextBox = (EditText) findViewById(R.id.proteinLowerBound);
-        final EditText proteinUpperBoundTextBox = (EditText) findViewById(R.id.proteinUpperBound);
-
-        final EditText fatLowerBoundTextbox = (EditText) findViewById(R.id.fatLowerBound);
-        final EditText fatUpperBoundTextbox =(EditText) findViewById(R.id.fatUpperBoun);
-
-        final EditText carbonhydrateLowerBoundTextbox = (EditText) findViewById(R.id.carbonhydrateLowerBoun);
-        final EditText carbonhydrateUpperBoundTextbox =(EditText) findViewById(R.id.carbonhydrateUpperBoun);
-
-        final EditText calorieLowerBoundTextbox = (EditText) findViewById(R.id.calorieLowerBound);
-        final EditText calorieUpperBoundTextbox =(EditText) findViewById(R.id.calorieUpperBound);
-
-        final EditText sugarLowerBoundTextbox = (EditText) findViewById(R.id.sugarLowerBound);
-        final EditText sugarUpperBoundTextbox =(EditText) findViewById(R.id.sugarUpperBound);
-
         final EditText wantedTextbox = (EditText) findViewById(R.id.wantedTextBox);
-        final EditText unwantedTextbox =(EditText) findViewById(R.id.unwantedTextBox);
+        final EditText unwantedTextbox = (EditText) findViewById(R.id.unwantedTextBox);
 
         advancedSearchListView = (ListView) findViewById(R.id.advancedSearchList);
+
 
         final Button advancedSearchButton = (Button) findViewById(R.id.advancedSearchButton);
 
@@ -106,52 +263,20 @@ public class AdvancedSearch extends AppCompatActivity {
             public void onClick(View view) {
                 responseNamesList.clear();
 
-                proteinLowerBound=0;
-                proteinUpperBound=0;
-                fatLowerBound=0;
-                fatUpperBound=0;
-                carbonhydrateLowerBound=0;
-                carbonhydrateUpperBound=0;
-                calorieLowerBound=0;
-                calorieUpperBound=0;
-                sugarLowerBound=0;
-                sugarUpperBound=0;
-
-                if(proteinLowerBoundTextBox.getText().length()>1)
-                    proteinLowerBound= Integer.valueOf(proteinLowerBoundTextBox.getText().toString());
-                if(proteinUpperBoundTextBox.getText().length()>1)
-                    proteinUpperBound= Integer.valueOf(proteinUpperBoundTextBox.getText().toString());
-                if(fatLowerBoundTextbox.getText().length()>1)
-                    fatLowerBound= Integer.valueOf(fatLowerBoundTextbox.getText().toString());
-                if(fatUpperBoundTextbox.getText().length()>1)
-                    fatUpperBound= Integer.valueOf(fatUpperBoundTextbox.getText().toString());
-                if(carbonhydrateLowerBoundTextbox.getText().length()>1)
-                    carbonhydrateLowerBound= Integer.valueOf(carbonhydrateLowerBoundTextbox.getText().toString());
-                if(carbonhydrateUpperBoundTextbox.getText().length()>1)
-                    carbonhydrateUpperBound= Integer.valueOf(carbonhydrateUpperBoundTextbox.getText().toString());
-                if(calorieLowerBoundTextbox.getText().length()>1)
-                    calorieLowerBound= Integer.valueOf(calorieLowerBoundTextbox.getText().toString());
-                if(calorieUpperBoundTextbox.getText().length()>1)
-                    calorieUpperBound= Integer.valueOf(calorieUpperBoundTextbox.getText().toString());
-                if(sugarLowerBoundTextbox.getText().length()>1)
-                    sugarLowerBound= Integer.valueOf(sugarLowerBoundTextbox.getText().toString());
-                if(sugarUpperBoundTextbox.getText().length()>1)
-                    sugarUpperBound= Integer.valueOf(sugarUpperBoundTextbox.getText().toString());
-
                 advancedSearch = advancedsearchTextBox.getText().toString();
                 wanted = wantedTextbox.getText().toString();
                 unwanted = unwantedTextbox.getText().toString();
-                /*
-                searchQuery = "advanced_search?search_text="+advancedSearch+"&protein_lower_bound="+proteinLowerBound+
-                        "&fat_lower_bound="+fatLowerBound+"&carbohydrate_lower_bound="+carbonhydrateLowerBound+
-                        "&calorie_lower_bound="+calorieLowerBound+"&sugar_lower_bound="+sugarLowerBound+
-                        "&protein_upper_bound="+proteinUpperBound+"&fat_upper_bound="+fatUpperBound+
-                        "&carbohydrate_upper_bound="+carbonhydrateUpperBound+"&calorie_upper_bound="+calorieUpperBound+
-                        "&sugar_upper_bound="+sugarUpperBound+"&wanted_list="+wanted+"&unwanted_list="+unwanted;
-                */
+
+                searchQuery = "advanced_search?search_text=" + advancedSearch + "&protein_lower_bound=" + proteinLowerBound +
+                        "&fat_lower_bound=" + fatLowerBound + "&carbohydrate_lower_bound=" + carbonhydrateLowerBound +
+                        "&calorie_lower_bound=" + calorieLowerBound + "&sugar_lower_bound=" + sugarLowerBound +
+                        "&protein_upper_bound=" + proteinUpperBound + "&fat_upper_bound=" + fatUpperBound +
+                        "&carbohydrate_upper_bound=" + carbonhydrateUpperBound + "&calorie_upper_bound=" + calorieUpperBound +
+                        "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=" + wanted + "&unwanted_list=" + unwanted;
+
                 Log.d("search button", "onClick: clicked");
 
-                //System.out.println(searchQuery);
+                System.out.println(searchQuery);
 
             }
         });

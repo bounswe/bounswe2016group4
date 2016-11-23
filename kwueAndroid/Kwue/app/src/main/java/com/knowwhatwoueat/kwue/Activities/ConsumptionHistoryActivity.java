@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
+import com.knowwhatwoueat.kwue.Adapters.SimpleNutritionAdapter;
 import com.knowwhatwoueat.kwue.DataModels.ConsumptionItem;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
@@ -51,7 +52,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ListView wholeNutritionList;
     private ListView consumptionListView;
 
-    private ListAdapter simpleNutiritonAdapter;
+    private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
 
 
@@ -80,7 +81,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         consumptionListView = (ListView) findViewById(R.id.consumptionlist);
 
 
-        simpleNutiritonAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,simpleNutritions);
+        simpleNutiritonAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,simpleNutritions);
 
         simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
 
@@ -139,10 +140,10 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
-        simpleNutritions.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
-        simpleNutritions.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
-        simpleNutritions.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");
-        simpleNutritions.add("Calorie:" + consumptionItem.getNutritional_values_dict().getCalorie_value() + " kcal");
+        simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
+        simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
+        simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");
+        simpleNutiritonAdapter.add("Calorie:" + consumptionItem.getNutritional_values_dict().getCalorie_value() + " kcal");
         wholeNutritions.add("Calorie:" + consumptionItem.getNutritional_values_dict().getCalorie_value() + " kcal");
         wholeNutritions.add("Vitamid D:" + consumptionItem.getNutritional_values_dict().getVitamin_D() + " IU");
         wholeNutritions.add("Zinc:" + consumptionItem.getNutritional_values_dict().getZinc() + " mg");

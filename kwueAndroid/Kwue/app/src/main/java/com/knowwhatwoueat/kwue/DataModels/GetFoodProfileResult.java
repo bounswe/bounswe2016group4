@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class GetFoodProfileResult {
+
     private double serving_weight_grams;
     private double protein_value;
     private double calorie_value;
@@ -25,10 +26,10 @@ public class GetFoodProfileResult {
 
 
 
-    /*
-    public GetProfileResult(double serving_weight_grams, double protein_value, double calorie_value, double fiber_value,
+
+    public GetFoodProfileResult(double serving_weight_grams, double protein_value, double calorie_value, double fiber_value,
                             int food_owner_id, String food_recipe, String food_description, String food_image, String food_name,
-                            double fat_value, double sugar_value, double food_rate, int food_id, double carbohydrate_value) {
+                            double fat_value, double sugar_value, double food_rate, int food_id, double carbohydrate_value,Tag[] tag_list) {
 
         this.serving_weight_grams = serving_weight_grams;
         this.protein_value = protein_value;
@@ -44,9 +45,10 @@ public class GetFoodProfileResult {
         this.food_rate = food_rate;
         this.food_id = food_id;
         this.carbohydrate_value =carbohydrate_value;
+        this.tag_list =tag_list;
     }
 
-    public GetProfileResult() {
+    public GetFoodProfileResult() {
 
     }
 
@@ -154,8 +156,14 @@ public class GetFoodProfileResult {
     public void setCarbohydrate_value(Double a) {
         this.carbohydrate_value = a;
     }
+    public Tag[] getTag_list() {
+        return tag_list;
+    }
 
-*/
+    public void setTag_list(Tag[] a) {
+        this.tag_list = a;
+    }
+
 }
 
 

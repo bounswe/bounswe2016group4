@@ -6,7 +6,7 @@ package com.knowwhatwoueat.kwue.DataModels;
 
 public class Tag {
     private String tag_name;
-    private int tag_id;
+    private String tag_id;
     private String tag_label;
     private String tag_description;
 }

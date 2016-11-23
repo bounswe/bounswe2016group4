@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
                     t.show();
                 } else {
 
-                    Intent i = new Intent(LoginActivity.this, HomePageActivity.class);
-                    i.putExtra("EmailTextView", email);
-                    i.putExtra("PasswordTextView", password);
+                    Intent i = new Intent(LoginActivity.this, ProfilePageActivity.class);
+                    //i.putExtra("EmailTextView", email);
+                    //i.putExtra("PasswordTextView", password);
                     startActivity(i);
 
                 }

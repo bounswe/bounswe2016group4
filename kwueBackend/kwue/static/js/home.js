@@ -2,6 +2,34 @@
  * Created by alper on 20/11/2016.
  */
 $(document).ready(function () {
+
+    var user_id = 1;
+
+    $.ajax({
+        url: 'get_eating_preferences',
+        data: {
+            user_id: user_id,
+        },
+        success: function (response) {
+            var protein_bound = [response['protein_lower_bound'], response['protein_upper_bound']];
+            var fat_bound = [];
+            var carbohydrate_bound = [];
+            var calorie_bound = [];
+            var sugar_bound = [];
+        }
+    });
+
+    var slide_pro = $("#protein-slider").slider({ id: "protein", min: 0, max: 1000, range: true, tooltip: 'hide' });
+    var slide_fat = $("#fat-slider").slider({ id: "fat", min: 0, max: 1000, range: true, value: [250, 750], tooltip: 'hide' });
+    var slide_carbo = $("#carbohydrate-slider").slider({ id: "carbohydrate", min: 0, max: 1000, range: true, value: [250, 750], tooltip: 'hide' });
+    var slide_cal = $("#calorie-slider").slider({ id: "calorie", min: 0, max: 1000, range: true, value: [250, 750], tooltip: 'hide' });
+    var slide_sugar = $("#sugar-slider").slider({ id: "sugar", min: 0, max: 1000, range: true, value: [250, 750], tooltip: 'hide' });
+
+    $(".slider").on("slide", function (slideEvt) {
+        $(this).next().text(slideEvt.value[0] + "-" + slideEvt.value[1]);
+    });
+
+
     $("#search-btn").click(function () {
         var query = $("#search-bar").val();
         $.ajax({
@@ -67,11 +95,8 @@ $(document).ready(function () {
 
     });
 
-    $(".food-ing").on('change', function () {
-        $(this).next().text($(this).val());
-    });
-
     $("#adv-search-submit").click(function () {
-
+        var x = $("#advanced-search-form").serializeArray();
+        console.log(x);
     });
 });

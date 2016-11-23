@@ -47,24 +47,27 @@ def search_by_text(focus_string):
     return dict(food_set=foods.distinct(), food_server_set=food_servers.distinct(), semantic_food_set=semantic_food.distinct(), semantic_user_set=semantic_user.distinct())
 
 
-def semantic_search(semantic_item):
-    #################
-    object_list = list(TagModel.objects.filter(semantic_tag_item__exact=semantic_item ))
-    semantic_food = []
-    semantic_user = []
-    ##################
-    ##################
-    for x in object_list:
-        if x.content_type.model == "foodmodel":
-            semantic_food.append(x.tagged_object)
-        else:
-            semantic_user.append(x.tagged_object)
-    #############
-    food_common = [ite.food_id for ite, it in Counter(semantic_food).most_common(5)]
-    #############
-    user_common = [ite.user_id for ite, it in Counter(semantic_user).most_common(5)]
-    #############
-    return [FoodModel.objects.filter(food_id__in=food_common), UserModel.objects.filter(user_id__in=user_common)]
+def db_shortcut_semantic_search(semantic_item_list):
+        #################
+        object_list = list(TagModel.objects.filter(semantic_tag_item__in=semantic_item_list))
+        semantic_food = []
+        semantic_user = []
+        ##################
+        ##################
+        for x in object_list:
+            if x.content_type.model == "foodmodel":
+                semantic_food.append(x.tagged_object)
+            else:
+                semantic_user.append(x.tagged_object)
+        #############
+        food_common = [ite.food_id for ite, it in Counter(semantic_food).most_common(5)]
+        #############
+        user_common = [ite.user_id for ite, it in Counter(semantic_user).most_common(5)]
+        #############
+        foods = FoodModel.objects.filter(food_id__in=food_common).values_list('food_id','food_name','food_image')
+        users = UserModel.objects.filter(user_id__in=user_common).values_list('user_id', 'user_name','user_image')
+
+        return dict(food=foods, users=users)
 
 
 def unwanted_search(ingredient_list, foods=None):

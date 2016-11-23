@@ -3,8 +3,8 @@ from kwue.DB_functions.food_db_functions import *
 from kwue.helper_functions.nutrition_helpers import request_nutrition
 import json
 from django.http import HttpResponse
-from kwue.controllers.tag import tag_food
 from kwue.DB_functions.tag_db_functions import *
+from django.views.decorators.csrf import csrf_exempt
 
 def get_food(req):
     food_id = req.GET.dict()['food_id']
@@ -16,6 +16,7 @@ def get_food(req):
     return render(req, 'kwue/food.html', food_dict)
 
 
+@csrf_exempt
 def add_food(req):
     food_dict = req.POST.dict()
 
@@ -28,6 +29,7 @@ def add_food(req):
         food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
         ingredient_list.append(ingredient["ingredient"])
     nutrition_dict = request_nutrition(food_recipe)
+    food_dict['food_recipe'] = food_recipe
 
     is_success = False
     reason = ""
@@ -39,16 +41,16 @@ def add_food(req):
             # add tags
             tag_dict = {}
             tag_dict['generic_id'] = new_food_id
-            tag_dict["Type"] = "Food"
+            tag_dict["type"] = "Food"
             tag_list = json.loads(food_dict['food_tags'])
             for tag_item in tag_list:
-                tag_dict['tag_label'] = tag_item['tag_name']
-                tag_dict['semantic_tag_item'] = tag_item['tag_id']
-                tag_dict['semantic_tag_item_label'] = tag_item['tag_label']
-                tag_dict['semantic_tag_description'] = tag_item['tag_description']
-                tag_food(tag_dict)
+                tag_dict['tag_name'] = tag_item['tag_name']
+                tag_dict['tag_id'] = tag_item['tag_id']
+                tag_dict['tag_label'] = tag_item['tag_label']
+                tag_dict['tag_description'] = tag_item['tag_description']
+                db_insert_tag(tag_dict)
 
-            print(req.session['username'] + " has added a food successfully.")
+            #print(req.session['username'] + " has added a food successfully.")
             is_success = True
         else:
             reason = 'Adding food failed.'
@@ -61,11 +63,12 @@ def get_add_food_page(req):
     return render(req, 'kwue/add_food.html', {})
 
 
+@csrf_exempt
 def get_nutritional_values(req):
     ingredients = json.loads(req.POST.dict()['ingredients'])
     food_recipe = ""
     for ingredient in ingredients:
-        food_recipe += ingredient[0] + " " + ingredient[1] + "\n"
+        food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
     nutrition_dict = request_nutrition(food_recipe)
     return HttpResponse(json.dumps(nutrition_dict))
 

@@ -3,13 +3,16 @@ package com.knowwhatwoueat.kwue.Activities;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,6 +60,9 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
+    private SimpleNutritionAdapter wholeNutritionAdapter;
+
+    private AlertDialog alertDialog;
 
 
     private String url = Constants.endPoint;
@@ -89,18 +95,36 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         consumptionListView = (ListView) findViewById(R.id.consumptionlist);
         intervalView = (TextView) findViewById(R.id.nutrition_interval);
 
+
         simpleNutiritonAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,simpleNutritions);
         consumptionListAdapter = new ConsumptionListAdapter(this,consumptionItem.getFoods());
+        wholeNutritionAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,wholeNutritions);
 
         simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
         consumptionListView.setAdapter(consumptionListAdapter);
 
+
         intervalView.setText("Your" + interval+" nutritions:");
+
+        final AlertDialog.Builder build = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = build.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView =  inflater.inflate(R.layout.nutrition_list_dialog, null);
+        wholeNutritionList = (ListView) convertView.findViewById(R.id.list_nutrition);
+        wholeNutritionList.setAdapter(wholeNutritionAdapter);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("All Nutritions");
 
         showMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //show dialog here
+                //dialog for all nutritions
+                alertDialog.show();
             }
         });
 
@@ -193,7 +217,8 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         wholeNutritions.add("Choline:" + consumptionItem.getNutritional_values_dict().getCholine()+ " mg");
         wholeNutritions.add("Fat :" + consumptionItem.getNutritional_values_dict().getFat_value()+ " gram");
         wholeNutritions.add("Serving Weight:" + consumptionItem.getNutritional_values_dict().getServing_weight_grams()+ " gram");
-        wholeNutritions.add("Vitamin K:" + consumptionItem.getNutritional_values_dict().getVitamin_K()+ " mcg");
+        wholeNutritionAdapter.add("Vitamin K:" + consumptionItem.getNutritional_values_dict().getVitamin_K()+ " mcg");
+        wholeNutritionAdapter.notifyDataSetChanged();
         Log.d("print", simpleNutritions.toString());
         Log.d("print whole",wholeNutritions.toString());
 

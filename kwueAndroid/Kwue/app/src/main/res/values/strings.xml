@@ -56,5 +56,6 @@
     <string name="title_activity_sidebar">Sidebar</string>
     <string name="sidebar_opened">Sidebar opened</string>
     <string name="sidebar_closed">Sidebar closed</string>
+    <string name="title_activity_food_profile">FoodProfile</string>
 
 </resources>

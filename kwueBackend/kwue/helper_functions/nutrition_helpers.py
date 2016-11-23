@@ -12,6 +12,10 @@ def parse_nutrition(data):
                           serving_weight_grams=data['foods'][0]['serving_weight_grams'])
     for key, value in full_nutrients_dict.items():
         nutrition_dict[key] = value
+    try:
+        nutrition_dict["Error"] = data["errors"][0]["unparsed_line"]
+    except:
+        nutrition_dict["Error"] = "Null"
     print(nutrition_dict)
     return nutrition_dict
 

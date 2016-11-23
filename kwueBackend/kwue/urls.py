@@ -38,6 +38,17 @@ urlpatterns = (
 
     ### REQUEST
     # GET
+    # 'search_text'
+    #
+    ### RESPONSE
+    #
+    # 'foods': Array of 'food_id', 'food_name', 'food_image'
+    # 'users': Array of 'user_id', 'user_name', 'user_image'
+    #
+    url(r'^shortcut_semantic_search', search.shortcut_sementic_search),
+
+    ### REQUEST
+    # GET
     # 'user_id'
     # 'setting' : 'daily', 'weekly', 'monthly', 'alltime' available so far.
     #
@@ -45,36 +56,36 @@ urlpatterns = (
     #
     # 'foods' : Array of 'food_id', 'food_name', 'food_image' and 'time_added'
     # 'nutritional_values_dict' : Array of nutritional values ->
-    #     'protein_value'
-    #     'fat_value'
-    #     'carbohydrate_value'
-    #     'fiber_value'
-    #     'calorie_value'
-    #     'sugar_value'
-    #     'serving_weight_grams'
-    #     'vitamin_A'
-    #     'vitamin_C'
-    #     'vitamin_D'
-    #     'vitamin_E'
-    #     'vitamin_K'
-    #     'thiamin'
-    #     'riboflavin'
-    #     'niacin'
-    #     'vitamin_B6'
-    #     'folatem'
-    #     'vitamin_B12'
-    #     'pantothenic_acid'
-    #     'choline'
-    #     'calcium'
-    #     'copper'
-    #     'flouride'
-    #     'iron_Fe'
-    #     'magnesium'
-    #     'manganese'
-    #     'sodium_Na'
-    #     'phosphorus'
-    #     'selenium'
-    #     'zinc'
+    #     'protein_value' gr
+    #     'fat_value' gr
+    #     'carbohydrate_value' gr
+    #     'fiber_value' gr
+    #     'calorie_value' cal
+    #     'sugar_value' gr
+    #     'serving_weight_grams' gr
+    #     'vitamin_A' IU
+    #     'vitamin_C' mg
+    #     'vitamin_D' IU
+    #     'vitamin_E' mg
+    #     'vitamin_K' mcg
+    #     'thiamin' mg
+    #     'riboflavin' mg
+    #     'niacin' mg
+    #     'vitamin_B6' mg
+    #     'folatem' mcg
+    #     'vitamin_B12' mcg
+    #     'pantothenic_acid' mg
+    #     'choline' mcg
+    #     'calcium' mg
+    #     'copper' mg
+    #     'flouride' mg
+    #     'iron_Fe' mg
+    #     'magnesium' mg
+    #     'manganese' mg
+    #     'sodium_Na' mg
+    #     'phosphorus' mg
+    #     'selenium' mcg
+    #     'zinc' mg
     #
     url(r'^get_consumption_history', consumption_history.get_consumption_history),
 
@@ -85,7 +96,8 @@ urlpatterns = (
     #
     ### RESPONSE
     #
-    # nothing
+    # 'is_success'
+    # 'reason'
     #
     url(r'^mark_as_eaten', consumption_history.mark_as_eaten),
 
@@ -114,33 +126,17 @@ urlpatterns = (
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
     #
-    url(r'^get_user', user.get_user),  # Renders 'user_profile_page.html'
+    url(r'^get_user', user.get_user),
 
     ### REQUEST
     # GET
-    # 'user_id'
+    #
     #
     ### RESPONSE
     #
-    # 'user_name'
-    # 'user_nick'
-    # 'user_email_address'
-    # 'user_image'
-    # 'user_type'
-    # 'unwanted_ingredients'
-    # 'wanted_ingredients'
-    # 'protein_lower_bound'
-    # 'fat_lower_bound'
-    # 'carbohydrate_lower_bound'
-    # 'calorie_lower_bound'
-    # 'sugar_lower_bound'
-    # 'protein_upper_bound'
-    # 'fat_upper_bound'
-    # 'carbohydrate_upper_bound'
-    # 'calorie_upper_bound'
-    # 'sugar_upper_bound'
     #
-    url(r'^user_profile_page', user.get_user_profile_page),
+    #
+    url(r'^user_profile_page', user.get_user_profile_page), # Renders ...
 
 
     ### REQUEST
@@ -170,8 +166,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list' : json of array of items
-    # 'unwanted_list' : json of array of items
+    # 'wanted_list' : ['pepper','apple'...]
+    # 'unwanted_list' : ['pepper','apple'...]
     #
     ### RESPONSE
     #
@@ -198,8 +194,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list'
-    # 'unwanted_list'
+    # 'wanted_list' ['pepper','apple'...]
+    # 'unwanted_list' ['pepper','apple'...]
     url(r'^get_eating_preferences', user.get_eating_preferences),
 
 
@@ -216,8 +212,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list' : json of array of items
-    # 'unwanted_list' : json of array of items
+    # 'wanted_list' : ['pepper','apple'...]
+    # 'unwanted_list' : ['pepper','apple'...]
     #
     ### RESPONSE
     #
@@ -230,6 +226,7 @@ urlpatterns = (
     # 'tag_name'
     ### RESPONSE
     # Array of semantic tags
+    # 'tag_name'
     # 'tag_id'
     # 'tag_label'
     # 'tag_description'
@@ -240,9 +237,9 @@ urlpatterns = (
     # 'food_id'
     ### RESPONSE
     # 'serving_weight_grams'
-    # 'protein_value'
-    # 'calorie_value'
-    # 'fiber_value'
+    # 'protein_value' g
+    # 'calorie_value' g
+    # 'fiber_value' g
     # 'food_owner_id'
     # 'food_recipe'
     # 'food_description'
@@ -258,7 +255,7 @@ urlpatterns = (
 
     ### REQUEST
     # GET
-    # 'ingredients' : should be in json format [{ing1, val1},{ing2, val2},{ing3, val3},..]"
+    # 'ingredients' : should be in json format [{"ingredient":ing1, "value":val1},{"ingredient":ing2, "value": val2}]"
     ### RESPONSE
     # 'calorie_value'
     # 'serving_weight_grams'
@@ -298,13 +295,14 @@ urlpatterns = (
 
     ### REQUEST
     #
-    #
+    # empty
     #
     ### RESPONSE
     #
-    #
+    # empty
     #
     url(r'^consumption_history', consumption_history.get_consumption_page, name='consumption_history'),
+
 
     url(r'^$', home.get_home, name='home'),
 )

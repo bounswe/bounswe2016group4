@@ -14,6 +14,6 @@ def db_insert_ingredient(ingredient_name):
 
 def db_retrieve_ingredient(ingredient_name):
     try:
-        return IngredientModel.objects.get(ingredient_name_iexact=ingredient_name)
+        return IngredientModel.objects.get(ingredient_name__iexact=ingredient_name)
     except:
         return False

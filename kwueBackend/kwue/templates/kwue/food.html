@@ -1,15 +1,75 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Food Page</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/food_page.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <title>KWUE</title>
 </head>
 <body>
-<div>
-    <a href="http://127.0.0.1:8000/">home</a>
-    <a href="http://127.0.0.1:8000/get_a_food/1">CLICK ME!</a>
-    <a href="http://127.0.0.1:8000/search_semantic_tags/trump">CLICK ME for semantic tags!</a>
-    {{ semanticTags }}
-</div>
+<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+        {% include 'kwue/navigation_bar.html' %}
+        <div class="row">
+            <div class="panel panel-success">
+                <div class="panel panel-heading">
+                    {{ food_name }}
+                </div>
+                <div class="panel panel-body">
+                    <div class="col-md-3">
+                        <img src="{{ food_image }}" style="width: 200px; height: auto">
+                        <p>Description: {{ food_description }}</p>
+                        <p>Rate: {{ food_rate }}</p>
+                        <a class="btn btn-primary" id="mark-as-eaten" data-foodid="{{ food_id }}">Mark as Eaten</a>
+                    </div>
+                    <div class="col-md-9">
+                        <p><strong>Carbohydrate: </strong>{{ carbohydrate_value }}</p>
+                        <p><strong>Sugar: </strong>{{ sugar_value }}</p>
+                        <p><strong>Fat: </strong>{{ fat_value }}</p>
+                        <p><strong>Protein: </strong>{{ protein_value }}</p>
+                        <p><strong>Calorie: </strong>{{ calorie_value }}</p>
+                        <div hidden id="others">
+                            <p><strong>Fiber: </strong>{{ fiber_value }}</p>
+                            <p><strong>Serving Weight: </strong>{{ serving_weight_grams }}</p>
+                            <h4><p><strong style="color: #5bc0de;">Vitamins</strong></p></h4>
+                            <p><strong>Vitamin A: </strong>{{ vitamin_A }}</p>
+                            <p><strong>Vitamin C: </strong>{{ vitamin_C }}</p>
+                            <p><strong>Vitamin D: </strong>{{ vitamin_D }}</p>
+                            <p><strong>Vitamin E: </strong>{{ vitamin_E }}</p>
+                            <p><strong>Vitamin K: </strong>{{ vitamin_K }}</p>
+                            <p><strong>Thiamin: </strong>{{ thiamin }}</p>
+                            <p><strong>Riboflavin: </strong>{{ riboflavin }}</p>
+                            <p><strong>Niacin: </strong>{{ niacin }}</p>
+                            <p><strong>Vitamin B6: </strong>{{ vitamin_B6 }}</p>
+                            <p><strong>Vitamin B12: </strong>{{ vitamin_B12 }}</p>
+                            <p><strong>Pantothenic acid: </strong>{{ pantothenic_acid }}</p>
+                            <p><strong>Choline: </strong>{{ choline }}</p>
+                            <h4><p><strong style="color: #f0ad4e;">Minerals</strong></p></h4>
+                            <p><strong>Calcium: </strong>{{ calcium }}</p>
+                            <p><strong>Copper: </strong>{{ copper }}</p>
+                            <p><strong>Flouride: </strong>{{ flouride }}</p>
+                            <p><strong>IronFe: </strong>{{ iron_Fe }}</p>
+                            <p><strong>Magnesium: </strong>{{ magnesium }}</p>
+                            <p><strong>Manganese: </strong>{{ manganese }}</p>
+                            <p><strong>Sodium Na: </strong>{{ sodium_Na }}</p>
+                            <p><strong>Phosphorus: </strong>{{ phosphorus }}</p>
+                            <p><strong>Selenium: </strong>{{ selenium }}</p>
+                            <p><strong>Zinc: </strong>{{ zinc }}</p>
+                        </div>
+                        <a id="more-button">More...</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'kwue/search_result_template.html' %}
+    </div>
 </body>
 </html>

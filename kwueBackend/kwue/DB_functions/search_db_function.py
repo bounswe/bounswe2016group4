@@ -38,8 +38,8 @@ def search_by_text(focus_string):
         semantic_tag_item_label__icontains=focus_string)
     from_tag_food = from_tag.filter(content_type__model="foodmodel")
     from_tag_food_server = from_tag.filter(content_type__model='usermodel')
-    semantic_food = FoodModel.objects.filter(food_id__in=semantic_food).exclude(food_id__in=foods.values_list("food_id")) | FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id'))
-    semantic_user = UserModel.objects.filter(user_id__in=semantic_user).exclude(user_id__in=food_servers.values_list("user_id")) | UserModel.objects.filter(user_id__in=from_tag_food_server.values('tagged_object_id'))
+    semantic_food = FoodModel.objects.filter(food_id__in=semantic_food).exclude(food_id__in=foods.values_list("food_id")) | FoodModel.objects.filter(food_id__in=from_tag_food.values('tagged_object_id')).exclude(food_id__in=foods.values_list("food_id"))
+    semantic_user = UserModel.objects.filter(user_id__in=semantic_user).exclude(user_id__in=food_servers.values_list("user_id")) | UserModel.objects.filter(user_id__in=from_tag_food_server.values('tagged_object_id')).exclude(food_id__in=foods.values_list("food_id"))
     ###############
     return dict(food_set=foods.distinct(), food_server_set=food_servers.distinct(), semantic_food_set=semantic_food.distinct(), semantic_user_set=semantic_user.distinct())
 

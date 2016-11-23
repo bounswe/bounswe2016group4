@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from kwue.DB_functions.search_db_function import *
 from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
 import json
+from kwue.helper_functions.conversions import *
 
 
 def basic_search(req):
@@ -22,8 +23,8 @@ def advanced_search(req):
 
     dict = req.GET.dict()
     ep = dict
-    ep['wanted_list'] = json.loads(ep['wanted_list'])
-    ep['unwanted_list'] = json.loads(ep['unwanted_list'])
+
+    ep = ingredients_from_dict_to_list(ep)
 
     search_results = search_alg(dict, ep)
     return HttpResponse(json.dumps(search_results), content_type='application/json')
@@ -63,3 +64,6 @@ def search_by_parameters(ep, foods):
     foods = calorie_search(ep['calorie_lower_bound'], ep['calorie_upper_bound'], foods)
     foods = sugar_search(ep['sugar_lower_bound'], ep['sugar_upper_bound'], foods)
     return foods
+
+def shortcut_sementic_search(req):
+    return

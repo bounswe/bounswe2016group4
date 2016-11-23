@@ -1,17 +1,17 @@
 package com.knowwhatwoueat.kwue.Activities;
 
-import android.app.DownloadManager;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,16 +21,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
-import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import java.util.List;
  */
 public class ProfilePageActivity extends AppCompatActivity {
 
-    public User user = new User();
+    public static User user = new User();
     int userId = 1 ;
     public List<Food> consumptionHistory ;
 
@@ -59,13 +60,13 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
         queue = Volley.newRequestQueue(this);
-        final AlertDialog.Builder build = new AlertDialog.Builder(ProfilePageActivity.this);
+ /*       final AlertDialog.Builder build = new AlertDialog.Builder(ProfilePageActivity.this);
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 alertDialog.dismiss();
             }
         });
-        alertDialog = build.create();
+        alertDialog = build.create();*/
 
 
 
@@ -74,6 +75,52 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         requestUser(userId);
 
+        Log.d("print", "deneme: " + user.user_name);
+        Log.d("print", "deneme: " + user.user_email_address);
+
+
+
+
+    }
+
+
+    protected void requestUser(int userId){
+        String user_url = url + "get_user?user_id=" + userId;
+
+        GsonRequest<User> gsonRequest = new GsonRequest<>(user_url,User.class, Request.Method.GET,
+                new Response.Listener<User>() {
+                    @Override
+                    public void onResponse(User response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: in" + response);
+                        user = response;
+                        Log.d("print", "assignUserInfo: " + user.user_name);
+                        Log.d("print", "assignUserInfo: " + user.user_email_address);
+                        try {
+                            setView(response);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        //  assignUserInfo(response);
+                      //  showAlertDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response","That didn't work!" + error);
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(gsonRequest);
+    }
+    protected void setView(User user) throws IOException {
+     /*   ImageView imageView = (ImageView) this.findViewById(R.id.user_profile_image);
+        URL url = new URL(user.user_image);
+        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        imageView.setImageBitmap(bmp); */
+
+        new DownloadImageTask((ImageView) findViewById(R.id.user_profile_image))
+                .execute(user.user_image);
 
         TextView userName =(TextView) this.findViewById(R.id.user_name);
         userName.setText(user.user_name);
@@ -93,43 +140,43 @@ public class ProfilePageActivity extends AppCompatActivity {
             }
         });
 
-
-
-    }
-    protected void assignUserInfo(User response){
-        //user = response;
-        Log.d("print", "assignUserInfo: " + response.user_email_address);
-        Log.d("print", "assignUserInfo: " + response.user_name);
-        user.user_name = response.user_name;
     }
 
-    protected void requestUser(int userId){
-        String user_url = url + "get_user?user_id=" + userId;
+    /**
+     * this method prevents NetworkOnMainThreadException because it works asynchr.
+     */
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
-        GsonRequest<User> gsonRequest = new GsonRequest<>(user_url,User.class, Request.Method.GET,
-                new Response.Listener<User>() {
-                    @Override
-                    public void onResponse(User response) {
-                        // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: in" + response);
-                        assignUserInfo(response);
-                        showAlertDialog();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("response","That didn't work!" + error);
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
-        });
-// Add the request to the RequestQueue.
-      queue.add(gsonRequest);
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
+
+/*
     protected void showAlertDialog(){
         alertDialog.show();
     }
 
-
+*/
 
 
 

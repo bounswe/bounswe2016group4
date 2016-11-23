@@ -81,7 +81,7 @@ $(document).ready(function () {
                     var response = result['user_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='#' class='list-group-item'>" +
+                        html = html + "<a href='user_profile_page?user_id="+ response[i]['user_id'] +"' class='list-group-item'>" +
                             "<p>User Name: " + response[i]['user_name'] + "</p>" +
                             "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
                     }
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     var response = result['semantic_user_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='#' class='list-group-item'>" +
+                        html = html + "<a href='user_profile_page?user_id="+ response[i]['user_id'] +"' class='list-group-item'>" +
                             "<p>User Name: " + response[i]['user_name'] + "</p>" +
                             "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
                     }
@@ -162,7 +162,7 @@ $(document).ready(function () {
                     var response = result['user_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='#' class='list-group-item'>" +
+                        html = html + "<a href='user_profile_page?user_id="+ response[i]['user_id'] + "' class='list-group-item'>" +
                             "<p>User Name: " + response[i]['user_name'] + "</p>" +
                             "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
                     }
@@ -183,7 +183,7 @@ $(document).ready(function () {
                     var response = result['semantic_user_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='#' class='list-group-item'>" +
+                        html = html + "<a href='user_profile_page?user_id="+ response[i]['user_id'] +"' class='list-group-item'>" +
                             "<p>User Name: " + response[i]['user_name'] + "</p>" +
                             "<p><img src='"+ response[i]['user_image'] +"' style='width: 100px; height: auto'></p></a>";
                     }

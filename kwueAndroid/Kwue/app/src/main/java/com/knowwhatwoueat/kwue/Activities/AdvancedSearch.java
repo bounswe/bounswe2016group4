@@ -1,6 +1,7 @@
 package com.knowwhatwoueat.kwue.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,11 +53,29 @@ public class AdvancedSearch extends AppCompatActivity {
     private double calorieUpperBound = 1000;
     private double sugarLowerBound = 0;
     private double sugarUpperBound = 1000;
+
+    private double prefProteinLowerBound = 0;
+    private double prefProteinUpperBound = 1000;
+    private double prefFatLowerBound = 0;
+    private double prefFatUpperBound = 1000;
+    private double prefCarbonhydrateLowerBound = 0;
+    private double prefCarbonhydrateUpperBound = 1000;
+    private double prefCalorieLowerBound = 0;
+    private double prefCalorieUpperBound = 1000;
+    private double prefSugarLowerBound = 0;
+    private double prefSugarUpperBound = 1000;
+    private String[] prefWanted ;
+    private String[] prefUnwanted;
+
     private String wanted;
     private String unwanted;
     private String[] eatingPreferencesWanted;
     private String[] eatingPreferencesUnwanted;
     private boolean checkBoxForEatingPreferences;
+
+    private boolean isUser;
+    private ArrayList<Integer> foodId ;
+    private ArrayList<Integer> userId ;
 
 
     private ListView advancedSearchListView;
@@ -79,11 +99,10 @@ public class AdvancedSearch extends AppCompatActivity {
         CheckBox eatingPreference = (CheckBox) findViewById(R.id.eating_preferences);
         onCheckboxClicked(eatingPreference);
 
-
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbarProtein = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarProtein);
         rangeSeekbarProtein.setMinValue(0);
-        rangeSeekbarProtein.setMaxValue(1000);
+        rangeSeekbarProtein.setMaxValue(5000);
         rangeSeekbarProtein.setBarHighlightColor(Color.RED);
         rangeSeekbarProtein.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarProtein.setRightThumbColor(Color.DKGRAY);
@@ -91,35 +110,33 @@ public class AdvancedSearch extends AppCompatActivity {
 
         final CrystalRangeSeekbar rangeSeekbarFat = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarFat);
         rangeSeekbarFat.setMinValue(0);
-        rangeSeekbarFat.setMaxValue(1000);
+        rangeSeekbarFat.setMaxValue(5000);
         rangeSeekbarFat.setBarHighlightColor(Color.RED);
         rangeSeekbarFat.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarFat.setRightThumbColor(Color.DKGRAY);
 
         final CrystalRangeSeekbar rangeSeekbarCarbonhydrate = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarCarbonHydrate);
         rangeSeekbarCarbonhydrate.setMinValue(0);
-        rangeSeekbarCarbonhydrate.setMaxValue(1000);
+        rangeSeekbarCarbonhydrate.setMaxValue(5000);
         rangeSeekbarCarbonhydrate.setBarHighlightColor(Color.RED);
         rangeSeekbarCarbonhydrate.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarCarbonhydrate.setRightThumbColor(Color.DKGRAY);
 
         final CrystalRangeSeekbar rangeSeekbarCalorie = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarCalorie);
         rangeSeekbarCalorie.setMinValue(0);
-        rangeSeekbarCalorie.setMaxValue(1000);
+        rangeSeekbarCalorie.setMaxValue(5000);
         rangeSeekbarCalorie.setBarHighlightColor(Color.RED);
         rangeSeekbarCalorie.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarCalorie.setRightThumbColor(Color.DKGRAY);
 
         final CrystalRangeSeekbar rangeSeekbarSugar = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarSugar);
         rangeSeekbarSugar.setMinValue(0);
-        rangeSeekbarSugar.setMaxValue(1000);
+        rangeSeekbarSugar.setMaxValue(5000);
         rangeSeekbarSugar.setBarHighlightColor(Color.RED);
         rangeSeekbarSugar.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarSugar.setRightThumbColor(Color.DKGRAY);
 
-
         // get min and max text view
-
         final TextView proteinLower = (TextView) findViewById(R.id.proteinLowerBoundTextBox);
         final TextView proteinUpper = (TextView) findViewById(R.id.proteinUpperBoundTextBox);
         final TextView fatLower = (TextView) findViewById(R.id.fatLowerBoundTextBox);
@@ -150,6 +167,12 @@ public class AdvancedSearch extends AppCompatActivity {
                 proteinLowerBound = Integer.parseInt(x);
                 proteinUpperBound = Integer.parseInt(y);
 
+                if(checkBoxForEatingPreferences){
+                    String warning = "Lower Bound: "+ prefProteinLowerBound +" Upper Bound: "+prefProteinUpperBound;
+                    Toast.makeText(AdvancedSearch.this,warning, Toast.LENGTH_LONG).show();
+
+                }
+
                 //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
             }
         });
@@ -163,7 +186,7 @@ public class AdvancedSearch extends AppCompatActivity {
             }
         });
 
-        if (!checkBoxForEatingPreferences) {
+
             // set final value listener
             rangeSeekbarFat.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
                 @Override
@@ -172,6 +195,12 @@ public class AdvancedSearch extends AppCompatActivity {
                     String y = String.valueOf(maxValue);
                     fatLowerBound = Integer.parseInt(x);
                     fatUpperBound = Integer.parseInt(y);
+
+                    if(checkBoxForEatingPreferences){
+                        String warning = "Lower Bound: "+ prefFatLowerBound +" Upper Bound: "+prefFatUpperBound;
+                        Toast.makeText(AdvancedSearch.this,warning, Toast.LENGTH_LONG).show();
+
+                    }
 
                     //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
                 }
@@ -215,6 +244,11 @@ public class AdvancedSearch extends AppCompatActivity {
                     String y = String.valueOf(maxValue);
                     calorieLowerBound = Integer.parseInt(x);
                     calorieUpperBound = Integer.parseInt(y);
+                    if(checkBoxForEatingPreferences){
+                        String warning = "Lower Bound: "+ prefCalorieLowerBound +" Upper Bound: "+prefCalorieUpperBound;
+                        Toast.makeText(AdvancedSearch.this,warning, Toast.LENGTH_LONG).show();
+
+                    }
 
                     //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
                 }
@@ -238,9 +272,14 @@ public class AdvancedSearch extends AppCompatActivity {
                     sugarLowerBound = Integer.parseInt(x);
                     sugarUpperBound = Integer.parseInt(y);
                     //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                    if(checkBoxForEatingPreferences){
+                        String warning = "Lower Bound: "+ prefSugarLowerBound +" Upper Bound: "+prefSugarUpperBound;
+                        Toast.makeText(AdvancedSearch.this,warning, Toast.LENGTH_LONG).show();
+
+                    }
                 }
             });
-        }
+
 
 
         final EditText advancedsearchTextBox = (EditText) findViewById(R.id.advancedSearchTextBox);
@@ -251,12 +290,48 @@ public class AdvancedSearch extends AppCompatActivity {
 
 
         final Button advancedSearchButton = (Button) findViewById(R.id.advancedSearchButton);
+        final Button preferenceWanted = (Button) findViewById(R.id.showWantedList);
+        preferenceWanted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkBoxForEatingPreferences) {
+                    int length = prefWanted.length;
+                    String x = "";
+                    for (int i = 0; i < length; i++) {
+                        x = x + " " + prefWanted[i];
+                    }
+                    Toast.makeText(AdvancedSearch.this, x, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(AdvancedSearch.this, "Enable checkbox to see your preferences", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        final Button preferenceUnwanted = (Button) findViewById(R.id.showUnwantedList);
+
+        preferenceUnwanted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkBoxForEatingPreferences) {
+                    int length = prefUnwanted.length;
+                    String x = "";
+                    for (int i = 0; i < length; i++) {
+                        x = x + " " + prefUnwanted[i];
+                    }
+                    Toast.makeText(AdvancedSearch.this, x, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(AdvancedSearch.this, "Enable checkbox to see your preferences", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(this);
         Gson gson = new Gson();
 
         responseNamesList = new ArrayList<String>();
+        foodId = new ArrayList<Integer>();
+        userId = new ArrayList<Integer>();
+
 
         searchListAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, responseNamesList);
 
@@ -274,6 +349,23 @@ public class AdvancedSearch extends AppCompatActivity {
         ListView lv = (ListView) convertView.findViewById(R.id.listView4);
         lv.setAdapter(searchListAdapter);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println(i);
+                Intent j;
+                if(isUser){
+                    j = new Intent(AdvancedSearch.this, ProfilePageActivity.class);
+                    j.putExtra("isUser",userId.get(i));
+                    startActivity(j);
+                }else{
+                    j = new Intent(AdvancedSearch.this, AddFood.class);
+                    j.putExtra("isFood",foodId.get(i));
+                    startActivity(j);
+                }
+            }
+        });
+
 
         advancedSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,19 +382,19 @@ public class AdvancedSearch extends AppCompatActivity {
                 String[] unwanted_list;
 
 
-                if(!checkBoxForEatingPreferences) {
+               // if(!checkBoxForEatingPreferences) {
                     wanted = wantedTextbox.getText().toString();
                     unwanted = unwantedTextbox.getText().toString();
                     wanted_List = wanted.split(",");
                     unwanted_list = unwanted.split(",");
 
-
+                /*
                 }else{
                     wanted_List = eatingPreferencesWanted;
-                    System.out.println(wanted_List+"djfj");
+                    //System.out.println(wanted_List+"djfj");
                     unwanted_list = eatingPreferencesUnwanted;
                 }
-
+                */
                 int lengthOfwanted = wanted_List.length;
                 int lengthOfunwanted = unwanted_list.length;
                 String[] jsonwanted = jsonwanted = new String[lengthOfwanted];
@@ -373,7 +465,7 @@ public class AdvancedSearch extends AppCompatActivity {
         boolean checked = ((CheckBox) view).isChecked();
         checkBoxForEatingPreferences = checked;
         if (checked) {
-            Toast.makeText(AdvancedSearch.this, "You don't need to make choices", Toast.LENGTH_LONG).show();
+            Toast.makeText(AdvancedSearch.this, "Be careful about your preferences!", Toast.LENGTH_LONG).show();
             sendGetEatingPreferenceHttpRequest();
         }
 
@@ -387,34 +479,42 @@ public class AdvancedSearch extends AppCompatActivity {
     protected void assignSearchTitles(BasicSearchResult response) {
 
         int foodNumber = response.food_set.length;
+        if(foodNumber > 0) isUser = false;
         for (int i = 0; i < foodNumber; i++) {
             FoodBasicSearch find = response.food_set[i];
-
+            foodId.add(find.getFood_id());
             responseNamesList.add(find.getFood_name());
 
         }
 
         int semanticFoodNumber = response.semantic_food_set.length;
+        if(semanticFoodNumber > 0) isUser = false;
         for (int i = 0; i < semanticFoodNumber; i++) {
             FoodBasicSearch findSF = response.semantic_food_set[i];
+            foodId.add(findSF.getFood_id());
             responseNamesList.add(findSF.getFood_name());
         }
 
         int semanticFoodServerNumber = response.semantic_user_set.length;
+        if(semanticFoodServerNumber > 0) isUser = true;
         for (int j = 0; j < semanticFoodServerNumber; j++) {
             FoodServerBasicSearch findSF = response.user_set[j];
+            userId.add(findSF.getUser_id());
             responseNamesList.add(findSF.getUser_name());
         }
 
         int foodServerNumber = response.user_set.length;
+        if(foodServerNumber > 0) isUser = true;
         for (int j = 0; j < foodServerNumber; j++) {
             FoodServerBasicSearch findS = response.user_set[j];
+            userId.add(findS.getUser_id());
             responseNamesList.add(findS.getUser_name());
         }
 
     }
 
     protected void assignEatingPreferenceValues(EatingPreferences response) {
+        /*
         proteinLowerBound = response.protein_lower_bound;
         proteinUpperBound = response.protein_upper_bound;
         fatLowerBound = response.fat_lower_bound;
@@ -428,6 +528,22 @@ public class AdvancedSearch extends AppCompatActivity {
         eatingPreferencesWanted = response.wanted_list;
         //System.out.println(eatingPreferencesWanted[0]);
         eatingPreferencesUnwanted = response.unwanted_list;
+        */
+
+        prefProteinLowerBound = response.protein_lower_bound;
+        prefProteinUpperBound = response.protein_upper_bound;
+        prefFatLowerBound = response.fat_lower_bound;
+        prefFatUpperBound = response.fat_upper_bound;
+        prefCarbonhydrateLowerBound = response.carbohydrate_lower_bound;
+        prefCarbonhydrateUpperBound = response.carbonhydrate_upper_bound;
+        prefCalorieLowerBound = response.calorie_lower_bound;
+        prefCalorieUpperBound = response.calorie_upper_bound;
+        prefSugarLowerBound = response.sugar_lower_bound;
+        prefSugarUpperBound = response.sugar_upper_bound;
+        prefWanted = response.wanted_list;
+        //System.out.println(eatingPreferencesWanted[0]);
+        prefUnwanted = response.unwanted_list;
+
     }
 
 

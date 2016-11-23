@@ -141,13 +141,15 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date = UnixTimeStampField(use_numeric=True, auto_now_add=True, editable=True)
+    date_unix = UnixTimeStampField(use_numeric=True, auto_now_add=True, editable=True)
     fid = models.PositiveIntegerField()
     f_name = models.TextField(blank=True)
-
+    date = models.IntegerField(blank=True)
+    
     def save(self):
         self.fid = self.food.food_id
         self.fname = self.food.food_name
+        self.date =  self.date_unix
         super().save(self)
 
     def __str__(self):

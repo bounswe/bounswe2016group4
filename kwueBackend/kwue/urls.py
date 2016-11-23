@@ -295,13 +295,14 @@ urlpatterns = (
 
     ### REQUEST
     #
-    #
+    # empty
     #
     ### RESPONSE
     #
-    #
+    # empty
     #
     url(r'^consumption_history', consumption_history.get_consumption_page, name='consumption_history'),
+
 
     url(r'^$', home.get_home, name='home'),
 )

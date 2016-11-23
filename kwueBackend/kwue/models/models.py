@@ -141,7 +141,7 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date = UnixTimeStampField(use_numeric=True, auto_now_add=True)
+    date = UnixTimeStampField(use_numeric=True, auto_now_add=True, editable=True)
     fid = models.PositiveIntegerField()
     f_name = models.TextField(blank=True)
 

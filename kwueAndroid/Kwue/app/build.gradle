@@ -34,4 +34,6 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:24.2.1'
     testCompile 'junit:junit:4.12'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.4'
+    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    compile 'com.crystal:crystalrangeseekbar:1.1.1'
 }

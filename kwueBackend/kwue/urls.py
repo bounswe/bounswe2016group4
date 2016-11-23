@@ -56,13 +56,13 @@ urlpatterns = (
     #
     # 'foods' : Array of 'food_id', 'food_name', 'food_image' and 'time_added'
     # 'nutritional_values_dict' : Array of nutritional values ->
-    #     'protein_value'
-    #     'fat_value'
-    #     'carbohydrate_value'
-    #     'fiber_value'
-    #     'calorie_value'
-    #     'sugar_value'
-    #     'serving_weight_grams'
+    #     'protein_value' gr
+    #     'fat_value' gr
+    #     'carbohydrate_value' gr
+    #     'fiber_value' gr
+    #     'calorie_value' cal
+    #     'sugar_value' gr
+    #     'serving_weight_grams' gr
     #     'vitamin_A' IU
     #     'vitamin_C' mg
     #     'vitamin_D' IU

@@ -73,36 +73,36 @@ def get_consumption_history(req):
         }
         foods.append(food_dict)
 
-        nutritional_values_dict['protein_value'] += food.protein_value
-        nutritional_values_dict['fat_value'] += food.fat_value
-        nutritional_values_dict['carbohydrate_value'] += food.carbohydrate_value
-        nutritional_values_dict['fiber_value'] += food.fiber_value
-        nutritional_values_dict['calorie_value'] += food.calorie_value
-        nutritional_values_dict['sugar_value'] += food.sugar_value
-        nutritional_values_dict['serving_weight_grams'] += food.serving_weight_grams
-        nutritional_values_dict['vitamin_A'] += food.vitamin_A
-        nutritional_values_dict['vitamin_C'] += food.vitamin_C
-        nutritional_values_dict['vitamin_D'] += food.vitamin_D
-        nutritional_values_dict['vitamin_E'] += food.vitamin_E
-        nutritional_values_dict['vitamin_K'] += food.vitamin_K
-        nutritional_values_dict['thiamin'] += food.thiamin
-        nutritional_values_dict['riboflavin'] += food.riboflavin
-        nutritional_values_dict['niacin'] += food.niacin
-        nutritional_values_dict['vitamin_B6'] += food.vitamin_B6
-        nutritional_values_dict['folatem'] += food.folatem
-        nutritional_values_dict['vitamin_B12'] += food.vitamin_B12
-        nutritional_values_dict['pantothenic_acid'] += food.pantothenic_acid
-        nutritional_values_dict['choline'] += food.choline
-        nutritional_values_dict['calcium'] += food.calcium
-        nutritional_values_dict['copper'] += food.copper
-        nutritional_values_dict['flouride'] += food.flouride
-        nutritional_values_dict['iron_Fe'] += food.iron_Fe
-        nutritional_values_dict['magnesium'] += food.magnesium
-        nutritional_values_dict['manganese'] += food.manganese
-        nutritional_values_dict['sodium_Na'] += food.sodium_Na
-        nutritional_values_dict['phosphorus'] += food.phosphorus
-        nutritional_values_dict['selenium'] += food.selenium
-        nutritional_values_dict['zinc'] += food.zinc
+        nutritional_values_dict['protein_value'] += "%.2f" % food.protein_value
+        nutritional_values_dict['fat_value'] += "%.2f" % food.fat_value
+        nutritional_values_dict['carbohydrate_value'] += "%.2f" % food.carbohydrate_value
+        nutritional_values_dict['fiber_value'] += "%.2f" % food.fiber_value
+        nutritional_values_dict['calorie_value'] += "%.2f" % food.calorie_value
+        nutritional_values_dict['sugar_value'] += "%.2f" % food.sugar_value
+        nutritional_values_dict['serving_weight_grams'] += "%.2f" % food.serving_weight_grams
+        nutritional_values_dict['vitamin_A'] += "%.2f" % food.vitamin_A
+        nutritional_values_dict['vitamin_C'] += "%.2f" % food.vitamin_C
+        nutritional_values_dict['vitamin_D'] += "%.2f" % food.vitamin_D
+        nutritional_values_dict['vitamin_E'] += "%.2f" % food.vitamin_E
+        nutritional_values_dict['vitamin_K'] += "%.2f" % food.vitamin_K
+        nutritional_values_dict['thiamin'] += "%.2f" % food.thiamin
+        nutritional_values_dict['riboflavin'] += "%.2f" % food.riboflavin
+        nutritional_values_dict['niacin'] += "%.2f" % food.niacin
+        nutritional_values_dict['vitamin_B6'] += "%.2f" % food.vitamin_B6
+        nutritional_values_dict['folatem'] += "%.2f" % food.folatem
+        nutritional_values_dict['vitamin_B12'] += "%.2f" % food.vitamin_B12
+        nutritional_values_dict['pantothenic_acid'] += "%.2f" % food.pantothenic_acid
+        nutritional_values_dict['choline'] += "%.2f" % food.choline
+        nutritional_values_dict['calcium'] += "%.2f" % food.calcium
+        nutritional_values_dict['copper'] += "%.2f" % food.copper
+        nutritional_values_dict['flouride'] += "%.2f" % food.flouride
+        nutritional_values_dict['iron_Fe'] += "%.2f" % food.iron_Fe
+        nutritional_values_dict['magnesium'] += "%.2f" % food.magnesium
+        nutritional_values_dict['manganese'] += "%.2f" % food.manganese
+        nutritional_values_dict['sodium_Na'] += "%.2f" % food.sodium_Na
+        nutritional_values_dict['phosphorus'] += "%.2f" % food.phosphorus
+        nutritional_values_dict['selenium'] += "%.2f" % food.selenium
+        nutritional_values_dict['zinc'] += "%.2f" % food.zinc
 
     results_dict = {
         'foods': foods,

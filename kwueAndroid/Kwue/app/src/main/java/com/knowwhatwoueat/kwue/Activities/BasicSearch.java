@@ -34,6 +34,10 @@ import java.util.ArrayList;
 public class BasicSearch extends AppCompatActivity  {
     private String basicSearch;
     private ListView basicSearchListView;
+    private boolean isUser;
+    private ArrayList<Integer> foodId ;
+    private ArrayList<Integer> userId ;
+
 
 
     private String searchQuery;
@@ -47,6 +51,8 @@ public class BasicSearch extends AppCompatActivity  {
 
     private RequestQueue queue;
     String url = Constants.endPoint;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,8 @@ public class BasicSearch extends AppCompatActivity  {
         Gson gson = new Gson();
 
         responseNamesList = new ArrayList<String>();
+        foodId = new ArrayList<Integer>();
+        userId = new ArrayList<Integer>();
 
 
 
@@ -84,6 +92,24 @@ public class BasicSearch extends AppCompatActivity  {
         alertDialog.setTitle("List");
         ListView lv = (ListView) convertView.findViewById(R.id.listView3);
         lv.setAdapter(searchListAdapter);
+        lv.setTextFilterEnabled(true);
+
+        lv.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println(i);
+                Intent j;
+                if(isUser){
+                    j = new Intent(BasicSearch.this, ProfilePageActivity.class);
+                    j.putExtra("isUser",userId.get(i));
+                    startActivity(j);
+                }else{
+                    j = new Intent(BasicSearch.this, AddFood.class);
+                    j.putExtra("isFood",foodId.get(i));
+                    startActivity(j);
+                }
+            }
+        });
 
         basicSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +123,7 @@ public class BasicSearch extends AppCompatActivity  {
         });
     }
 
+
     protected void setSearchQuery(String query) {
 
         if(query.contains(" ")){
@@ -106,29 +133,39 @@ public class BasicSearch extends AppCompatActivity  {
     }
 
     protected void assignSearchTitles(BasicSearchResult response) {
+
         int foodNumber = response.food_set.length;
+        if(foodNumber > 0) isUser = false;
+
         for (int i = 0; i < foodNumber; i++) {
             FoodBasicSearch find = response.food_set[i];
 
-                responseNamesList.add(find.getFood_name());
+            foodId.add(find.getFood_id());
+            responseNamesList.add(find.getFood_name());
 
         }
 
         int semanticFoodNumber= response.semantic_food_set.length;
+        if(semanticFoodNumber > 0) isUser = false;
         for (int i = 0; i < semanticFoodNumber; i++) {
             FoodBasicSearch findSF = response.semantic_food_set[i];
+            foodId.add(findSF.getFood_id());
             responseNamesList.add(findSF.getFood_name());
         }
 
         int semanticFoodServerNumber = response.semantic_user_set.length;
+        if(semanticFoodServerNumber > 0) isUser = true;
         for(int j=0;j<semanticFoodServerNumber;j++){
-            FoodServerBasicSearch findSF = response.user_set[j];
+            FoodServerBasicSearch findSF = response.semantic_user_set[j];
+            userId.add(findSF.getUser_id());
             responseNamesList.add(findSF.getUser_name());
         }
 
         int foodServerNumber = response.user_set.length;
+        if(foodServerNumber > 0) isUser = true;
         for(int j=0;j<foodServerNumber;j++){
             FoodServerBasicSearch findS = response.user_set[j];
+            userId.add(findS.getUser_id());
             responseNamesList.add(findS.getUser_name());
         }
 
@@ -152,6 +189,16 @@ public class BasicSearch extends AppCompatActivity  {
                         Log.d("response", "onResponse: in");
                         assignSearchTitles(response);
                         showAlertDialog();
+                        /*
+                        Intent i = new Intent(BasicSearch.this, SearchResult.class);
+
+                        i.putExtra("FoodSet", food_set);
+                        i.putExtra("SemanticFoodSet", semantic_food_set);
+                        i.putExtra("UserSet",user_set);
+                        i.putExtra("SemanticUserSet",semantic_user_set);
+
+                        startActivity(i);
+                        */
                     }
 
                 }, new Response.ErrorListener() {

@@ -39,6 +39,11 @@
 
     </LinearLayout>
 
+    <CheckBox android:id="@+id/eating_preferences"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use my eating preferences"
+        android:onClick="onCheckboxClicked"/>
 
     <TextView
         android:layout_width="wrap_content"

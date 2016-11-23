@@ -13,6 +13,6 @@ public class EatingPreferences {
     public double carbonhydrate_upper_bound;
     public double calorie_upper_bound;
     public double sugar_upper_bound;
-    String[] wanted_list;
-    String[] unwanted_list;
+    public String[] wanted_list;
+    public String[] unwanted_list;
 }

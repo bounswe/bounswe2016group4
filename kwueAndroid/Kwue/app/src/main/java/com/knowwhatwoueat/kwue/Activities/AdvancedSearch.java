@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -26,6 +27,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListen
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
+import com.knowwhatwoueat.kwue.DataModels.EatingPreferences;
 import com.knowwhatwoueat.kwue.DataModels.FoodBasicSearch;
 import com.knowwhatwoueat.kwue.DataModels.FoodServerBasicSearch;
 import com.knowwhatwoueat.kwue.R;
@@ -39,18 +41,21 @@ import java.util.ArrayList;
 
 public class AdvancedSearch extends AppCompatActivity {
     private String advancedSearch;
-    private int proteinLowerBound=0;
-    private int proteinUpperBound=1000;
-    private int fatLowerBound=0;
-    private int fatUpperBound=1000;
-    private int carbonhydrateLowerBound=0;
-    private int carbonhydrateUpperBound=1000;
-    private int calorieLowerBound=0;
-    private int calorieUpperBound=1000;
-    private int sugarLowerBound=0;
-    private int sugarUpperBound=1000;
+    private double proteinLowerBound = 0;
+    private double proteinUpperBound = 1000;
+    private double fatLowerBound = 0;
+    private double fatUpperBound = 1000;
+    private double carbonhydrateLowerBound = 0;
+    private double carbonhydrateUpperBound = 1000;
+    private double calorieLowerBound = 0;
+    private double calorieUpperBound = 1000;
+    private double sugarLowerBound = 0;
+    private double sugarUpperBound = 1000;
     private String wanted;
     private String unwanted;
+    private String[] eatingPreferencesWanted;
+    private String[] eatingPreferencesUnwanted;
+    private boolean checkBoxForEatingPreferences;
 
 
     private ListView advancedSearchListView;
@@ -71,6 +76,10 @@ public class AdvancedSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_search);
 
+        CheckBox eatingPreference = (CheckBox) findViewById(R.id.eating_preferences);
+        onCheckboxClicked(eatingPreference);
+
+
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbarProtein = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarProtein);
         rangeSeekbarProtein.setMinValue(0);
@@ -78,6 +87,7 @@ public class AdvancedSearch extends AppCompatActivity {
         rangeSeekbarProtein.setBarHighlightColor(Color.RED);
         rangeSeekbarProtein.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarProtein.setRightThumbColor(Color.DKGRAY);
+        //rangeSeekbarProtein.setMinStartValue(5);
 
         final CrystalRangeSeekbar rangeSeekbarFat = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbarFat);
         rangeSeekbarFat.setMinValue(0);
@@ -106,7 +116,6 @@ public class AdvancedSearch extends AppCompatActivity {
         rangeSeekbarSugar.setBarHighlightColor(Color.RED);
         rangeSeekbarSugar.setLeftThumbColor(Color.DKGRAY);
         rangeSeekbarSugar.setRightThumbColor(Color.DKGRAY);
-
 
 
         // get min and max text view
@@ -154,83 +163,84 @@ public class AdvancedSearch extends AppCompatActivity {
             }
         });
 
-        // set final value listener
-        rangeSeekbarFat.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
-            @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                String x = String.valueOf(minValue);
-                String y = String.valueOf(maxValue);
-                fatLowerBound= Integer.parseInt(x);
-                fatUpperBound = Integer.parseInt(y);
+        if (!checkBoxForEatingPreferences) {
+            // set final value listener
+            rangeSeekbarFat.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+                @Override
+                public void finalValue(Number minValue, Number maxValue) {
+                    String x = String.valueOf(minValue);
+                    String y = String.valueOf(maxValue);
+                    fatLowerBound = Integer.parseInt(x);
+                    fatUpperBound = Integer.parseInt(y);
 
-                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
-            }
-        });
+                    //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                }
+            });
 
-        // set listener
-        rangeSeekbarCarbonhydrate.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                carbonhydrateLower.setText(String.valueOf(minValue));
-                carbonhydrateUpper.setText(String.valueOf(maxValue));
-            }
-        });
+            // set listener
+            rangeSeekbarCarbonhydrate.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+                @Override
+                public void valueChanged(Number minValue, Number maxValue) {
+                    carbonhydrateLower.setText(String.valueOf(minValue));
+                    carbonhydrateUpper.setText(String.valueOf(maxValue));
+                }
+            });
 
-        // set final value listener
-        rangeSeekbarCarbonhydrate.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
-            @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                String x = String.valueOf(minValue);
-                String y = String.valueOf(maxValue);
-                carbonhydrateLowerBound = Integer.parseInt(x);
-                carbonhydrateUpperBound = Integer.parseInt(y);
-                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
-            }
-        });
+            // set final value listener
+            rangeSeekbarCarbonhydrate.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+                @Override
+                public void finalValue(Number minValue, Number maxValue) {
+                    String x = String.valueOf(minValue);
+                    String y = String.valueOf(maxValue);
+                    carbonhydrateLowerBound = Integer.parseInt(x);
+                    carbonhydrateUpperBound = Integer.parseInt(y);
+                    //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                }
+            });
 
-        // set listener
-        rangeSeekbarCalorie.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                calorieLower.setText(String.valueOf(minValue));
-                calorieUpper.setText(String.valueOf(maxValue));
-            }
-        });
+            // set listener
+            rangeSeekbarCalorie.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+                @Override
+                public void valueChanged(Number minValue, Number maxValue) {
+                    calorieLower.setText(String.valueOf(minValue));
+                    calorieUpper.setText(String.valueOf(maxValue));
+                }
+            });
 
-        // set final value listener
-        rangeSeekbarCalorie.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
-            @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                String x = String.valueOf(minValue);
-                String y = String.valueOf(maxValue);
-                calorieLowerBound = Integer.parseInt(x);
-                calorieUpperBound = Integer.parseInt(y);
+            // set final value listener
+            rangeSeekbarCalorie.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+                @Override
+                public void finalValue(Number minValue, Number maxValue) {
+                    String x = String.valueOf(minValue);
+                    String y = String.valueOf(maxValue);
+                    calorieLowerBound = Integer.parseInt(x);
+                    calorieUpperBound = Integer.parseInt(y);
 
-                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
-            }
-        });
+                    //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                }
+            });
 
-        // set listener
-        rangeSeekbarSugar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                sugarLower.setText(String.valueOf(minValue));
-                sugarUpper.setText(String.valueOf(maxValue));
-            }
-        });
+            // set listener
+            rangeSeekbarSugar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+                @Override
+                public void valueChanged(Number minValue, Number maxValue) {
+                    sugarLower.setText(String.valueOf(minValue));
+                    sugarUpper.setText(String.valueOf(maxValue));
+                }
+            });
 
-        // set final value listener
-        rangeSeekbarSugar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
-            @Override
-            public void finalValue(Number minValue, Number maxValue) {
-                String x = String.valueOf(minValue);
-                String y = String.valueOf(maxValue);
-                sugarLowerBound = Integer.parseInt(x);
-                sugarUpperBound = Integer.parseInt(y);
-                //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
-            }
-        });
-
+            // set final value listener
+            rangeSeekbarSugar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+                @Override
+                public void finalValue(Number minValue, Number maxValue) {
+                    String x = String.valueOf(minValue);
+                    String y = String.valueOf(maxValue);
+                    sugarLowerBound = Integer.parseInt(x);
+                    sugarUpperBound = Integer.parseInt(y);
+                    //Log.d("CRS=>", String.valueOf(minValue) + " : " + String.valueOf(maxValue));
+                }
+            });
+        }
 
 
         final EditText advancedsearchTextBox = (EditText) findViewById(R.id.advancedSearchTextBox);
@@ -272,31 +282,44 @@ public class AdvancedSearch extends AppCompatActivity {
 
                 advancedSearch = advancedsearchTextBox.getText().toString();
 
-                if(advancedSearch.contains(" ")){
-                    advancedSearch= advancedSearch.replace(" ","%20");
+                if (advancedSearch.contains(" ")) {
+                    advancedSearch = advancedSearch.replace(" ", "%20");
                 }
                 System.out.println(advancedSearch);
-                wanted = wantedTextbox.getText().toString();
-                unwanted = unwantedTextbox.getText().toString();
+                String[] wanted_List;
+                String[] unwanted_list;
 
-                String[] wanted_List = wanted.split(",");
-                String[] unwanted_list = unwanted.split(",");
+
+                if(!checkBoxForEatingPreferences) {
+                    wanted = wantedTextbox.getText().toString();
+                    unwanted = unwantedTextbox.getText().toString();
+                    wanted_List = wanted.split(",");
+                    unwanted_list = unwanted.split(",");
+
+
+                }else{
+                    wanted_List = eatingPreferencesWanted;
+                    System.out.println(wanted_List+"djfj");
+                    unwanted_list = eatingPreferencesUnwanted;
+                }
 
                 int lengthOfwanted = wanted_List.length;
                 int lengthOfunwanted = unwanted_list.length;
+                String[] jsonwanted = jsonwanted = new String[lengthOfwanted];
+                String[] jsonunwanted = jsonunwanted = new String[lengthOfunwanted];
 
-                String[] jsonwanted = new String[lengthOfwanted];
-                String[] jsonunwanted = new String[lengthOfunwanted];
 
-                for(int i =0; i<lengthOfwanted;i++){
+
+
+                for (int i = 0; i < lengthOfwanted; i++) {
                     String x = wanted_List[i];
-                    jsonwanted[i] = "{\"name\":\""+x+"\"}";
+                    jsonwanted[i] = "{\"name\":\"" + x + "\"}";
                     //System.out.println(jsonwanted[i]);
                 }
 
-                for(int i =0; i<lengthOfunwanted;i++){
+                for (int i = 0; i < lengthOfunwanted; i++) {
                     String x = unwanted_list[i];
-                    jsonunwanted[i] = "{\"name\":\""+x+"\"}";
+                    jsonunwanted[i] = "{\"name\":\"" + x + "\"}";
                     //System.out.println(jsonunwanted[i]);
                 }
 
@@ -308,10 +331,10 @@ public class AdvancedSearch extends AppCompatActivity {
                         "&carbohydrate_upper_bound=" + carbonhydrateUpperBound + "&calorie_upper_bound=" + calorieUpperBound +
                         "&sugar_upper_bound=" + sugarUpperBound + "&wanted_list=[";
 
-                for(int i=0;i<jsonwanted.length;i++){
+                for (int i = 0; i < jsonwanted.length; i++) {
                     String x = jsonwanted[i];
                     searchQuery += x;
-                    if(i!=jsonwanted.length-1){
+                    if (i != jsonwanted.length - 1) {
                         searchQuery += ",";
                     } else {
                         searchQuery += "]";
@@ -320,17 +343,16 @@ public class AdvancedSearch extends AppCompatActivity {
                 }
                 searchQuery += "&unwanted_list=[";
 
-                for(int i=0;i<jsonunwanted.length;i++){
+                for (int i = 0; i < jsonunwanted.length; i++) {
                     String x = jsonunwanted[i];
                     searchQuery += x;
-                    if(i!=jsonunwanted.length-1){
+                    if (i != jsonunwanted.length - 1) {
                         searchQuery += ",";
                     } else {
                         searchQuery += "]";
                     }
 
                 }
-
 
 
                 Log.d("search button", "onClick: clicked");
@@ -340,9 +362,20 @@ public class AdvancedSearch extends AppCompatActivity {
                 //System.out.println(searchQuery);
 
 
-
             }
         });
+
+    }
+
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        checkBoxForEatingPreferences = checked;
+        if (checked) {
+            Toast.makeText(AdvancedSearch.this, "You don't need to make choices", Toast.LENGTH_LONG).show();
+            sendGetEatingPreferenceHttpRequest();
+        }
 
     }
 
@@ -361,30 +394,46 @@ public class AdvancedSearch extends AppCompatActivity {
 
         }
 
-        int semanticFoodNumber= response.semantic_food_set.length;
+        int semanticFoodNumber = response.semantic_food_set.length;
         for (int i = 0; i < semanticFoodNumber; i++) {
             FoodBasicSearch findSF = response.semantic_food_set[i];
             responseNamesList.add(findSF.getFood_name());
         }
 
         int semanticFoodServerNumber = response.semantic_user_set.length;
-        for(int j=0;j<semanticFoodServerNumber;j++){
+        for (int j = 0; j < semanticFoodServerNumber; j++) {
             FoodServerBasicSearch findSF = response.user_set[j];
             responseNamesList.add(findSF.getUser_name());
         }
 
         int foodServerNumber = response.user_set.length;
-        for(int j=0;j<foodServerNumber;j++){
+        for (int j = 0; j < foodServerNumber; j++) {
             FoodServerBasicSearch findS = response.user_set[j];
             responseNamesList.add(findS.getUser_name());
         }
 
     }
 
+    protected void assignEatingPreferenceValues(EatingPreferences response) {
+        proteinLowerBound = response.protein_lower_bound;
+        proteinUpperBound = response.protein_upper_bound;
+        fatLowerBound = response.fat_lower_bound;
+        fatUpperBound = response.fat_upper_bound;
+        carbonhydrateLowerBound = response.carbohydrate_lower_bound;
+        carbonhydrateUpperBound = response.carbonhydrate_upper_bound;
+        calorieLowerBound = response.calorie_lower_bound;
+        calorieUpperBound = response.calorie_upper_bound;
+        sugarLowerBound = response.sugar_lower_bound;
+        sugarUpperBound = response.sugar_upper_bound;
+        eatingPreferencesWanted = response.wanted_list;
+        //System.out.println(eatingPreferencesWanted[0]);
+        eatingPreferencesUnwanted = response.unwanted_list;
+    }
+
 
     protected void sendAdvancedSearchHttpRequest(String query) {
 
-        String searchUrl = url +  query;
+        String searchUrl = url + query;
         System.out.println(searchUrl);
 
         // Request a string response from the provided URL.
@@ -396,6 +445,34 @@ public class AdvancedSearch extends AppCompatActivity {
                         Log.d("response", "onResponse: in");
                         assignSearchTitles(response);
                         showAlertDialog();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response", "That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(gsonRequest);
+    }
+
+
+    protected void sendGetEatingPreferenceHttpRequest() {
+
+        String searchUrl = url + "get_eating_preferences?user_id=1";
+        System.out.println(searchUrl);
+
+        // Request a string response from the provided URL.
+        GsonRequest<EatingPreferences> gsonRequest = new GsonRequest<>(searchUrl, EatingPreferences.class, Request.Method.GET,
+                new Response.Listener<EatingPreferences>() {
+                    @Override
+                    public void onResponse(EatingPreferences response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response", "onResponse: in");
+                        assignEatingPreferenceValues(response);
+
                     }
 
                 }, new Response.ErrorListener() {

@@ -81,6 +81,10 @@
             android:label="ProfilePage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activities.SearchResult"></activity>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".Activities.FoodProfile"
+            android:exported="true"></activity>
     </application>
 
 </manifest>

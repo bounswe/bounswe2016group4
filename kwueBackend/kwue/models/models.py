@@ -4,13 +4,13 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from mptt.models import MPTTModel, TreeForeignKey
 from kwue.helper_functions.time_helpers import show_date
-
+import time
 
 class IngredientModel(models.Model):
     ingredient_name = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self):
-        return self.ingredient_name
+        return self.ingredient_name+" "
 
 
 class UserModel(models.Model):
@@ -96,8 +96,10 @@ class TagModel(models.Model):
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
     def __str__(self):
-        return str(self.tagged_object_id)+'<<<=====' + self.semantic_tag_item
-
+        if self.content_type.model=="usermodel":
+            return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
+        else:
+            return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
 
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)
@@ -141,16 +143,8 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date_unix = UnixTimeStampField(use_numeric=True, auto_now_add=True, editable=True)
-    fid = models.PositiveIntegerField()
-    f_name = models.TextField(blank=True)
-    date = models.IntegerField(blank=True)
-    
-    def save(self):
-        self.fid = self.food.food_id
-        self.fname = self.food.food_name
-        self.date =  self.date_unix
-        super().save(self)
+    date = models.IntegerField(default=time.time(), editable=True)
+
 
     def __str__(self):
         return show_date(self.date)

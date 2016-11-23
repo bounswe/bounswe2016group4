@@ -116,4 +116,10 @@ def get_consumption_history(req):
 def mark_as_eaten(req):
     user_id = req.POST.dict()['user_id']
     food_id = req.POST.dict()['food_id']
-    db_insert_consumption_record(user_id, food_id)
+    is_success = False
+    reason = ""
+    if db_insert_consumption_record(user_id, food_id):
+        is_success = True
+    else:
+        reason = "Couldn't eat the food."
+    return HttpResponse(json.dumps({"is_success": is_success, "reason": reason}))

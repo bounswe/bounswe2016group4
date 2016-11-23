@@ -47,7 +47,7 @@ def search_by_text(focus_string):
     return dict(food_set=foods.distinct(), food_server_set=food_servers.distinct(), semantic_food_set=semantic_food.distinct(), semantic_user_set=semantic_user.distinct())
 
 
-def shortcut_semantic_search(semantic_item_list):
+def db_shortcut_semantic_search(semantic_item_list):
         #################
         object_list = list(TagModel.objects.filter(semantic_tag_item__in=semantic_item_list))
         semantic_food = []

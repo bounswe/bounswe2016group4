@@ -38,6 +38,17 @@ urlpatterns = (
 
     ### REQUEST
     # GET
+    # 'search_text'
+    #
+    ### RESPONSE
+    #
+    # 'foods': Array of 'food_id', 'food_name', 'food_image'
+    # 'users': Array of 'user_id', 'user_name', 'user_image'
+    #
+    url(r'^shortcut_semantic_search', search.shortcut_sementic_search),
+
+    ### REQUEST
+    # GET
     # 'user_id'
     # 'setting' : 'daily', 'weekly', 'monthly', 'alltime' available so far.
     #
@@ -85,7 +96,8 @@ urlpatterns = (
     #
     ### RESPONSE
     #
-    # nothing
+    # 'is_success'
+    # 'reason'
     #
     url(r'^mark_as_eaten', consumption_history.mark_as_eaten),
 
@@ -154,8 +166,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list' : json of array of items [{'name': 'pepper'}, {...
-    # 'unwanted_list' : json of array of items [{'name': 'pepper'}, {...
+    # 'wanted_list' : ['pepper','apple'...]
+    # 'unwanted_list' : ['pepper','apple'...]
     #
     ### RESPONSE
     #
@@ -182,8 +194,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list' [{'name': 'pepper'}, {...
-    # 'unwanted_list' [{'name': 'pepper'}, {...
+    # 'wanted_list' ['pepper','apple'...]
+    # 'unwanted_list' ['pepper','apple'...]
     url(r'^get_eating_preferences', user.get_eating_preferences),
 
 
@@ -200,8 +212,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
-    # 'wanted_list' : json of array of items [{'name': 'pepper'}, {...
-    # 'unwanted_list' : json of array of items [{'name': 'pepper'}, {...
+    # 'wanted_list' : ['pepper','apple'...]
+    # 'unwanted_list' : ['pepper','apple'...]
     #
     ### RESPONSE
     #

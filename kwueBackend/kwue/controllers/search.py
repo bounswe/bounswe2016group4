@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from kwue.DB_functions.search_db_function import *
 from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
-import json
 from kwue.helper_functions.conversions import *
-
+from kwue.helper_functions.semantic_tag_helpers import *
 
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
@@ -14,8 +12,6 @@ def basic_search(req):
     search_results = search_alg(req.GET.dict(), ep)
 
     return HttpResponse(json.dumps(search_results), content_type='application/json')
-    #return render(req, 'kwue/search.html', json.dumps(search_results))
-
 
 
 def advanced_search(req):
@@ -23,11 +19,8 @@ def advanced_search(req):
 
     dict = req.GET.dict()
     ep = dict
-    print(ep)
-    ep = ingredients_from_dict_to_list(ep)
     ep['wanted_list'] = ingredient_list_to_ingredient_object(ep['wanted_list'])
     ep['unwanted_list'] = ingredient_list_to_ingredient_object(ep['unwanted_list'])
-
 
     search_results = search_alg(dict, ep)
     return HttpResponse(json.dumps(search_results), content_type='application/json')
@@ -69,4 +62,9 @@ def search_by_parameters(ep, foods):
     return foods
 
 def shortcut_sementic_search(req):
-    return
+    semantic_tags = get_semantic_tags(req.GET.dict()['search_text'])
+    tag_ids = []
+    for semantic_tag in semantic_tags:
+        tag_ids.append(semantic_tag['tag_id'])
+    results = db_shortcut_semantic_search(tag_ids)
+    return HttpResponse(json.dumps(results), content_type="application/json")

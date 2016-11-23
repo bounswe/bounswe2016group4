@@ -1,4 +1,5 @@
 import json
+from kwue.DB_functions.ingredient_db_functions import *
 
 def ingredients_from_list_to_dict(ep):
     wanted_list = ep['wanted_list']
@@ -25,3 +26,12 @@ def ingredients_from_dict_to_list(ep):
     ep['wanted_list'] = wanted_list
     ep['unwanted_list'] = unwanted_list
     return ep
+
+
+def ingredient_list_to_ingredient_object(list):
+    obj_list = []
+    for ing in list:
+        result = db_retrieve_ingredient(ing)
+        if result is not False:
+            obj_list.append(result)
+    return obj_list

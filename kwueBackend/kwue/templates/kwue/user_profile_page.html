@@ -32,8 +32,8 @@
                         <img src="{{ user_image }}" style="width: 200px; height: auto">
                     </div>
                     <div class="col-md-6">
-                        <div class="row" id="right-panel" style="overflow: auto">
-                        <h4>Related Tags</h4>
+                        <div class="row" id="tag-panel" style="overflow: auto">
+                            <h4>Related Tags</h4>
                             {% for tag in tag_list %}
                                 <h4><p><span class="label label-primary"
                                              id="{{ tag.tag_id }}"

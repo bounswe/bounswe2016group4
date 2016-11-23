@@ -15,7 +15,7 @@ def tag_food(req):
     dict['generic_id'] = dict['tagged_food_id']
     dict["type"] = "Food"
     db_insert_tag(dict)
-
+    return HttpResponse({'is_success': 'true'}, content_type='application/json')
 
 @csrf_exempt
 def tag_user(req):

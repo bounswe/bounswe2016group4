@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/user_profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         />
@@ -31,39 +31,312 @@
         android:layout_alignStart="@+id/user_name"
         android:layout_marginTop="30dp" />
 -->
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_below="@+id/user_profile_image"
-        android:id="@+id/user_eating_preferences"
-
-    >
-    </ListView>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_below="@+id/user_eating_preferences"
-        android:id="@+id/consumption_history"
-        >
-    </ListView>
-        <Button
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:text="@string/title_activity_consumption_history"
-            android:layout_below="@id/consumption_history"
-            android:layout_alignEnd="@id/consumption_history"
+    <Button
+            android:layout_below="@+id/consumption_history"
+            android:layout_alignEnd="@+id/consumption_history"
             android:id="@+id/all_consumption_history"
-        >
+            android:layout_height="match_parent"
+            android:layout_width="10dp"
+            android:gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:drawableTop="@android:drawable/ic_input_add"
+            >
         </Button>
 
     <TextView
         android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:textSize="@dimen/fab_margin"
+        android:layout_height="60dp"
+        android:textSize="30sp"
         android:id="@+id/user_name"
         android:layout_marginTop="11dp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/all_consumption_history" />
+        android:layout_alignEnd="@+id/all_consumption_history" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/user_email_address"
+        android:layout_below="@+id/user_name"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:id="@+id/consumption_history"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20sp"
+        android:text="Recent Consumptions"
+        android:id="@+id/consumption_history_title"
+        android:layout_above="@+id/consumption_history"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/consumption_history_interval"
+        android:spinnerMode="dropdown"
+
+        android:layout_above="@+id/consumption_history"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="11dp">
+
+    </Spinner>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/user_profile_image"
+        android:scrollbarSize="0dp"
+        android:layout_above="@+id/consumption_history_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/lower_bound_table"
+            android:orientation="horizontal"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:padding="5dip" >
+
+                <TextView
+                    android:text="Protein Lower Bound" />
+                <TextView
+                    android:id="@+id/protein_lower_bound"
+                    />
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:padding="5dip" >
+
+                <TextView
+                    android:text="carb Lower Bound" />
+                <TextView
+                    android:id="@+id/carb_lower_bound"
+                    />
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:padding="5dip" >
+
+                <TextView
+                    android:text="sugar Lower Bound" />
+                <TextView
+                    android:id="@+id/sugar_lower_bound"
+                    />
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:padding="5dip" >
+
+                <TextView
+                    android:text="fat Lower Bound" />
+                <TextView
+                    android:id="@+id/fat_lower_bound"
+                    />
+
+            </TableRow>
+            <TableRow
+                android:id="@+id/tableRow5"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:padding="5dip" >
+
+                <TextView
+                    android:text="calori Lower Bound" />
+                <TextView
+                    android:id="@+id/calorie_lower_bound"
+                    />
+
+            </TableRow>
+
+
+            </TableLayout>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TableRow
+                    android:id="@+id/table2Row1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:text="Protein upper Bound" />
+                    <TextView
+                        android:id="@+id/protein_upper_bound"
+                        />
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/table2Row2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:text="carb upper Bound" />
+                    <TextView
+                        android:id="@+id/carb_upper_bound"
+                        />
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/table2Row3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:text="sugar upper Bound" />
+                    <TextView
+                        android:id="@+id/sugar_upper_bound"
+                        />
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/table2Row4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:text="fat upper Bound" />
+                    <TextView
+                        android:id="@+id/fat_upper_bound"
+                        />
+
+                </TableRow>
+                <TableRow
+                    android:id="@+id/table2Row5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:padding="5dip" >
+
+                    <TextView
+                        android:text="calori upper Bound" />
+                    <TextView
+                        android:id="@+id/calorie_upper_bound"
+                        />
+
+                </TableRow>
+             </TableLayout>
+        </LinearLayout>
+
+
+    </HorizontalScrollView>
+    <!--
+        <EditText
+            android:id="@+id/FoodThumbNail"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:hint="@string/enter_food_image_url"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toStartOf="@+id/consumption_history_interval" />
+
+        <EditText
+            android:id="@+id/food_description"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:hint="@string/enter_food_description"
+            android:textSize="14sp"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="2000"
+            android:maxLines="4"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_toEndOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/add_food_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:hint="@string/enter_food_name"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_toStartOf="@+id/all_consumption_history" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/food_image_url"
+            android:textSize="14dp"
+            android:id="@+id/textView"
+            android:layout_above="@+id/consumption_history_interval"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/food_description"
+            android:textSize="14dp"
+            android:id="@+id/textView2"
+            android:layout_above="@+id/FoodThumbNail"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="@string/food_name"
+            android:textSize="14dp"
+            android:id="@+id/textView3"
+            android:layout_above="@+id/food_description"
+            android:layout_alignParentStart="true" />
+    -->
 
 </RelativeLayout>

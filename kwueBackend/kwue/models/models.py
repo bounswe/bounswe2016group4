@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from mptt.models import MPTTModel, TreeForeignKey
 from kwue.helper_functions.time_helpers import show_date
-
+import time
 
 class IngredientModel(models.Model):
     ingredient_name = models.CharField(max_length=100, primary_key=True)
@@ -141,13 +141,8 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date_unix = UnixTimeStampField(use_numeric=True, auto_now_add=True, editable=True)
-    date = models.IntegerField(default=0)
+    date = models.IntegerField(default=time.time(), editable=True)
 
-    def save(self):
-        if self.date==0:
-            self.date = self.date_unix
-        super().save(self)
 
     def __str__(self):
         return show_date(self.date)

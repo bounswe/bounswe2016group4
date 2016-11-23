@@ -7,6 +7,7 @@ $(document).ready(function () {
         var user_id = 1;
         $.ajax({
             url: 'mark_as_eaten',
+            method: 'post',
             data: {
                 user_id: user_id,
                 food_id: food_id

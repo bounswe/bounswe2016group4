@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.ConsumptionItem;
 import com.knowwhatwoueat.kwue.DataModels.Food;
@@ -46,7 +47,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
 
     private Toolbar toolbar;
-    private ListView simpleNutritionList;
+    private ListView simpleNutritionListView;
     private ListView wholeNutritionList;
     private ListView consumptionListView;
 
@@ -58,13 +59,14 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private RequestQueue queue;
 
+    Gson gson = new Gson();
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
 
         queue = Volley.newRequestQueue(this);
-        sendConsumptionRequest();
+
 
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
@@ -74,19 +76,25 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         toolbar.setLogo(R.mipmap.ic_launcher);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        simpleNutritionList = (ListView) findViewById(R.id.simpleNutritionList);
+        simpleNutritionListView = (ListView) findViewById(R.id.simpleNutritionList);
         consumptionListView = (ListView) findViewById(R.id.consumptionlist);
 
 
         simpleNutiritonAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,simpleNutritions);
 
-        simpleNutritionList.setAdapter(simpleNutiritonAdapter);
+        simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
 
 
         /*ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
         ListView listView = (ListView) findViewById(R.id.consumptionlist);
 
         listView.setAdapter(adapter);*/
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        sendConsumptionRequest();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,13 +116,13 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-    protected void sendConsumptionRequest(){
+    private void sendConsumptionRequest(){
         String semanticUrl = url +"get_consumption_history?user_id=" + Constants.user_id + "&setting=" + Constants.consumptionHistorySetting;
 
-        GsonRequest<ConsumptionItem> gsonRequest = new GsonRequest<>(semanticUrl,ConsumptionItem.class, Request.Method.GET,
-                new Response.Listener<ConsumptionItem>() {
+        StringRequest gsonRequest = new StringRequest(Request.Method.GET,semanticUrl,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(ConsumptionItem response) {
+                    public void onResponse(String response) {
                         Log.d("response", "onResponse: in" + response);
                         assignConsuptionItem(response);
                     }
@@ -129,44 +137,45 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     }
 
 
-    protected void assignConsuptionItem(ConsumptionItem response){
-        consumptionItem = response;
-        simpleNutritions.add("Fat:" + response.getNutritional_values_dict().getFat_value() + " gram");
-        simpleNutritions.add("Carbonhydrate:" + response.getNutritional_values_dict().getCarbohydrate_value() + " gram");
-        simpleNutritions.add("Protein:" + response.getNutritional_values_dict().getProtein_value() + " gram");
-        simpleNutritions.add("Calorie:" + response.getNutritional_values_dict().getCalorie_value() + " kcal");
-        wholeNutritions.add("Calorie:" + response.getNutritional_values_dict().getCalorie_value() + " kcal");
-        wholeNutritions.add("Vitamid D:" + response.getNutritional_values_dict().getVitamin_D() + " IU");
-        wholeNutritions.add("Zinc:" + response.getNutritional_values_dict().getZinc() + " mg");
-        wholeNutritions.add("Vitamin E:" + response.getNutritional_values_dict().getVitamin_E() + " mg");
-        wholeNutritions.add("Magnesium:" + response.getNutritional_values_dict().getMagnesium() + " mg");
-        wholeNutritions.add("Protein:" + response.getNutritional_values_dict().getProtein_value() + " mg");
-        wholeNutritions.add("Folate:" + response.getNutritional_values_dict().getFolatem() + " mcg");
-        wholeNutritions.add("Calcium:" + response.getNutritional_values_dict().getCalcium() + " mg");
-        wholeNutritions.add("Manganese:" + response.getNutritional_values_dict().getManganese() + " mg");
-        wholeNutritions.add("Vitamin A:" + response.getNutritional_values_dict().getVitamin_A() + " IU");
-        wholeNutritions.add("Niacin:" + response.getNutritional_values_dict().getNiacin() + " mg");
-        wholeNutritions.add("Fiber Value:" + response.getNutritional_values_dict().getFiber_value()+ " gram");
-        wholeNutritions.add("Copper:" + response.getNutritional_values_dict().getCopper()+ " mg");
-        wholeNutritions.add("Thiamin:" + response.getNutritional_values_dict().getThiamin()+ " mg");
-        wholeNutritions.add("Iron Fe:" + response.getNutritional_values_dict().getIron_Fe()+ " mg");
-        wholeNutritions.add("Vitamin B6:" + response.getNutritional_values_dict().getVitamin_B6()+ " mg");
-        wholeNutritions.add("Vitamin C:" + response.getNutritional_values_dict().getVitamin_C()+ " mg");
-        wholeNutritions.add("Phosphorus:" + response.getNutritional_values_dict().getPhosphorus()+ " mg");
-        wholeNutritions.add("Flouride:" + response.getNutritional_values_dict().getFlouride()+ " mg");
-        wholeNutritions.add("Vitamin B12:" + response.getNutritional_values_dict().getVitamin_B12()+ " mcg");//
-        wholeNutritions.add("Pantothenic Acid:" + response.getNutritional_values_dict().getPantothenic_acid()+ " mg");
-        wholeNutritions.add("Riboflavin:" + response.getNutritional_values_dict().getRiboflavin()+ " mg");
-        wholeNutritions.add("Sugar :" + response.getNutritional_values_dict().getSugar_value()+ " gram");
-        wholeNutritions.add("Carbonhydrate:" + response.getNutritional_values_dict().getCarbohydrate_value()+ " gram");
-        wholeNutritions.add("Selenium:" + response.getNutritional_values_dict().getSelenium()+ " mcg");
-        wholeNutritions.add("Sodium:" + response.getNutritional_values_dict().getSodium_Na()+ " mg");
-        wholeNutritions.add("Choline:" + response.getNutritional_values_dict().getCholine()+ " mg");
-        wholeNutritions.add("Fat :" + response.getNutritional_values_dict().getFat_value()+ " gram");
-        wholeNutritions.add("Serving Weight:" + response.getNutritional_values_dict().getServing_weight_grams()+ " gram");
-        wholeNutritions.add("Vitamin K:" + response.getNutritional_values_dict().getVitamin_K()+ " mcg");
+    private void assignConsuptionItem(String response){
+        consumptionItem = gson.fromJson(response,ConsumptionItem.class);
+        simpleNutritions.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
+        simpleNutritions.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
+        simpleNutritions.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");
+        simpleNutritions.add("Calorie:" + consumptionItem.getNutritional_values_dict().getCalorie_value() + " kcal");
+        wholeNutritions.add("Calorie:" + consumptionItem.getNutritional_values_dict().getCalorie_value() + " kcal");
+        wholeNutritions.add("Vitamid D:" + consumptionItem.getNutritional_values_dict().getVitamin_D() + " IU");
+        wholeNutritions.add("Zinc:" + consumptionItem.getNutritional_values_dict().getZinc() + " mg");
+        wholeNutritions.add("Vitamin E:" + consumptionItem.getNutritional_values_dict().getVitamin_E() + " mg");
+        wholeNutritions.add("Magnesium:" + consumptionItem.getNutritional_values_dict().getMagnesium() + " mg");
+        wholeNutritions.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " mg");
+        wholeNutritions.add("Folate:" + consumptionItem.getNutritional_values_dict().getFolatem() + " mcg");
+        wholeNutritions.add("Calcium:" + consumptionItem.getNutritional_values_dict().getCalcium() + " mg");
+        wholeNutritions.add("Manganese:" + consumptionItem.getNutritional_values_dict().getManganese() + " mg");
+        wholeNutritions.add("Vitamin A:" + consumptionItem.getNutritional_values_dict().getVitamin_A() + " IU");
+        wholeNutritions.add("Niacin:" + consumptionItem.getNutritional_values_dict().getNiacin() + " mg");
+        wholeNutritions.add("Fiber Value:" + consumptionItem.getNutritional_values_dict().getFiber_value()+ " gram");
+        wholeNutritions.add("Copper:" + consumptionItem.getNutritional_values_dict().getCopper()+ " mg");
+        wholeNutritions.add("Thiamin:" + consumptionItem.getNutritional_values_dict().getThiamin()+ " mg");
+        wholeNutritions.add("Iron Fe:" + consumptionItem.getNutritional_values_dict().getIron_Fe()+ " mg");
+        wholeNutritions.add("Vitamin B6:" + consumptionItem.getNutritional_values_dict().getVitamin_B6()+ " mg");
+        wholeNutritions.add("Vitamin C:" + consumptionItem.getNutritional_values_dict().getVitamin_C()+ " mg");
+        wholeNutritions.add("Phosphorus:" + consumptionItem.getNutritional_values_dict().getPhosphorus()+ " mg");
+        wholeNutritions.add("Flouride:" + consumptionItem.getNutritional_values_dict().getFlouride()+ " mg");
+        wholeNutritions.add("Vitamin B12:" + consumptionItem.getNutritional_values_dict().getVitamin_B12()+ " mcg");//
+        wholeNutritions.add("Pantothenic Acid:" + consumptionItem.getNutritional_values_dict().getPantothenic_acid()+ " mg");
+        wholeNutritions.add("Riboflavin:" + consumptionItem.getNutritional_values_dict().getRiboflavin()+ " mg");
+        wholeNutritions.add("Sugar :" + consumptionItem.getNutritional_values_dict().getSugar_value()+ " gram");
+        wholeNutritions.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value()+ " gram");
+        wholeNutritions.add("Selenium:" + consumptionItem.getNutritional_values_dict().getSelenium()+ " mcg");
+        wholeNutritions.add("Sodium:" + consumptionItem.getNutritional_values_dict().getSodium_Na()+ " mg");
+        wholeNutritions.add("Choline:" + consumptionItem.getNutritional_values_dict().getCholine()+ " mg");
+        wholeNutritions.add("Fat :" + consumptionItem.getNutritional_values_dict().getFat_value()+ " gram");
+        wholeNutritions.add("Serving Weight:" + consumptionItem.getNutritional_values_dict().getServing_weight_grams()+ " gram");
+        wholeNutritions.add("Vitamin K:" + consumptionItem.getNutritional_values_dict().getVitamin_K()+ " mcg");
         Log.d("print", simpleNutritions.toString());
         Log.d("print whole",wholeNutritions.toString());
+
     }
 
 

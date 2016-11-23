@@ -96,8 +96,10 @@ class TagModel(models.Model):
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
     def __str__(self):
-        return str(self.tagged_object_id)+'<<<=====' + self.semantic_tag_item
-
+        if self.content_type=="usermodel":
+            return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
+        else:
+            return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
 
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)

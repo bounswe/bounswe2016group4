@@ -98,7 +98,7 @@ class TagModel(models.Model):
     def __str__(self):
         if self.content_type.model=="usermodel":
             return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
-        elif self.content_type ==  "food_model":
+        elif self.content_type.model=="food_model":
             return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
         else:
             return "Tagged Object is deleted"

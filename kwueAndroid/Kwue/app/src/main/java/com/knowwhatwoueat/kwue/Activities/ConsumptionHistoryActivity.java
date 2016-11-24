@@ -158,6 +158,23 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         super.onStart();
         sendConsumptionRequest();
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                Log.d("search", "onOptionsItemSelected: ");
+                Intent i = new Intent(ConsumptionHistoryActivity.this, BasicSearch.class);
+                startActivity(i);
+                return true;
+            case R.id.advanced_search:
+                Intent ik = new Intent(ConsumptionHistoryActivity.this, AdvancedSearch.class);
+                startActivity(ik);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

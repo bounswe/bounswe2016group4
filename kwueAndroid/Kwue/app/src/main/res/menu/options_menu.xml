@@ -9,5 +9,11 @@
         android:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
+    <item android:id="@+id/advanced_search"
+        android:title="Advanced Search"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        />
 
 </menu>

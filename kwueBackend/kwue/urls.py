@@ -128,16 +128,6 @@ urlpatterns = (
     #
     url(r'^get_user', user.get_user),
 
-    ### REQUEST
-    # GET
-    # 'user_id'
-    #
-    ### RESPONSE
-    #
-    #
-    #
-    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'), # Renders ...
-
 
     ### REQUEST
     # GET
@@ -151,7 +141,7 @@ urlpatterns = (
     # 'semantic_food_set' : Foods semantically found and filtered by user's eating preferences
     # 'semantic_user_set' : Semantically found users, may be either a user or food server
     #
-    url(r'^basic_search', search.basic_search),  # Renders 'search.html'
+    url(r'^basic_search', search.basic_search),
 
     ### REQUEST
     # GET
@@ -176,7 +166,7 @@ urlpatterns = (
     # 'semantic_food_set' : Foods semantically found and filtered by user's eating preferences==(user_id,user_name,user_image)
     # 'semantic_user_set' : Semantically found users, may be either a user or food server==(user_id,user_name,user_image)
     #
-    url(r'^advanced_search', search.advanced_search),  # Renders 'search.html'
+    url(r'^advanced_search', search.advanced_search),
 
     ### REQUEST
     # GET
@@ -251,7 +241,7 @@ urlpatterns = (
     # 'food_id'
     # 'carbohydrate_value'
     # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
-    url(r'^get__food', food.get_food, name='get_food'),  # Renders "food.html"
+    url(r'^get__food', food.get_food, name='get_food'),
 
     ### REQUEST
     # GET
@@ -279,11 +269,6 @@ urlpatterns = (
     # 'reason' : if not successful, the reason of it
     url(r'^add_food', food.add_food, name='add_food'),
 
-    ### REQUEST
-    # empty
-    ### RESPONSE
-    # empty
-    url(r'^new_food', food.get_add_food_page, name='new_food'), # Renders "add_food.html"
 
     ### REQUEST
     # POST
@@ -302,6 +287,22 @@ urlpatterns = (
     # empty
     #
     url(r'^consumption_history', consumption_history.get_consumption_page, name='consumption_history'),
+
+    ### REQUEST
+    # empty
+    ### RESPONSE
+    # empty
+    url(r'^new_food', food.get_add_food_page, name='new_food'),  # Renders "add_food.html"
+
+    ### REQUEST
+    # GET
+    # 'user_id'
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),  # .
 
 
     url(r'^$', home.get_home, name='home'),

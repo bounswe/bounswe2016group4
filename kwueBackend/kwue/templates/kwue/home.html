@@ -30,7 +30,7 @@
                     <div class="panel-body" style="overflow: auto; height: 400px;">
                         <div class="list-group">
                         {% for food in foods %}
-                            <a href="get__food?food_id={{ food.food_id }}" class="list-group-item">
+                            <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
                                 <p>name: {{ food.food_name }}</p>
                                 <p>description: {{ food.food_description }}</p>
                                 <p>owner: {{ food.food_owner }}</p>

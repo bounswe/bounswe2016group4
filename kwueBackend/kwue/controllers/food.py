@@ -17,6 +17,14 @@ def get_food(req):
     return HttpResponse(food_json, content_type="application/json")
 
 
+def get_food_page(req):
+    food_id = req.GET.dict()['food_id']
+    food_dict = db_retrieve_food(food_id).__dict__
+    del food_dict['_state']  # alptekin fix FacePalm
+    tag_list = return_tags(food_id, "Food")
+    food_dict['tag_list'] = tag_list
+    return render(req, 'kwue/food.html', food_dict)
+
 @csrf_exempt
 def add_food(req):
     food_dict = req.POST.dict()

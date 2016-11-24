@@ -32,26 +32,26 @@ $(document).ready(function () {
             slide_cal = $("#calorie-slider").slider({ id: "calorie", min: 0, max: 1000, range: true, value: calorie_bound, tooltip: 'hide' });
             slide_sugar = $("#sugar-slider").slider({ id: "sugar", min: 0, max: 1000, range: true, value: sugar_bound, tooltip: 'hide' });
 
-            $("#protein-amount").text(protein_bound);
-            $("#fat-amount").text(fat_bound);
-            $("#carbo-amount").text(carbohydrate_bound);
-            $("#cal-amount").text(calorie_bound);
-            $("#sugar-amount").text(sugar_bound);
+            $("#protein-amount").text(protein_bound[0]+"/"+protein_bound[1]);
+            $("#fat-amount").text(fat_bound[0] + "/" + fat_bound[1]);
+            $("#carbo-amount").text(carbohydrate_bound[0] + "/" + carbohydrate_bound[1]);
+            $("#cal-amount").text(calorie_bound[0] + "/" + calorie_bound[1]);
+            $("#sugar-amount").text(sugar_bound[0] + "/" + sugar_bound[1]);
 
             slide_pro.on("slide", function (slideEvt) {
-                $("#protein-amount").text(slideEvt.value[0] + "," + slideEvt.value[1]);
+                $("#protein-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
             });
             slide_fat.on("slide", function (slideEvt) {
-                $("#fat-amount").text(slideEvt.value[0] + "," + slideEvt.value[1]);
+                $("#fat-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
             });
             slide_carbo.on("slide", function (slideEvt) {
-                $("#carbo-amount").text(slideEvt.value[0] + "," + slideEvt.value[1]);
+                $("#carbo-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
             });
             slide_cal.on("slide", function (slideEvt) {
-                $("#cal-amount").text(slideEvt.value[0] + "," + slideEvt.value[1]);
+                $("#cal-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
             });
             slide_sugar.on("slide", function (slideEvt) {
-                $("#sugar-amount").text(slideEvt.value[0] + "," + slideEvt.value[1]);
+                $("#sugar-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
             });
         }
     });
@@ -70,7 +70,7 @@ $(document).ready(function () {
                     var response = result['food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -91,7 +91,7 @@ $(document).ready(function () {
                     var response = result['semantic_food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -151,7 +151,7 @@ $(document).ready(function () {
                     var response = result['food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -172,7 +172,7 @@ $(document).ready(function () {
                     var response = result['semantic_food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";

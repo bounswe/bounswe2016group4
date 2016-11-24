@@ -41,6 +41,30 @@ public class FoodProfile extends AppCompatActivity {
     private double food_rate;
     private int food_id;
     private double carbohydrate_value;
+    private double phosphorus;
+    private double zinc;
+    private double vitamin_B6;
+    private double folatem;
+    private double selenium;
+    private double sodium_Na;
+    private double vitamin_K;
+    private double magnesium;
+    private double pantothenic_acid;
+    private double niacin;
+    private double thiamin;
+    private double copper;
+    private double choline;
+    private double vitamin_B12;
+    private double riboflavin;
+    private double manganese;
+    private double vitamin_A;
+    private int food_rate_count;
+    private double flouride;
+    private double iron_Fe;
+    private double vitamin_C;
+    private double vitamin_D;
+    private double calcium;
+    private double vitamin_E;
     private Tag[] tag_list;
 
     private RequestQueue queue;
@@ -135,7 +159,31 @@ public class FoodProfile extends AppCompatActivity {
 
         tag_list = response.getTag_list();
 
-/*
+        phosphorus = response.getPhosphorus();
+        zinc = response.getZinc();
+        vitamin_B6 = response.getVitamin_B6();
+        folatem = response.getFolatem();
+        selenium = response.getSelenium();
+        sodium_Na = response.getSodium_Na();
+        vitamin_K = response.getvitamin_K();
+        magnesium = response.getMagnesium();
+        pantothenic_acid = response.getPantothenic_acid();
+        niacin = response.getNiacin();
+        thiamin = response.getThiamin();
+        copper = response.getCopper();
+        choline = response.getCholine();
+        vitamin_B12 = response.getVitamin_B12();
+        riboflavin = response.getRiboflavin();
+        manganese = response.getManganese();
+        vitamin_A = response.getVitamin_A();
+        food_rate_count = response.getFood_rate_count();
+        flouride = response.getFlouride();
+        iron_Fe = response.getIron_Fe();
+        vitamin_C = response.getVitamin_C();
+        vitamin_D = response.getVitamin_D();
+        calcium = response.getCalcium();
+        vitamin_E = response.getVitamin_E();
+
         System.out.println(serving_weight_grams+" 1");
         System.out.println(protein_value+" 2");
         System.out.println(calorie_value+" 3");
@@ -150,7 +198,7 @@ public class FoodProfile extends AppCompatActivity {
         System.out.println(food_rate+" 12");
         System.out.println(food_id+" 13");
         System.out.println(carbohydrate_value+" 14");
-*/
+
     }
 }
 

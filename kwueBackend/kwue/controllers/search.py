@@ -23,6 +23,7 @@ def advanced_search(req):
     ep['unwanted_list'] = ingredient_list_to_ingredient_object(ep['unwanted_list'])
 
     search_results = search_alg(dict, ep)
+    print(search_results)
     return HttpResponse(json.dumps(search_results), content_type='application/json')
 
 

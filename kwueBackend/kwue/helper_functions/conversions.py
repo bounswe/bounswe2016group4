@@ -30,6 +30,7 @@ from kwue.DB_functions.ingredient_db_functions import *
 
 def ingredient_list_to_ingredient_object(list):
     obj_list = []
+    list = json.loads(list)
     for ing in list:
         result = db_retrieve_ingredient(ing)
         if result is not False:

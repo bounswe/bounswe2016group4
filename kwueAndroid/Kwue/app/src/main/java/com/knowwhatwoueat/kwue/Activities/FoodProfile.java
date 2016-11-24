@@ -10,13 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
@@ -30,6 +33,8 @@ import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 import org.w3c.dom.Text;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FoodProfile extends AppCompatActivity {
 
@@ -203,6 +208,16 @@ public class FoodProfile extends AppCompatActivity {
         TextView foodNameTextView = (TextView) findViewById(R.id.foodName);
         foodNameTextView.setText(food_name);
 
+        final Button markAsEaten = (Button) findViewById(R.id.markAsEaten);
+        markAsEaten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("eaten button", "onClick: clicked");
+                sendMarkAsEatenHttpRequest(food_id);
+
+            }
+        });
+
         new FoodProfile.DownloadImageTask((ImageView) findViewById(R.id.foodImage))
                 .execute(food_image);
 
@@ -310,6 +325,42 @@ public class FoodProfile extends AppCompatActivity {
 
 
 
+    }
+
+    protected void sendMarkAsEatenHttpRequest(int query) {
+
+        String markAsEatenUrl = url + "mark_as_eaten";
+        final String semanticsResponse;
+        Gson gson = new Gson();
+        StringRequest sr = new StringRequest(Request.Method.POST,markAsEatenUrl,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("mark as eaten", "onResponse: added" + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("user_id","1");
+                params.put("food_id",""+food_id);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 
 

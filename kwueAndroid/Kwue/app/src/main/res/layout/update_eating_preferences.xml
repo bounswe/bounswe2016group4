@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -232,7 +233,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearLayout10"
         android:id="@+id/linearLayout11"
         android:layout_alignParentStart="true">
@@ -243,6 +244,10 @@
             android:text="Wanted Ingredients"
             android:layout_gravity="center"
             android:id="@+id/wanted_ingredients" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -266,7 +271,7 @@
                     android:imeOptions="actionNext"/>
 
                 <Button
-                    android:id="@+id/add_unwanted_item"
+                    android:id="@+id/add_wanted_item"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -274,6 +279,7 @@
                     android:background="@android:color/transparent"
                     android:drawableTop="@android:drawable/ic_input_add" />
             </LinearLayout>
+
             <ListView
                 android:id="@+id/wanted_list"
                 android:layout_width="match_parent"
@@ -283,6 +289,7 @@
 
         </LinearLayout>
 
+    </ScrollView>
 
 
     </LinearLayout>
@@ -290,8 +297,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/linearLayout11"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
         <TextView
@@ -300,6 +307,10 @@
             android:text="UnWanted Ingredients"
             android:layout_gravity="center"
             android:id="@+id/unwanted_ingredients" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -323,7 +334,7 @@
                     android:imeOptions="actionNext"/>
 
                 <Button
-                    android:id="@+id/add_wanted_item"
+                    android:id="@+id/add_unwanted_item"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -339,11 +350,10 @@
             </ListView>
 
         </LinearLayout>
-
+    </ScrollView>
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

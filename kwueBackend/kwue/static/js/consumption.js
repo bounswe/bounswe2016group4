@@ -18,7 +18,7 @@ $(document).ready(function () {
             var html_foods = "";
             var html_nutritions = "";
             for(i=0; i<foods.length; i++) {
-                html_foods = html_foods + "<a href='get__food?food_id="+
+                html_foods = html_foods + "<a href='food_page?food_id="+
                     foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
                     foods[i]['food_name'] +"</p></h4>" + "<p><strong>Date: </strong>"+
                     foods[i]['time_added'] +"</p>" + "<img src='"+
@@ -84,7 +84,7 @@ $(document).ready(function () {
                 var html_foods = "";
                 var html_nutritions = "";
                 for(i=0; i<foods.length; i++) {
-                    html_foods = html_foods + "<a href='get__food?food_id=" +
+                    html_foods = html_foods + "<a href='food_page?food_id=" +
                         foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
                         foods[i]['food_name'] +"</p></h4>"+ "<p><strong>Date: </strong>"+
                         foods[i]['time_added'] +"</p>" + "<img src='"+

@@ -243,6 +243,17 @@ urlpatterns = (
     # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
     url(r'^get__food', food.get_food, name='get_food'),
 
+
+    ### REQUEST
+    # GET
+    # 'food_id'
+    #
+    ### RESPONSE
+    #
+    # renders food page
+    #
+    url(r'^food_page', food.get_food_page),
+
     ### REQUEST
     # GET
     # 'ingredients' : should be in json format [{"ingredient":ing1, "value":val1},{"ingredient":ing2, "value": val2}]"

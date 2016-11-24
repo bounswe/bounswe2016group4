@@ -70,7 +70,7 @@ $(document).ready(function () {
                     var response = result['food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -91,7 +91,7 @@ $(document).ready(function () {
                     var response = result['semantic_food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -151,7 +151,7 @@ $(document).ready(function () {
                     var response = result['food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";
@@ -172,7 +172,7 @@ $(document).ready(function () {
                     var response = result['semantic_food_set'];
                     var html = "";
                     for(i=0; i<response.length; i++) {
-                        html = html + "<a href='get__food?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
+                        html = html + "<a href='food_page?food_id="+ response[i]['food_id'] +"' class='list-group-item'>" +
                             "<p>Food Name: " + response[i]['food_name'] + "</p>" +
                             "<p><img src='"+ response[i]['food_image'] +"' style='width: 100px; height: auto'></p>" +
                             "<p>Calorie Value: " + response[i]['calorie_value'] + "</p></a>";

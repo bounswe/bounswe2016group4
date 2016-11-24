@@ -55,18 +55,18 @@
                             <p><strong style="color: #761c19">Calorie:</strong> Lower bound: {{ calorie_lower_bound }}, Upper bound: {{ calorie_upper_bound }}</p>
                             <p><strong style="color: #8c8c8c">Sugar:</strong> Lower bound: {{ sugar_lower_bound }}, Upper bound: {{ sugar_upper_bound }}</p>
                             <h5>Wanted Ingredients</h5>
-                            {% if not wanted_ingredients %}
+                            {% if not wanted_list %}
                                 <p><u>None</u></p>
                             {% endif %}
-                            {% for ing in wanted_ingredients %}
-                                <p>ing</p>
+                            {% for ing in wanted_list %}
+                                <p>{{ ing }}</p>
                             {% endfor %}
                             <h5>Unwanted Ingredients</h5>
-                            {% if not unwanted_ingredients %}
+                            {% if not unwanted_list %}
                                 <p><u>None</u></p>
                             {% endif %}
-                            {% for ing in unwanted_ingredients %}
-                                <p>ing</p>
+                            {% for ing in unwanted_list %}
+                                <p>{{ ing }}</p>
                             {% endfor %}
                         </div>
                     </div>

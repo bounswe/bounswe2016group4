@@ -37,6 +37,19 @@ $(document).ready(function () {
             $("#carbo-amount").text(carbohydrate_bound[0] + "/" + carbohydrate_bound[1]);
             $("#cal-amount").text(calorie_bound[0] + "/" + calorie_bound[1]);
             $("#sugar-amount").text(sugar_bound[0] + "/" + sugar_bound[1]);
+            var wantedtext = "";
+            var unwantedtext = "";
+            for(i=0; i<response['wanted_list'].length; i++) {
+                wantedtext = wantedtext + response['wanted_list'][i] + ",";
+            }
+            for(i=0; i<response['unwanted_list'].length; i++) {
+                unwantedtext = unwantedtext + response['unwanted_list'][i] + ",";
+            }
+            wantedtext = wantedtext.substring(0, wantedtext.length-1);
+            unwantedtext = unwantedtext.substring(0, unwantedtext.length-1);
+            $("#wanted").val(wantedtext);
+            $("#unwanted").val(unwantedtext);
+
 
             slide_pro.on("slide", function (slideEvt) {
                 $("#protein-amount").text(slideEvt.value[0] + "/" + slideEvt.value[1]);
@@ -122,11 +135,11 @@ $(document).ready(function () {
 
     $("#adv-search-submit").click(function () {
         var search = $("#search-bar").val();
-        var protein = $("#protein-amount").text().split(",");
-        var fat = $("#fat-amount").text().split(",");
-        var carbohydrate= $("#carbo-amount").text().split(",");
-        var calorie = $("#cal-amount").text().split(",");
-        var sugar = $("#sugar-amount").text().split(",");
+        var protein = $("#protein-amount").text().split("/");
+        var fat = $("#fat-amount").text().split("/");
+        var carbohydrate= $("#carbo-amount").text().split("/");
+        var calorie = $("#cal-amount").text().split("/");
+        var sugar = $("#sugar-amount").text().split("/");
         var wantedList = $("#wanted").val().split(",");
         var unwantedList = $("#unwanted").val().split(",");
         $.ajax({

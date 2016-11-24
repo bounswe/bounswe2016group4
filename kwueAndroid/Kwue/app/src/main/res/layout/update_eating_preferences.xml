@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protein Lower Bound: "
+            android:textSize="14sp"/>
+        <EditText
+            android:id="@+id/update_protein_lower_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Fat Lower Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_fat_lower_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout4">
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Carbohydrate Lower Bound: "
+        android:textSize="14dp"/>
+    <EditText
+        android:id="@+id/update_carbohydrate_lower_bound"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:textSize="14sp"
+        android:inputType="numberDecimal"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout5">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Calorie Lower Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_calorie_lower_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout5"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout6">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Sugar Lower Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_sugar_lower_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout7">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Protein Upper Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_protein_upper_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout7"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout8">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Fat Upper Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_fat_upper_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout8"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout12">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Carbohydrate Upper Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_carbohydrate_upper_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/linearLayout9"
+        android:layout_below="@+id/linearLayout12"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Calorie Upper Bound:"
+            android:textSize="14dp"
+            android:id="@+id/textView" />
+
+        <EditText
+            android:id="@+id/update_calorie_upper_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/linearLayout9"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout10">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Sugar Upper Bound: "
+            android:textSize="14dp"/>
+        <EditText
+            android:id="@+id/update_sugar_upper_bound"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textSize="14sp"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/linearLayout10"
+        android:id="@+id/linearLayout11"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="36dp"
+            android:text="Wanted Ingredients"
+            android:layout_gravity="center"
+            android:id="@+id/wanted_ingredients" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="right">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:textAlignment="center"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/update_unwanted_item"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:hint="Enter name"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"/>
+
+                <Button
+                    android:id="@+id/add_unwanted_item"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@android:drawable/ic_input_add" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/wanted_list"
+                android:layout_width="match_parent"
+                android:layout_height="49dp">
+
+            </ListView>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/linearLayout11"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="36dp"
+            android:text="UnWanted Ingredients"
+            android:layout_gravity="center"
+            android:id="@+id/unwanted_ingredients" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="right">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:textAlignment="center"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/update_wanted_item"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:hint="Enter name"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"/>
+
+                <Button
+                    android:id="@+id/add_wanted_item"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:drawableTop="@android:drawable/ic_input_add" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/unwanted_list"
+                android:layout_width="match_parent"
+                android:layout_height="49dp">
+
+            </ListView>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

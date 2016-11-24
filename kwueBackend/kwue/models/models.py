@@ -95,13 +95,13 @@ class TagModel(models.Model):
     tagged_object_id = models.PositiveIntegerField()
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
-    def __str__(self):
-        if self.content_type.model=="usermodel":
-            return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
-        #elif self.content_type.model=="foodmodel":
-        else:    return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
-        #else:
-        #    return "Tagged Object is deleted"
+    # def __str__(self):
+    #     if self.content_type.model=="usermodel":
+    #         return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
+    #     elif self.content_type.model=="foodmodel":
+    #         return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
+    #     else:
+    #         return "Tagged Object is deleted"
 
 
 

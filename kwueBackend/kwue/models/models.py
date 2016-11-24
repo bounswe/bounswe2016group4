@@ -98,8 +98,12 @@ class TagModel(models.Model):
     def __str__(self):
         if self.content_type.model=="usermodel":
             return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
-        else:
+        elif self.content_type.model=="foodmodel":
             return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
+        else:
+            return "Tagged Object is deleted"
+
+
 
 class CommentModel(MPTTModel):
     comment_id = models.AutoField(primary_key=True)

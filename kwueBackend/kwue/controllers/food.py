@@ -12,8 +12,9 @@ def get_food(req):
     del food_dict['_state']  # alptekin fix FacePalm
     tag_list = return_tags(food_id, "Food")
     food_dict['tag_list'] = tag_list
-    #food_json = json.dumps(food_dict)
-    return render(req, 'kwue/food.html', food_dict)
+    food_json = json.dumps(food_dict)
+    #return render(req, 'kwue/food.html', food_dict
+    return HttpResponse(food_json, content_type="application/json")
 
 
 @csrf_exempt

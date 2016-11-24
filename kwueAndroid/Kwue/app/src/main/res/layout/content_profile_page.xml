@@ -79,18 +79,11 @@
         android:layout_height="140dp"
         android:id="@+id/eating_preferences"
         android:layout_below="@+id/eating_preferences_title"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/consumption_history_title">
     </ListView>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="20sp"
-        android:text="Recent Consumptions"
-        android:id="@+id/consumption_history_title"
-        android:layout_below="@+id/eating_preferences"
-        android:layout_alignParentStart="true" />
-
+    <!--
     <ListView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -98,7 +91,7 @@
         android:layout_below="@+id/consumption_history_interval"
         android:layout_alignParentStart="true">
     </ListView>
-
+-->
     <Button
 
         android:id="@+id/update_eating_preferences"
@@ -110,6 +103,15 @@
         android:layout_above="@+id/eating_preferences"
         android:layout_alignParentEnd="true">
     </Button>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20sp"
+        android:text="Recent Consumptions"
+        android:id="@+id/consumption_history_title"
+        android:layout_above="@+id/all_consumption_history"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

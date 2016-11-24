@@ -36,6 +36,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.EatingPreferences;
 import com.knowwhatwoueat.kwue.DataModels.Food;
@@ -43,8 +44,6 @@ import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
-
-import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +78,11 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     public static ListAdapter unWantedListAdapter ;
     public static ListView lv_unwanted ;
+
+    public static String wanted_list ;
+    public static String unwanted_list;
+
+    public Gson gson ;
 
     private Button addFoodButton;
 
@@ -313,6 +317,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         EditText tv9= (EditText) convertView.findViewById(R.id.update_sugar_upper_bound);
         eatPref.sugar_upper_bound = Double.parseDouble(tv9.getText().toString());
 
+        sendUpdateEatingPreferences();
+
        }
 
     public void addWantedItem(){
@@ -337,9 +343,9 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     }
 
-    public void sendNutritionRequest(){
-        String nutrUrl = url + "update_eating_preferences";
-        StringRequest sr = new StringRequest(Request.Method.POST,nutrUrl, new Response.Listener<String>() {
+    public void sendUpdateEatingPreferences(){
+        String updateEatPref = url + "update_eating_preferences";
+        StringRequest sr = new StringRequest(Request.Method.POST,updateEatPref, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("add food", "onResponse: added" + response);
@@ -352,6 +358,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         }){
             @Override
             protected Map<String,String> getParams(){
+                gson = new Gson();
+                wanted_list = gson.toJson(wantedList);
+                unwanted_list = gson.toJson(unwanted_list);
                 Map<String,String> params = new HashMap<String, String>();
                 params.put("user_id","1");
                 params.put("protein_lower_bound",""+eatPref.protein_lower_bound);
@@ -364,6 +373,8 @@ public class ProfilePageActivity extends AppCompatActivity {
                 params.put("carbohydrate_upper_bound",""+eatPref.carbonhydrate_upper_bound);
                 params.put("calorie_upper_bound", ""+eatPref.calorie_upper_bound);
                 params.put("sugar_upper_bound",""+eatPref.sugar_upper_bound);
+                params.put("wanted_list",wanted_list);
+                params.put("unwanted_list",unwanted_list);
 
 
 

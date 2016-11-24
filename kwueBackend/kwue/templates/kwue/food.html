@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-slider.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/food_page.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <title>KWUE</title>
 </head>
 <body>
@@ -30,41 +32,82 @@
                         <p>Rate: {{ food_rate }}</p>
                         <a class="btn btn-primary" id="mark-as-eaten" data-foodid="{{ food_id }}">Mark as Eaten</a>
                     </div>
-                    <div class="col-md-9">
-                        <p><strong>Carbohydrate: </strong>{{ carbohydrate_value }}</p>
-                        <p><strong>Sugar: </strong>{{ sugar_value }}</p>
-                        <p><strong>Fat: </strong>{{ fat_value }}</p>
-                        <p><strong>Protein: </strong>{{ protein_value }}</p>
-                        <p><strong>Calorie: </strong>{{ calorie_value }}</p>
-                        <div hidden id="others">
-                            <p><strong>Fiber: </strong>{{ fiber_value }}</p>
-                            <p><strong>Serving Weight: </strong>{{ serving_weight_grams }}</p>
-                            <h4><p><strong style="color: #5bc0de;">Vitamins</strong></p></h4>
-                            <p><strong>Vitamin A: </strong>{{ vitamin_A }}</p>
-                            <p><strong>Vitamin C: </strong>{{ vitamin_C }}</p>
-                            <p><strong>Vitamin D: </strong>{{ vitamin_D }}</p>
-                            <p><strong>Vitamin E: </strong>{{ vitamin_E }}</p>
-                            <p><strong>Vitamin K: </strong>{{ vitamin_K }}</p>
-                            <p><strong>Thiamin: </strong>{{ thiamin }}</p>
-                            <p><strong>Riboflavin: </strong>{{ riboflavin }}</p>
-                            <p><strong>Niacin: </strong>{{ niacin }}</p>
-                            <p><strong>Vitamin B6: </strong>{{ vitamin_B6 }}</p>
-                            <p><strong>Vitamin B12: </strong>{{ vitamin_B12 }}</p>
-                            <p><strong>Pantothenic acid: </strong>{{ pantothenic_acid }}</p>
-                            <p><strong>Choline: </strong>{{ choline }}</p>
-                            <h4><p><strong style="color: #f0ad4e;">Minerals</strong></p></h4>
-                            <p><strong>Calcium: </strong>{{ calcium }}</p>
-                            <p><strong>Copper: </strong>{{ copper }}</p>
-                            <p><strong>Flouride: </strong>{{ flouride }}</p>
-                            <p><strong>IronFe: </strong>{{ iron_Fe }}</p>
-                            <p><strong>Magnesium: </strong>{{ magnesium }}</p>
-                            <p><strong>Manganese: </strong>{{ manganese }}</p>
-                            <p><strong>Sodium Na: </strong>{{ sodium_Na }}</p>
-                            <p><strong>Phosphorus: </strong>{{ phosphorus }}</p>
-                            <p><strong>Selenium: </strong>{{ selenium }}</p>
-                            <p><strong>Zinc: </strong>{{ zinc }}</p>
+                    <div class="col-md-6">
+                        <div class="row" style="overflow: auto">
+                            <h4>Related Tags</h4>
+                            {% for tag in tag_list %}
+                                <h4><p><span class="label label-primary"
+                                             id="{{ tag.tag_id }}"
+                                             data-label="{{ tag.tag_label }}"
+                                             data-description="{{ tag.tag_description }}"
+                                             data-name="{{ tag.name }}">
+                                    {{ tag.tag_label }}: {{ tag.tag_description }}
+                                </span></p></h4>
+                            {% endfor %}
                         </div>
-                        <a id="more-button">More...</a>
+                        <div class="row">
+                            <h4>Nutritional Values</h4>
+                            <p><strong>Carbohydrate: </strong>{{ carbohydrate_value }}</p>
+                            <p><strong>Sugar: </strong>{{ sugar_value }}</p>
+                            <p><strong>Fat: </strong>{{ fat_value }}</p>
+                            <p><strong>Protein: </strong>{{ protein_value }}</p>
+                            <p><strong>Calorie: </strong>{{ calorie_value }}</p>
+                            <div hidden id="others">
+                                <p><strong>Fiber: </strong>{{ fiber_value }}</p>
+                                <p><strong>Serving Weight: </strong>{{ serving_weight_grams }}</p>
+                                <h4><p><strong style="color: #5bc0de;">Vitamins</strong></p></h4>
+                                <p><strong>Vitamin A: </strong>{{ vitamin_A }}</p>
+                                <p><strong>Vitamin C: </strong>{{ vitamin_C }}</p>
+                                <p><strong>Vitamin D: </strong>{{ vitamin_D }}</p>
+                                <p><strong>Vitamin E: </strong>{{ vitamin_E }}</p>
+                                <p><strong>Vitamin K: </strong>{{ vitamin_K }}</p>
+                                <p><strong>Thiamin: </strong>{{ thiamin }}</p>
+                                <p><strong>Riboflavin: </strong>{{ riboflavin }}</p>
+                                <p><strong>Niacin: </strong>{{ niacin }}</p>
+                                <p><strong>Vitamin B6: </strong>{{ vitamin_B6 }}</p>
+                                <p><strong>Vitamin B12: </strong>{{ vitamin_B12 }}</p>
+                                <p><strong>Pantothenic acid: </strong>{{ pantothenic_acid }}</p>
+                                <p><strong>Choline: </strong>{{ choline }}</p>
+                                <h4><p><strong style="color: #f0ad4e;">Minerals</strong></p></h4>
+                                <p><strong>Calcium: </strong>{{ calcium }}</p>
+                                <p><strong>Copper: </strong>{{ copper }}</p>
+                                <p><strong>Flouride: </strong>{{ flouride }}</p>
+                                <p><strong>IronFe: </strong>{{ iron_Fe }}</p>
+                                <p><strong>Magnesium: </strong>{{ magnesium }}</p>
+                                <p><strong>Manganese: </strong>{{ manganese }}</p>
+                                <p><strong>Sodium Na: </strong>{{ sodium_Na }}</p>
+                                <p><strong>Phosphorus: </strong>{{ phosphorus }}</p>
+                                <p><strong>Selenium: </strong>{{ selenium }}</p>
+                                <p><strong>Zinc: </strong>{{ zinc }}</p>
+                            </div>
+                            <a id="more-button">More...</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div hidden id="tag-result-panel">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    Selected Tags
+                                </div>
+                                <div class="panel-body" id="semantic-tag-selected" style="overflow: auto">
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Tags
+                                </div>
+                                <div class="panel-body" id="semantic-tag-result" style="overflow: auto">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="sem-tags">Add a tag:</label>
+                            <input type="text" class="form-control" form="food-form" name="food_tags" id="sem-tags" value="">
+                            <a href="#" class="btn btn-default" id="search-tags">Search</a>
+                            <a href="#" class="btn btn-warning" id="submit-tags" data-foodid="{{ food_id }}">Submit</a>
+                        </div>
                     </div>
                 </div>
             </div>

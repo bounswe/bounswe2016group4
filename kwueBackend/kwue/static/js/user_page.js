@@ -92,4 +92,4 @@ $(document).on('click', ".sem-tag-selected", function () {
     $("#semantic-tag-result").find("#" + label_id).removeClass("label-info");
     $("#semantic-tag-result").find("#" + label_id).addClass("label-default");
     $(this).remove();
-})
+});

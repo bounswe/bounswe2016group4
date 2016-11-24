@@ -20,7 +20,8 @@ $(document).ready(function () {
             for(i=0; i<foods.length; i++) {
                 html_foods = html_foods + "<a href='get__food?food_id="+
                     foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
-                    foods[i]['food_name'] +"</p></h4>" + "<img src='"+
+                    foods[i]['food_name'] +"</p></h4>" + "<p><strong>Date: </strong>"+
+                    foods[i]['time_added'] +"</p>" + "<img src='"+
                     foods[i]['food_image'] +"' style='width: 100px; height: auto'></a>";
             }
             $("#consumption-panel").html(html_foods);
@@ -85,7 +86,8 @@ $(document).ready(function () {
                 for(i=0; i<foods.length; i++) {
                     html_foods = html_foods + "<a href='get__food?food_id=" +
                         foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+
-                        foods[i]['food_name'] +"</p></h4>" + "<img src='"+
+                        foods[i]['food_name'] +"</p></h4>"+ "<p><strong>Date: </strong>"+
+                        foods[i]['time_added'] +"</p>" + "<img src='"+
                         foods[i]['food_image'] +"' style='width: 100px; height: auto'></a>";
                 }
                 $("#consumption-panel").html(html_foods);

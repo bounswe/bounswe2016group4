@@ -159,7 +159,7 @@ $(document).ready(function () {
                 wanted_list: JSON.stringify(wantedList),
                 unwanted_list: JSON.stringify(unwantedList)
             },
-            success: function () {
+            success: function (result) {
                 $("#food-results").html(function () {
                     var response = result['food_set'];
                     var html = "";

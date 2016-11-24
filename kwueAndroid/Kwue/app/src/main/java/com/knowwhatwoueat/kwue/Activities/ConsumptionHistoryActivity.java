@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -17,12 +18,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -83,12 +86,15 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         consumptionItem = new ConsumptionItem();
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
+        consumptionHistory = new ArrayList<>();
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setLogo(R.mipmap.ic_launcher);
+
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Consumption History");
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         showMoreButton = (Button) findViewById(R.id.showMoreNutritions);
         simpleNutritionListView = (ListView) findViewById(R.id.simpleNutritionList);
@@ -97,13 +103,25 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
 
         simpleNutiritonAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,simpleNutritions);
-        consumptionListAdapter = new ConsumptionListAdapter(this,consumptionItem.getFoods());
+        consumptionListAdapter = new ConsumptionListAdapter(this,consumptionHistory);
         wholeNutritionAdapter = new SimpleNutritionAdapter(this,android.R.layout.simple_list_item_1,wholeNutritions);
+
+
 
         simpleNutritionListView.setAdapter(simpleNutiritonAdapter);
         consumptionListView.setAdapter(consumptionListAdapter);
 
+        consumptionListView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
+                Food o = (Food) consumptionListView.getItemAtPosition(position);
+                Intent i = new Intent(ConsumptionHistoryActivity.this, FoodProfile.class);
+                i.putExtra("isFood", o.getFood_id());
+                Log.d("choise","" + o.getFood_id());
+                startActivity(i);
+            }
+        });
         intervalView.setText("Your" + interval+" nutritions:");
 
         final AlertDialog.Builder build = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
@@ -139,6 +157,23 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         sendConsumptionRequest();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                Log.d("search", "onOptionsItemSelected: ");
+                Intent i = new Intent(ConsumptionHistoryActivity.this, BasicSearch.class);
+                startActivity(i);
+                return true;
+            case R.id.advanced_search:
+                Intent ik = new Intent(ConsumptionHistoryActivity.this, AdvancedSearch.class);
+                startActivity(ik);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,7 +218,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
-        consumptionListAdapter.notifyDataSetChanged();
+        consumptionListAdapter.addAll(consumptionItem.getFoods());
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
         simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
         simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");

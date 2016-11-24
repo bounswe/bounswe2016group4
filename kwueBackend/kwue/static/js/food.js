@@ -27,7 +27,7 @@ $(document).ready(function(){
             var description = $(this).data('description');
             var temp = {'tag_name': name, 'tag_id': id, 'tag_label': label, 'tag_description': description};
             tags.push(temp);
-        })
+        });
         tobepushed['ingredients'] = JSON.stringify(ingredients);
         tobepushed['food_tags'] = JSON.stringify(tags);
         $.ajaxSetup({
@@ -69,9 +69,8 @@ $(document).ready(function(){
                     }
                     return res;
                 });
-                //$("#semantic-tag-result").show();
             }
-        })
+        });
     });
 
     $("#ingredient-add").click(function () {

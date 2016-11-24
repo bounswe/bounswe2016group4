@@ -1,0 +1,102 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/user_page.js' %}"></script>
+
+    <title>KWUE</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+        {% include 'kwue/navigation_bar.html' %}
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    Profile Page
+                </div>
+                <div class="panel panel-body">
+                    <div class="col-md-3" id="left-panel">
+                        <h4><strong> {{ user_name }} </strong></h4>
+                        <p>{{ user_nick }}</p>
+                        <p>{{ user_email_address }}</p>
+                        <img src="{{ user_image }}" style="width: 200px; height: auto">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row" id="right-panel" style="overflow: auto">
+                        <h4>Related Tags</h4>
+                            {% for tag in tag_list %}
+                                <h4><p><span class="label label-primary"
+                                             id="{{ tag.tag_id }}"
+                                             data-label="{{ tag.tag_label }}"
+                                             data-description="{{ tag.tag_description }}"
+                                             data-name="{{ tag.name }}">
+
+                                    {{ tag.tag_label }}: {{ tag.tag_description }}
+                                </span></p></h4>
+                            {% endfor %}
+                        </div>
+                        <div class="row" style="overflow: auto">
+                            <h4>Eating Preference</h4>
+                            <p><strong style="color: #d9534f">Protein:</strong> Lower bound: {{ protein_lower_bound }}, Upper bound: {{ protein_upper_bound }}</p>
+                            <p><strong style="color: #985f0d">Fat:</strong> Lower bound: {{ fat_lower_bound }}, Upper bound: {{ fat_upper_bound }}</p>
+                            <p><strong style="color: #3e8f3e">Carbohydrate:</strong> Lower bound: {{ carbohydrate_lower_bound }}, Upper bound: {{ carbohydrate_upper_bound }}</p>
+                            <p><strong style="color: #761c19">Calorie:</strong> Lower bound: {{ calorie_lower_bound }}, Upper bound: {{ calorie_upper_bound }}</p>
+                            <p><strong style="color: #8c8c8c">Sugar:</strong> Lower bound: {{ sugar_lower_bound }}, Upper bound: {{ sugar_upper_bound }}</p>
+                            <h5>Wanted Ingredients</h5>
+                            {% if not wanted_ingredients %}
+                                <p><u>None</u></p>
+                            {% endif %}
+                            {% for ing in wanted_ingredients %}
+                                <p>ing</p>
+                            {% endfor %}
+                            <h5>Unwanted Ingredients</h5>
+                            {% if not unwanted_ingredients %}
+                                <p><u>None</u></p>
+                            {% endif %}
+                            {% for ing in unwanted_ingredients %}
+                                <p>ing</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-3" id="add-tag-panel">
+                        <div hidden id="tag-result-panel">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    Selected Tags
+                                </div>
+                                <div class="panel-body" id="semantic-tag-selected" style="overflow: auto">
+
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Tags
+                                </div>
+                                <div class="panel-body" id="semantic-tag-result" style="overflow: auto">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="sem-tags">Add a tag:</label>
+                            <input type="text" class="form-control" form="food-form" name="food_tags" id="sem-tags" value="">
+                            <a href="#" class="btn btn-default" id="search-tags">Search</a>
+                            <a href="#" class="btn btn-warning" id="submit-tags" data-userid="{{ user_id }}">Submit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

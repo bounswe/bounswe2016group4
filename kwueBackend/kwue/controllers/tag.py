@@ -23,3 +23,4 @@ def tag_user(req):
     dict['generic_id'] = dict['tagged_user_id']
     dict["type"] = "User"
     db_insert_tag(dict)
+    return HttpResponse({'is_success': 'true'}, content_type='application/json')

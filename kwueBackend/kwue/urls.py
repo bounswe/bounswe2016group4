@@ -130,13 +130,13 @@ urlpatterns = (
 
     ### REQUEST
     # GET
-    #
+    # 'user_id'
     #
     ### RESPONSE
     #
     #
     #
-    url(r'^user_profile_page', user.get_user_profile_page), # Renders ...
+    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'), # Renders ...
 
 
     ### REQUEST

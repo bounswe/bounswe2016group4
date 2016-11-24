@@ -18,7 +18,16 @@ def get_user(req):
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):
-    return render(req, 'kwue/user_profile_page.html', {})
+    user_id = req.GET.dict()['user_id']
+    user = db_retrieve_user(user_id)
+
+    user_dict = ingredient_from_object_to_list(user)
+
+    del user_dict['_state']  # alptekin fix FacePalm
+    tag_list = return_tags(user_id, "User")
+    user_dict['tag_list'] = tag_list
+
+    return render(req, 'kwue/user_profile_page.html', user_dict)
 
 def update_profile(req):
     return render(req, 'kwue/food.html', {})

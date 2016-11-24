@@ -1,17 +1,21 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -24,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
+import com.knowwhatwoueat.kwue.DataModels.EatingPreferences;
 import com.knowwhatwoueat.kwue.DataModels.Food;
 import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
@@ -45,8 +50,16 @@ public class ProfilePageActivity extends AppCompatActivity {
     String url = Constants.endPoint;
 
     public static String intervalChoise = "daily" ;
+    public List<String> eatingPrefs = new ArrayList<>();
+    private AlertDialog alertDialog;
+
+    public static EatingPreferences  eatPref= new EatingPreferences();
+    public static View convertView ;
+    public static LayoutInflater inflater ;
 
 
+    public static List<String> wantedList = new ArrayList<>();
+    public static List<String> unWantedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,9 +131,17 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView userMailAddress =(TextView) this.findViewById(R.id.user_email_address);
         userMailAddress.setText(user.user_email_address);
 
+
         ListView lw = (ListView) this.findViewById(R.id.consumption_history);
         ListAdapter listAdapter = new ConsumptionListAdapter(this,consumptionHistory);
         lw.setAdapter(listAdapter);
+
+        ListView lw2 = (ListView) this.findViewById(R.id.eating_preferences);
+        eatingPrefs = setEatPref(user);
+        if(eatingPrefs != null) {
+            ArrayAdapter<String> eatingPrefAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, eatingPrefs);
+            lw2.setAdapter(eatingPrefAdapter);
+        }
 
         Spinner dropdownConsumptionInterval = (Spinner) this.findViewById(R.id.consumption_history_interval);
         String[] items = new String[]{"daily","weekly","monthly","alltime"};
@@ -139,33 +160,139 @@ public class ProfilePageActivity extends AppCompatActivity {
             }
         });
 
-
-//        ListView lw2 = (ListView) this.findViewById(R.id.user_eating_preferences);
-
-
         Button consumptionButton = (Button) findViewById(R.id.all_consumption_history);
         consumptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ProfilePageActivity.this, ConsumptionHistoryActivity.class);
                 i.putExtra("consumption_history_interval", intervalChoise);
+                Log.d("choise",intervalChoise);
                 startActivity(i);
             }
         });
 
+
+        final AlertDialog.Builder build = new AlertDialog.Builder(ProfilePageActivity.this);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                updateEatingPrefs();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog = build.create();
+        inflater = getLayoutInflater();
+        convertView = inflater.inflate(R.layout.update_eating_preferences, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("Eating Preferences");
+
+
+        Button eatingPrefUpdate = (Button) findViewById(R.id.update_eating_preferences);
+        eatingPrefUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               alertDialog.show();
+
+            }
+        });
+
+        Button wantedList = (Button) findViewById(R.id.add_wanted_item);
+        wantedList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addWantedItem();
+
+            }
+        });
+
+        Button unwantedList = (Button) findViewById(R.id.add_unwanted_item);
+        unwantedList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addUnwantedItem();
+
+            }
+        });
+
+
+    }
+    public void updateEatingPrefs(){
+        EditText tv = (EditText) convertView.findViewById(R.id.update_protein_lower_bound);
+         eatPref.protein_lower_bound = Double.parseDouble(tv.getText().toString());
+
+        EditText tv1 = (EditText) convertView.findViewById(R.id.update_fat_lower_bound);
+        eatPref.fat_lower_bound = Double.parseDouble(tv1.getText().toString());
+
+        EditText tv2 = (EditText) convertView.findViewById(R.id.update_carbohydrate_lower_bound);
+        eatPref.carbohydrate_lower_bound = Double.parseDouble(tv2.getText().toString());
+
+        EditText tv3 = (EditText) convertView.findViewById(R.id.update_calorie_lower_bound);
+        eatPref.calorie_lower_bound = Double.parseDouble(tv3.getText().toString());
+
+        EditText tv4 = (EditText) convertView.findViewById(R.id.update_sugar_lower_bound);
+        eatPref.sugar_lower_bound = Double.parseDouble(tv4.getText().toString());
+
+        EditText tv5 = (EditText) convertView.findViewById(R.id.update_protein_upper_bound);
+        eatPref.protein_upper_bound = Double.parseDouble(tv5.getText().toString());
+
+        EditText tv6 = (EditText) convertView.findViewById(R.id.update_fat_upper_bound);
+        eatPref.fat_upper_bound = Double.parseDouble(tv6.getText().toString());
+
+        EditText tv7 = (EditText) convertView.findViewById(R.id.update_carbohydrate_upper_bound);
+        eatPref.carbonhydrate_upper_bound = Double.parseDouble(tv7.getText().toString());
+
+        EditText tv8 = (EditText) convertView.findViewById(R.id.update_calorie_upper_bound);
+        eatPref.calorie_upper_bound = Double.parseDouble(tv8.getText().toString());
+
+        EditText tv9= (EditText) convertView.findViewById(R.id.update_sugar_upper_bound);
+        eatPref.sugar_upper_bound = Double.parseDouble(tv9.getText().toString());
+
+       }
+
+    public void addWantedItem(){
+        EditText tw = (EditText) convertView.findViewById(R.id.update_wanted_item);
+        wantedList.add(tw.getText().toString());
+
+
+
+    }
+    public void addUnwantedItem(){
+
+
+
+
+    }
+
+    public List<String> setEatPref(User user){
+        List<String> temp = new ArrayList<>();
+        temp.add("Protein Lower Bound  \t \t    : " + user.protein_lower_bound);
+        temp.add("Fat Lower Bound       \t \t   : " + user.fat_lower_bound);
+        temp.add("Carbohydrate Lower Bound \t : " + user.carbohydrate_lower_bound);
+        temp.add("Calorie Lower Bound     \t : " + user.calorie_lower_bound);
+        temp.add("Sugar Lower Bound        \t\t: " + user.sugar_lower_bound);
+        temp.add("Protein Upper Bound     \t \t: " + user.protein_upper_bound);
+        temp.add("Fat Upper Bound         \t\t : " + user.fat_upper_bound);
+        temp.add("Carbohydrate Upper Bound \t: " + user.carbohydrate_upper_bound);
+        temp.add("Calorie Upper Bound      \t\t: " + user.calorie_upper_bound);
+        temp.add("Sugar Upper Bound        \t\t: " + user.sugar_upper_bound);
+        if(user.wanted_list.length != 0 )temp.add("Wanted Ingredients       \t\t: " + toString(user.wanted_list));
+        if(user.unwanted_list.length != 0 )temp.add("Unwanted Ingredients       \t: " + toString(user.unwanted_list));
+
+        return temp;
     }
 
 
-
-
-
-
-
-
-    protected void setViewFoodServer(User user){
-
-
+    public String toString(String[] list) {
+        String ret = "";
+        for (int i = 0; i < list.length; i++){
+            ret += list[i];
+            if(i != list.length -1 ) {
+                ret += ",";
+            }
+        }
+        return  ret;
     }
+    //TODO: Food server pages will be implemented.
+    protected void setViewFoodServer(User user){}
 
 
 

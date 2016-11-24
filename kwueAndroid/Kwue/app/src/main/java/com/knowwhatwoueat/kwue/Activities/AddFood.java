@@ -77,6 +77,7 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<String> basicNutritions;
 
     private ListAdapter semanticListAdapter;
+    private ListAdapter basicNutritionalAdapter;
     private ArrayAdapter ingredientListAdapter;
     private String semanticQuery;
 
@@ -155,7 +156,7 @@ public class AddFood extends AppCompatActivity{
         ingredientListView.setAdapter(ingredientListAdapter);
         ingredientListView.setVerticalScrollBarEnabled(true);
 
-        ListAdapter basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
+        basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
         nutritionalSimpleList.setAdapter(basicNutritionalAdapter);
 
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
@@ -231,7 +232,7 @@ public class AddFood extends AppCompatActivity{
     }
     protected void assignTagTitles(SemanticTag[] response){
         for(int i = 0; i < response.length;i++){
-            semanticTagNames.add(response[i].tag_description);
+            semanticTagNames.add(response[i].tag_label+ " : "+ response[i].tag_description);
             semanticTags.add(response[i]);
         }
     }
@@ -327,10 +328,10 @@ public class AddFood extends AppCompatActivity{
     protected void assignNutritional(String response){
         Gson gson = new Gson();
         nutrition = gson.fromJson(response,Nutrition.class);
-        basicNutritions.add(String.valueOf(nutrition.getFat_value()) + "gr");
-        basicNutritions.add(String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
-        basicNutritions.add(String.valueOf(nutrition.getProtein_value())+"gr");
-        basicNutritions.add(String.valueOf(nutrition.getCalorie_value())+ "cal");
+        basicNutritions.add("Fat: " + String.valueOf(nutrition.getFat_value()) + "gr");
+        basicNutritions.add("C.Hydrate: " +String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
+        basicNutritions.add("Protein: " + String.valueOf(nutrition.getProtein_value())+"gr");
+        basicNutritions.add("Calorie: " + String.valueOf(nutrition.getCalorie_value())+ "cal");
     }
 
 

@@ -29,12 +29,7 @@
             android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
             android:minHeight="?android:attr/listPreferredItemHeightSmall" />
         <TextView
-            android:id="@+id/Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginLeft="10dp"/>
-        <TextView
+            android:gravity="center_vertical"
             android:id="@+id/conusmptionTimeAdded"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />

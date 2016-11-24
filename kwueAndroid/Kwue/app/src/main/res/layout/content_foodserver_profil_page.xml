@@ -11,29 +11,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.knowwhatwoueat.kwue.Activities.ProfilePageActivity"
-    tools:showIn="@layout/activity_profile_page">
+    >
 
+    <!-- View of the follower, will implement later.
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="15dp"
+        android:text=""
+        android:id="@+id/user_followers"
+        android:layout_below="@+id/user_name"
+        android:layout_alignStart="@+id/user_name"
+        android:layout_marginTop="30dp" />
+-->
     <TextView
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:id="@+id/user_email_address"
         android:layout_below="@+id/user_name"
         android:layout_alignParentEnd="true" />
-    <Button
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/user_email_address"
-        android:id="@+id/add_food_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@android:color/transparent"
-        android:drawableTop="@android:drawable/ic_input_add"/>
 
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
         android:id="@+id/consumption_history_interval"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/eating_preferences"
+
+        android:layout_above="@+id/consumption_history"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="11dp">
 
@@ -46,6 +49,15 @@
         android:layout_below="@+id/user_profile_image"
         android:id="@+id/eating_preferences_title"
         android:text="Eating Preferences"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:id="@+id/eating_preferences"
+        android:layout_below="@+id/eating_preferences_title"
+        android:layout_alignParentStart="true">
+    </ListView>
+
+
 
 
     <ImageView
@@ -65,20 +77,20 @@
 
     <Button
         android:id="@+id/all_consumption_history"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:drawableTop="@android:drawable/ic_input_add"
+        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:drawableTop="@android:drawable/ic_input_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true">
-        </Button>
+    </Button>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:id="@+id/eating_preferences"
-        android:layout_below="@+id/eating_preferences_title"
+        android:id="@+id/consumption_history"
+        android:layout_below="@+id/eating_preferences"
         android:layout_alignParentStart="true">
     </ListView>
 
@@ -88,28 +100,9 @@
         android:textSize="20sp"
         android:text="Recent Consumptions"
         android:id="@+id/consumption_history_title"
-        android:layout_below="@+id/eating_preferences"
+        android:layout_above="@+id/consumption_history"
         android:layout_alignParentStart="true" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/consumption_history"
-        android:layout_below="@+id/consumption_history_interval"
-        android:layout_alignParentStart="true">
-    </ListView>
-
-    <Button
-
-        android:id="@+id/update_eating_preferences"
-        android:layout_height="30dp"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:background="@android:color/darker_gray"
-        android:text="Update"
-        android:layout_above="@+id/eating_preferences"
-        android:layout_alignParentEnd="true">
-    </Button>
 
 
 </RelativeLayout>

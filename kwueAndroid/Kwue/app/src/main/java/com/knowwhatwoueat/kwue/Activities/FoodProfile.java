@@ -1,14 +1,22 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -112,6 +120,44 @@ public class FoodProfile extends AppCompatActivity {
     protected void setSearchQuery(int query) {
         searchQuery = query;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                Log.d("search", "onOptionsItemSelected: ");
+                Intent i = new Intent(FoodProfile.this, BasicSearch.class);
+                startActivity(i);
+                return true;
+            case R.id.advanced_search:
+                Intent ik = new Intent(FoodProfile.this, AdvancedSearch.class);
+                startActivity(ik);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
 
 

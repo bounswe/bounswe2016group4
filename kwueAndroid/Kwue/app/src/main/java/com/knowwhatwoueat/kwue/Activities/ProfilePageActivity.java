@@ -1,16 +1,23 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +43,8 @@ import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
+
+import java.io.BufferedOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +80,8 @@ public class ProfilePageActivity extends AppCompatActivity {
     public static ListAdapter unWantedListAdapter ;
     public static ListView lv_unwanted ;
 
+    private Button addFoodButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +93,15 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
+        addFoodButton = (Button) findViewById(R.id.add_food_button);
 
+        addFoodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfilePageActivity.this, AddFood.class);
+                startActivity(i);
+            }
+        });
 
         consumptionHistory = new ArrayList<>();
 
@@ -424,6 +443,43 @@ public class ProfilePageActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                Log.d("search", "onOptionsItemSelected: ");
+                Intent i = new Intent(ProfilePageActivity.this, BasicSearch.class);
+                startActivity(i);
+                return true;
+            case R.id.advanced_search:
+                Intent ik = new Intent(ProfilePageActivity.this, AdvancedSearch.class);
+                startActivity(ik);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
 
 

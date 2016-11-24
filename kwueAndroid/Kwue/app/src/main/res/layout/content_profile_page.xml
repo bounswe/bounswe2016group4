@@ -19,6 +19,14 @@
         android:id="@+id/user_email_address"
         android:layout_below="@+id/user_name"
         android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/user_email_address"
+        android:id="@+id/add_food_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@android:drawable/ic_input_add"/>
 
     <Spinner
         android:layout_width="wrap_content"

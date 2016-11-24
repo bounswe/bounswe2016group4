@@ -1,5 +1,8 @@
 package com.knowwhatwoueat.kwue.Activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,6 +28,8 @@ import com.knowwhatwoueat.kwue.Utils.Constants;
 import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 
 import org.w3c.dom.Text;
+
+import java.io.InputStream;
 
 public class FoodProfile extends AppCompatActivity {
 
@@ -80,6 +86,9 @@ public class FoodProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        queue = Volley.newRequestQueue(this);
+        Gson gson = new Gson();
+
         int foodId = getIntent().getIntExtra("isFood", 0);
         setSearchQuery(foodId);
         sendFoodProfileHttpRequest(searchQuery);
@@ -93,13 +102,13 @@ public class FoodProfile extends AppCompatActivity {
         //j.putExtra("isFood",foodId.get(i));
         // Instantiate the RequestQueue.
 
-        queue = Volley.newRequestQueue(this);
-        Gson gson = new Gson();
     }
 
     protected void setSearchQuery(int query) {
         searchQuery = query;
     }
+
+
 
     protected void sendFoodProfileHttpRequest(int query) {
 
@@ -113,7 +122,7 @@ public class FoodProfile extends AppCompatActivity {
                     public void onResponse(GetFoodProfileResult response) {
                         // Display the first 500 characters of the response string.
                         Log.d("response", "onResponse: getFood");
-                        //assignFoodValues(response);
+                        assignFoodValues(response);
                         //showAlertDialog();
 
                     }
@@ -130,35 +139,20 @@ public class FoodProfile extends AppCompatActivity {
     protected void assignFoodValues(GetFoodProfileResult response) {
 
         serving_weight_grams = response.getServing_weight_grams();
-
         protein_value = response.getProtein_value();
-
         calorie_value = response.getCalorie_value();
-
         fiber_value = response.getFiber_value();
-
         food_owner_id = response.getFood_owner_id();
-
         food_recipe = response.getFood_recipe();
-
         food_description = response.getFood_description();
-
         food_image = response.getFood_image();
-
         food_name = response.getFood_name();
-
         fat_value = response.getFat_value();
-
         sugar_value = response.getSugar_value();
-
         food_rate = response.getFood_rate();
-
         food_id = response.getFood_id();
-
         carbohydrate_value = response.getCarbonhydrate_value();
-
         tag_list = response.getTag_list();
-
         phosphorus = response.getPhosphorus();
         zinc = response.getZinc();
         vitamin_B6 = response.getVitamin_B6();
@@ -183,7 +177,8 @@ public class FoodProfile extends AppCompatActivity {
         vitamin_D = response.getVitamin_D();
         calcium = response.getCalcium();
         vitamin_E = response.getVitamin_E();
-
+        System.out.println(food_name+" 9");
+        /*
         System.out.println(serving_weight_grams+" 1");
         System.out.println(protein_value+" 2");
         System.out.println(calorie_value+" 3");
@@ -198,8 +193,153 @@ public class FoodProfile extends AppCompatActivity {
         System.out.println(food_rate+" 12");
         System.out.println(food_id+" 13");
         System.out.println(carbohydrate_value+" 14");
+        */
+        assingTextView();
 
     }
+
+    protected void assingTextView() {
+
+        TextView foodNameTextView = (TextView) findViewById(R.id.foodName);
+        foodNameTextView.setText(food_name);
+
+        new FoodProfile.DownloadImageTask((ImageView) findViewById(R.id.foodImage))
+                .execute(food_image);
+
+        TextView foodDescriptionTextView = (TextView) findViewById(R.id.foodDescription);
+        foodDescriptionTextView.setText(food_description);
+
+        TextView foodRecipeTextView = (TextView) findViewById(R.id.foodRecipe);
+        foodRecipeTextView.setText(food_recipe);
+
+        TextView vitaminATextView = (TextView) findViewById(R.id.vitaminA);
+        vitaminATextView.setText(vitamin_A+"");
+
+        TextView vitaminB6TextView = (TextView) findViewById(R.id.vitaminB6);
+        vitaminB6TextView.setText(vitamin_B6+"");
+
+        TextView vitaminB12TextView = (TextView) findViewById(R.id.vitaminB12);
+        vitaminB12TextView.setText(vitamin_B12+"");
+
+        TextView vitaminCTextView = (TextView) findViewById(R.id.vitaminC);
+        vitaminCTextView.setText(vitamin_C+"");
+
+        TextView vitaminDTextView = (TextView) findViewById(R.id.vitaminD);
+        vitaminDTextView.setText(vitamin_D+"");
+
+        TextView vitaminETextView = (TextView) findViewById(R.id.vitaminE);
+        vitaminETextView.setText(vitamin_E+"");
+
+        TextView vitaminKTextView = (TextView) findViewById(R.id.vitaminK);
+        vitaminKTextView.setText(vitamin_K+"");
+
+        TextView carbonhydrateTextView = (TextView) findViewById(R.id.carbonhydrateValue);
+        carbonhydrateTextView.setText(carbohydrate_value+"");
+
+        TextView proteinTextView = (TextView) findViewById(R.id.proteinValue);
+        proteinTextView.setText(protein_value+"");
+
+        TextView sugarTextView = (TextView) findViewById(R.id.sugarValue);
+        sugarTextView.setText(sugar_value+"");
+
+        TextView fatTextView = (TextView) findViewById(R.id.fatValue);
+        fatTextView.setText(fat_value+"");
+
+        TextView calorieTextView = (TextView) findViewById(R.id.calorieValue);
+        calorieTextView.setText(calorie_value+"");
+
+        TextView fiberTextView = (TextView) findViewById(R.id.fiberValue);
+        fiberTextView.setText(fiber_value+"");
+
+        int length = tag_list.length;
+
+        String description = "";
+        for(int i=0;i<length;i++){
+            Tag o = tag_list[i];
+            description = description+ o.getTag_description()+"\n";
+        }
+
+        TextView tagDescriptionTextView = (TextView) findViewById(R.id.tagDescription);
+        tagDescriptionTextView.setText(description);
+
+
+        TextView phosTextView = (TextView) findViewById(R.id.phosphorus);
+        phosTextView.setText(phosphorus+"");
+
+        TextView folTextView = (TextView) findViewById(R.id.folatem);
+        folTextView.setText(folatem+"");
+
+        TextView selTextView = (TextView) findViewById(R.id.selenium);
+        selTextView.setText(selenium+"");
+
+        TextView sodTextView = (TextView) findViewById(R.id.sodium);
+        sodTextView.setText(sodium_Na+"");
+
+        TextView magTextView = (TextView) findViewById(R.id.magnesium);
+        magTextView.setText(magnesium+"");
+
+        TextView thiTextView = (TextView) findViewById(R.id.thiomin);
+        thiTextView.setText(thiamin+"");
+
+        TextView pantTextView = (TextView) findViewById(R.id.pantothenic_acid);
+        pantTextView.setText(pantothenic_acid+"");
+
+        TextView niTextView = (TextView) findViewById(R.id.niacin);
+        niTextView.setText(niacin+"");
+
+        TextView copTextView = (TextView) findViewById(R.id.cooper);
+        copTextView.setText(copper+"");
+
+        TextView choTextView = (TextView) findViewById(R.id.choline);
+        choTextView.setText(choline+"");
+
+        TextView riTextView = (TextView) findViewById(R.id.riboflovin);
+        riTextView.setText(riboflavin+"");
+
+        TextView irTextView = (TextView) findViewById(R.id.iron);
+        irTextView.setText(iron_Fe+"");
+
+        TextView calTextView = (TextView) findViewById(R.id.calcium);
+        calTextView.setText(calcium+"");
+
+        TextView flTextView = (TextView) findViewById(R.id.flouride);
+        flTextView.setText(flouride+"");
+
+        TextView manTextView = (TextView) findViewById(R.id.manganese);
+        manTextView.setText(manganese+"");
+
+
+
+    }
+
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+
+
 }
 
 

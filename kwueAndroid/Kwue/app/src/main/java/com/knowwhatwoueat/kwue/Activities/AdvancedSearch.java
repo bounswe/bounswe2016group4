@@ -359,7 +359,7 @@ public class AdvancedSearch extends AppCompatActivity {
                     j.putExtra("isUser",userId.get(i));
                     startActivity(j);
                 }else{
-                    j = new Intent(AdvancedSearch.this, AddFood.class);
+                    j = new Intent(AdvancedSearch.this, FoodProfile.class);
                     j.putExtra("isFood",foodId.get(i));
                     startActivity(j);
                 }

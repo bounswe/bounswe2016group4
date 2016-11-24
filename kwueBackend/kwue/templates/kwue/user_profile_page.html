@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-slider.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/user_page.js' %}"></script>
 
@@ -32,8 +34,8 @@
                         <img src="{{ user_image }}" style="width: 200px; height: auto">
                     </div>
                     <div class="col-md-6">
-                        <div class="row" id="right-panel" style="overflow: auto">
-                        <h4>Related Tags</h4>
+                        <div class="row" id="tag-panel" style="overflow: auto">
+                            <h4>Related Tags</h4>
                             {% for tag in tag_list %}
                                 <h4><p><span class="label label-primary"
                                              id="{{ tag.tag_id }}"
@@ -97,6 +99,7 @@
                 </div>
             </div>
         </div>
+        {% include 'kwue/search_result_template.html' %}
     </div>
 </body>
 </html>

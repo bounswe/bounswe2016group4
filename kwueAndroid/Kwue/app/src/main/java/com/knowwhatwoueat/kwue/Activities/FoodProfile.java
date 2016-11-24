@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -382,6 +383,7 @@ public class FoodProfile extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("mark as eaten", "onResponse: added" + response);
+                Toast.makeText(getApplicationContext(), "Marked as eaten", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

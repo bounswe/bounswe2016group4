@@ -23,9 +23,9 @@ def search_by_text(focus_string):
     print(semantic_objects)
     for x in list(semantic_objects):
         if x.content_type.model == "foodmodel":
-            semantic_food.append(x.tagged_object)
+            semantic_food.append(x.tagged_object_id)
         else:
-            semantic_user.append(x.tagged_object)
+            semantic_user.append(x.tagged_object_id)
     ################
     ################
     foods = FoodModel.objects.filter(food_name__icontains=focus_string)

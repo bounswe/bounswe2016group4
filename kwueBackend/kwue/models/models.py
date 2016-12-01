@@ -147,8 +147,12 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date = models.IntegerField(default=time.time(), editable=True)
+    date = models.IntegerField(default=0)
 
+    def save(self):
+        if self.date is 0:
+            self.date = time.time() + 60*60*3;
+            super().save(self)
 
     def __str__(self):
         return show_date(self.date)

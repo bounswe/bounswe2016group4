@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,6 +38,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.knowwhatwoueat.kwue.Adapters.FoodSemanticAdapter;
 import com.knowwhatwoueat.kwue.Adapters.IngredientListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Ingredient;
 import com.knowwhatwoueat.kwue.DataModels.Nutrition;
@@ -65,6 +67,7 @@ public class AddFood extends AppCompatActivity{
     private Button calculateCalorieButton;
     private ListView nutritionalSimpleList;
     private ListView nutritionalList;
+    private ListView foodsSemantics;
 
     //food model
     private Nutrition nutrition;
@@ -73,12 +76,13 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<String> semanticTagNames;
     private ArrayList<Integer> ingredientGrams;
     private ArrayList<Ingredient> ingredients;
-    private ArrayList<Long> checkedSemanticTags;
     private ArrayList<String> basicNutritions;
+    private ArrayList<SemanticTag> foodsSemanticTags;
 
     private ListAdapter semanticListAdapter;
     private ListAdapter basicNutritionalAdapter;
     private ArrayAdapter ingredientListAdapter;
+    private ArrayAdapter foodsSemanticAdapter;
     private String semanticQuery;
 
     private AlertDialog alertDialog;
@@ -97,14 +101,14 @@ public class AddFood extends AppCompatActivity{
 
         semanticTagNames= new ArrayList<String>();
         ingredientNames = new ArrayList<>();
-        semanticTags = new ArrayList<>();
         ingredientGrams = new ArrayList<>();
         ingredients = new ArrayList<>();
-        checkedSemanticTags = new ArrayList<>();
         basicNutritions = new ArrayList<>();
+        foodsSemanticTags = new ArrayList<>();
 
         ingredientListView = (ListView) findViewById(R.id.ingredient_list);
         nutritionalSimpleList = (ListView) findViewById(R.id.nutritionalvaluelist);
+        foodsSemantics = (ListView) findViewById(R.id.foods_semantic_list);
 
 
         editFoodTextBox = (EditText) findViewById(R.id.add_food_name);
@@ -125,17 +129,6 @@ public class AddFood extends AppCompatActivity{
 
 
 
-        getTagsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                setSemanticQuery(semanticTextBox.getText().toString());
-                Log.d("tags button", "onClick: clicked" );
-                sendSemanticHttpRequest(semanticQuery);
-
-            }
-
-        });
 
         addIngredientButton.setOnClickListener(new View.OnClickListener(){
 
@@ -159,35 +152,54 @@ public class AddFood extends AppCompatActivity{
         basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
         nutritionalSimpleList.setAdapter(basicNutritionalAdapter);
 
+        foodsSemanticAdapter = new FoodSemanticAdapter(this,foodsSemanticTags);
+        foodsSemantics.setAdapter(foodsSemanticAdapter);
+
         semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,semanticTagNames);
 
-        final AlertDialog.Builder build = new AlertDialog.Builder(AddFood.this);
-        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog = build.create();
-        LayoutInflater inflater = getLayoutInflater();
-        View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
-        alertDialog.setView(convertView);
-        alertDialog.setTitle("List");
-        ListView lv = (ListView) convertView.findViewById(R.id.listView1);
-        lv.setAdapter(semanticListAdapter);
 
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        getTagsButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // change the checkbox state
-                CheckedTextView checkedTextView = ((CheckedTextView)view);
-                checkedTextView.setChecked(!checkedTextView.isChecked());
-                if(checkedTextView.isChecked())
-                    checkedSemanticTags.add(id);
-                else
-                    checkedSemanticTags.remove(id);
+            public void onClick(View view) {
+                setSemanticQuery(semanticTextBox.getText().toString());
+                Log.d("tags button", "onClick: clicked" );
+                sendSemanticHttpRequest(semanticQuery);
+                final AlertDialog.Builder build = new AlertDialog.Builder(AddFood.this);
+                build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog = build.create();
+                LayoutInflater inflater = getLayoutInflater();
+                View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
+                alertDialog.setView(convertView);
+                alertDialog.setTitle("List");
+                ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+                lv.setAdapter(semanticListAdapter);
+
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // change the checkbox state
+                        CheckedTextView checkedTextView = ((CheckedTextView)view);
+                        checkedTextView.setChecked(!checkedTextView.isChecked());
+                        if(checkedTextView.isChecked()) {
+                            foodsSemanticAdapter.add(semanticTags.get(position));
+                        }
+                        else {
+                            foodsSemanticAdapter.remove(semanticTags.get(position));
+                        }
+                    }
+                });
             }
+
         });
+
 
         calculateCalorieButton.setOnClickListener(
                 new View.OnClickListener(){
@@ -197,6 +209,7 @@ public class AddFood extends AppCompatActivity{
                             requestNutritional();
                     }
                 }
+
 
         );
 
@@ -209,6 +222,8 @@ public class AddFood extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 sendAddFoodRequest();
+                String warning = "Food added !";
+                Toast.makeText(AddFood.this,warning, Toast.LENGTH_LONG).show();
             }
 
         });
@@ -231,6 +246,8 @@ public class AddFood extends AppCompatActivity{
         return ingredientListAdapter;
     }
     protected void assignTagTitles(SemanticTag[] response){
+        semanticTags = new ArrayList<>();
+        semanticTagNames.removeAll(semanticTagNames);
         for(int i = 0; i < response.length;i++){
             semanticTagNames.add(response[i].tag_label+ " : "+ response[i].tag_description);
             semanticTags.add(response[i]);
@@ -285,7 +302,7 @@ public class AddFood extends AppCompatActivity{
             obj.addProperty("value",""+ ingredients.get(i).getQuantity()+" gr");
             ingredientArray.add(obj);
         }
-        semanticsResponse =gson.toJson(semanticTags.toArray(),SemanticTag[].class);
+        semanticsResponse =gson.toJson(foodsSemanticTags.toArray(),SemanticTag[].class);
         StringRequest sr = new StringRequest(Request.Method.POST,addFoodUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

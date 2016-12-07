@@ -164,11 +164,11 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView userMailAddress =(TextView) this.findViewById(R.id.user_email_address);
         userMailAddress.setText(user.user_email_address);
 
-
+/*
         ListView lw = (ListView) this.findViewById(R.id.consumption_history);
         ListAdapter listAdapter = new ConsumptionListAdapter(this,consumptionHistory);
         lw.setAdapter(listAdapter);
-
+*/
         ListView lw2 = (ListView) this.findViewById(R.id.eating_preferences);
         eatingPrefs = setEatPref(user);
         if(eatingPrefs != null) {

@@ -78,8 +78,8 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consumption_history);
 
-        interval = " weekly";
-        //interval = getIntent().getExtras().getString("consumption_history_interval");
+        //interval = " weekly";
+        interval = getIntent().getExtras().getString("consumption_history_interval");
 
         queue = Volley.newRequestQueue(this);
 
@@ -122,7 +122,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        intervalView.setText("Your" + interval+" nutritions:");
+        intervalView.setText("Your  " + interval+" nutritions:");
 
         final AlertDialog.Builder build = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:hint="Enter your password"
             android:inputType="text"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:password="true"/>
 
 
     </LinearLayout>

@@ -8,5 +8,5 @@ public class Constants {
 
     public static String endPoint = "http://ec2-54-227-149-31.compute-1.amazonaws.com:8000/";
     public static int user_id = 1;
-    public static String consumptionHistorySetting = "weekly";
+    public static String consumptionHistorySetting = "monthly";
 }

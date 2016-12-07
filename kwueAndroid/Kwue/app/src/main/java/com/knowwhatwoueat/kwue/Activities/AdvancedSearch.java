@@ -345,7 +345,7 @@ public class AdvancedSearch extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         View convertView = inflater.inflate(R.layout.advanced_search_list, null);
         alertDialog.setView(convertView);
-        alertDialog.setTitle("List");
+        alertDialog.setTitle("Advanced Search Result");
         ListView lv = (ListView) convertView.findViewById(R.id.listView4);
         lv.setAdapter(searchListAdapter);
 
@@ -355,13 +355,17 @@ public class AdvancedSearch extends AppCompatActivity {
                 System.out.println(i);
                 Intent j;
                 if(isUser){
-                    j = new Intent(AdvancedSearch.this, ProfilePageActivity.class);
-                    j.putExtra("isUser",userId.get(i));
-                    startActivity(j);
+                    if(userId.get(i) != -1) {
+                        j = new Intent(AdvancedSearch.this, ProfilePageActivity.class);
+                        j.putExtra("isUser", userId.get(i));
+                        startActivity(j);
+                    }
                 }else{
-                    j = new Intent(AdvancedSearch.this, FoodProfile.class);
-                    j.putExtra("isFood",foodId.get(i));
-                    startActivity(j);
+                    if(foodId.get(i) != -1) {
+                        j = new Intent(AdvancedSearch.this, FoodProfile.class);
+                        j.putExtra("isFood", foodId.get(i));
+                        startActivity(j);
+                    }
                 }
             }
         });
@@ -479,7 +483,11 @@ public class AdvancedSearch extends AppCompatActivity {
     protected void assignSearchTitles(BasicSearchResult response) {
 
         int foodNumber = response.food_set.length;
-        if(foodNumber > 0) isUser = false;
+        if(foodNumber > 0) {
+            isUser = false;
+            foodId.add(-1);
+            responseNamesList.add("*** Foods ***");
+        }
         for (int i = 0; i < foodNumber; i++) {
             FoodBasicSearch find = response.food_set[i];
             foodId.add(find.getFood_id());
@@ -488,28 +496,42 @@ public class AdvancedSearch extends AppCompatActivity {
         }
 
         int semanticFoodNumber = response.semantic_food_set.length;
-        if(semanticFoodNumber > 0) isUser = false;
+        if(semanticFoodNumber > 0) {
+            isUser = false;
+            foodId.add(-1);
+            responseNamesList.add("*** Semantic Foods ***");
+        }
         for (int i = 0; i < semanticFoodNumber; i++) {
             FoodBasicSearch findSF = response.semantic_food_set[i];
             foodId.add(findSF.getFood_id());
             responseNamesList.add(findSF.getFood_name());
         }
 
+        int foodServerNumber = response.user_set.length;
+        if(foodServerNumber > 0) {
+            isUser = true;
+            userId.add(-1);
+            responseNamesList.add("*** Food Servers ***");
+        }
+        for (int j = 0; j < foodServerNumber; j++) {
+            FoodServerBasicSearch findS = response.user_set[j];
+            userId.add(findS.getUser_id());
+            responseNamesList.add(findS.getUser_name());
+        }
+
         int semanticFoodServerNumber = response.semantic_user_set.length;
-        if(semanticFoodServerNumber > 0) isUser = true;
+        if(semanticFoodServerNumber > 0){
+            isUser = true;
+            userId.add(-1);
+            responseNamesList.add("*** Semantic Food Servers ***");
+        }
         for (int j = 0; j < semanticFoodServerNumber; j++) {
             FoodServerBasicSearch findSF = response.user_set[j];
             userId.add(findSF.getUser_id());
             responseNamesList.add(findSF.getUser_name());
         }
 
-        int foodServerNumber = response.user_set.length;
-        if(foodServerNumber > 0) isUser = true;
-        for (int j = 0; j < foodServerNumber; j++) {
-            FoodServerBasicSearch findS = response.user_set[j];
-            userId.add(findS.getUser_id());
-            responseNamesList.add(findS.getUser_name());
-        }
+
 
     }
 

@@ -86,6 +86,7 @@ public class FoodProfile extends AppCompatActivity {
     private double calcium;
     private double vitamin_E;
     private Tag[] tag_list;
+    private boolean eaten;
 
     private RequestQueue queue;
     String url = Constants.endPoint;
@@ -229,6 +230,7 @@ public class FoodProfile extends AppCompatActivity {
         vitamin_D = response.getVitamin_D();
         calcium = response.getCalcium();
         vitamin_E = response.getVitamin_E();
+        eaten = response.getEaten();
         System.out.println(food_name+" 9");
         /*
         System.out.println(serving_weight_grams+" 1");
@@ -255,15 +257,22 @@ public class FoodProfile extends AppCompatActivity {
         TextView foodNameTextView = (TextView) findViewById(R.id.foodName);
         foodNameTextView.setText(food_name);
 
-        final Button markAsEaten = (Button) findViewById(R.id.markAsEaten);
-        markAsEaten.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("eaten button", "onClick: clicked");
-                sendMarkAsEatenHttpRequest(food_id);
+        Button markAsEaten = (Button) findViewById(R.id.markAsEaten);
+        if(!eaten) {
+            markAsEaten.setText("Mark as Eaten");
+            markAsEaten.setOnClickListener(new View.OnClickListener() {
 
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    Log.d("eaten button", "onClick: clicked");
+                    sendMarkAsEatenHttpRequest(food_id);
+
+
+                }
+            });
+        }else{
+            markAsEaten.setText("Marked as Eaten");
+        }
 
         new FoodProfile.DownloadImageTask((ImageView) findViewById(R.id.foodImage))
                 .execute(food_image);
@@ -383,7 +392,14 @@ public class FoodProfile extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("mark as eaten", "onResponse: added" + response);
-                Toast.makeText(getApplicationContext(), "Marked as eaten", Toast.LENGTH_SHORT).show();
+                if(!eaten) {
+                    Toast.makeText(getApplicationContext(), "Marked as eaten", Toast.LENGTH_SHORT).show();
+                }
+                Button markAsEaten = (Button) findViewById(R.id.markAsEaten);
+                markAsEaten.setText("Marked as Eaten");
+
+                eaten = true;
+
             }
         }, new Response.ErrorListener() {
             @Override

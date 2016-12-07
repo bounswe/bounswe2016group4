@@ -47,6 +47,7 @@ public class GetFoodProfileResult {
     private double calcium;
     private double vitamin_E;
     private Tag[] tag_list;
+    private boolean eaten = false;
 
 
     public GetFoodProfileResult(double serving_weight_grams, double protein_value, double calorie_value, double fiber_value,
@@ -414,6 +415,14 @@ public class GetFoodProfileResult {
 
     public void setCalcium(Double a) {
         this.calcium = a;
+    }
+
+    public Boolean getEaten() {
+        return eaten;
+    }
+
+    public void setEaten(Boolean a) {
+        this.eaten = a;
     }
 
 

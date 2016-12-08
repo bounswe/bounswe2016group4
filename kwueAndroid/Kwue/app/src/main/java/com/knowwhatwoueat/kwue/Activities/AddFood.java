@@ -358,9 +358,9 @@ public class AddFood extends AppCompatActivity{
         Gson gson = new Gson();
         nutrition = gson.fromJson(response,Nutrition.class);
         basicNutritionalAdapter.add("Fat: " + String.valueOf(nutrition.getFat_value()) + "gr");
-        basicNutritions.add("C.Hydrate: " +String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
-        basicNutritions.add("Protein: " + String.valueOf(nutrition.getProtein_value())+"gr");
-        basicNutritions.add("Calorie: " + String.valueOf(nutrition.getCalorie_value())+ "cal");
+        basicNutritionalAdapter.add("C.Hydrate: " +String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
+        basicNutritionalAdapter.add("Protein: " + String.valueOf(nutrition.getProtein_value())+"gr");
+        basicNutritionalAdapter.add("Calorie: " + String.valueOf(nutrition.getCalorie_value())+ "cal");
     }
 
 

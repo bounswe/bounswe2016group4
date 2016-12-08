@@ -89,7 +89,7 @@ public class BasicSearch extends AppCompatActivity  {
         LayoutInflater inflater = getLayoutInflater();
         View convertView = inflater.inflate(R.layout.basic_search_list, null);
         alertDialog.setView(convertView);
-        alertDialog.setTitle("List");
+        alertDialog.setTitle("Basic Search Results");
         ListView lv = (ListView) convertView.findViewById(R.id.listView3);
         lv.setAdapter(searchListAdapter);
         lv.setTextFilterEnabled(true);
@@ -100,15 +100,19 @@ public class BasicSearch extends AppCompatActivity  {
                 System.out.println(i);
                 Intent j;
                 if(isUser){
-                    j = new Intent(BasicSearch.this, ProfilePageActivity.class);
-                    System.out.println(userId.get(i));
-                    j.putExtra("isUser",userId.get(i));
-                    startActivity(j);
+                    if(userId.get(i)!=-1) {
+                        j = new Intent(BasicSearch.this, ProfilePageActivity.class);
+                        System.out.println(userId.get(i));
+                        j.putExtra("isUser", userId.get(i));
+                        startActivity(j);
+                    }
                 }else{
-                    j = new Intent(BasicSearch.this, FoodProfile.class);
-                    System.out.println(foodId.get(i));
-                    j.putExtra("isFood",foodId.get(i));
-                    startActivity(j);
+                    if(foodId.get(i)!=-1) {
+                        j = new Intent(BasicSearch.this, FoodProfile.class);
+                        System.out.println(foodId.get(i));
+                        j.putExtra("isFood", foodId.get(i));
+                        startActivity(j);
+                    }
                 }
             }
         });
@@ -137,7 +141,11 @@ public class BasicSearch extends AppCompatActivity  {
     protected void assignSearchTitles(BasicSearchResult response) {
 
         int foodNumber = response.food_set.length;
-        if(foodNumber > 0) isUser = false;
+        if(foodNumber > 0) {
+            isUser = false;
+            responseNamesList.add("*** Foods ***");
+            foodId.add(-1);
+        }
 
         for (int i = 0; i < foodNumber; i++) {
             FoodBasicSearch find = response.food_set[i];
@@ -148,28 +156,43 @@ public class BasicSearch extends AppCompatActivity  {
         }
 
         int semanticFoodNumber= response.semantic_food_set.length;
-        if(semanticFoodNumber > 0) isUser = false;
+        if(semanticFoodNumber > 0) {
+            isUser = false;
+            foodId.add(-1);
+            responseNamesList.add("*** Semantic Foods ***");
+
+        }
         for (int i = 0; i < semanticFoodNumber; i++) {
             FoodBasicSearch findSF = response.semantic_food_set[i];
             foodId.add(findSF.getFood_id());
             responseNamesList.add(findSF.getFood_name());
         }
 
+
+        int foodServerNumber = response.user_set.length;
+        if(foodServerNumber > 0) {
+            isUser = true;
+            userId.add(-1);
+            responseNamesList.add("*** Food Servers ***");
+        }
+        for(int j=0;j<foodServerNumber;j++){
+            FoodServerBasicSearch findS = response.user_set[j];
+            userId.add(findS.getUser_id());
+            responseNamesList.add(findS.getUser_name());
+        }
+
         int semanticFoodServerNumber = response.semantic_user_set.length;
-        if(semanticFoodServerNumber > 0) isUser = true;
+        if(semanticFoodServerNumber > 0){
+            isUser = true;
+            userId.add(-1);
+            responseNamesList.add("*** Semantic Food Servers ***");
+        }
         for(int j=0;j<semanticFoodServerNumber;j++){
             FoodServerBasicSearch findSF = response.semantic_user_set[j];
             userId.add(findSF.getUser_id());
             responseNamesList.add(findSF.getUser_name());
         }
 
-        int foodServerNumber = response.user_set.length;
-        if(foodServerNumber > 0) isUser = true;
-        for(int j=0;j<foodServerNumber;j++){
-            FoodServerBasicSearch findS = response.user_set[j];
-            userId.add(findS.getUser_id());
-            responseNamesList.add(findS.getUser_name());
-        }
 
     }
 

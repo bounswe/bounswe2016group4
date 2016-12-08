@@ -21,9 +21,11 @@
             android:minHeight="?android:attr/listPreferredItemHeightSmall" />
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/tagdescriptionBox"
             android:layout_width="250dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="Description"/>
         <Button
             android:id ="@+id/ingredient_delete_button"
             android:layout_width="0dp"

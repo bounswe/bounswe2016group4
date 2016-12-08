@@ -80,7 +80,7 @@ public class AddFood extends AppCompatActivity{
     private ArrayList<SemanticTag> foodsSemanticTags;
 
     private ListAdapter semanticListAdapter;
-    private ListAdapter basicNutritionalAdapter;
+    private ArrayAdapter basicNutritionalAdapter;
     private ArrayAdapter ingredientListAdapter;
     private ArrayAdapter foodsSemanticAdapter;
     private String semanticQuery;
@@ -149,7 +149,19 @@ public class AddFood extends AppCompatActivity{
         ingredientListView.setAdapter(ingredientListAdapter);
         ingredientListView.setVerticalScrollBarEnabled(true);
 
-        basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions);
+        basicNutritionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,basicNutritions){
+            @Override
+            public void add(String object) {
+                super.add(object);
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void remove(String object) {
+                super.remove(object);
+                notifyDataSetChanged();
+            }
+        };
         nutritionalSimpleList.setAdapter(basicNutritionalAdapter);
 
         foodsSemanticAdapter = new FoodSemanticAdapter(this,foodsSemanticTags);
@@ -177,7 +189,7 @@ public class AddFood extends AppCompatActivity{
                 LayoutInflater inflater = getLayoutInflater();
                 View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
                 alertDialog.setView(convertView);
-                alertDialog.setTitle("List");
+                alertDialog.setTitle("Semantic Tags");
                 ListView lv = (ListView) convertView.findViewById(R.id.listView1);
                 lv.setAdapter(semanticListAdapter);
 
@@ -345,7 +357,7 @@ public class AddFood extends AppCompatActivity{
     protected void assignNutritional(String response){
         Gson gson = new Gson();
         nutrition = gson.fromJson(response,Nutrition.class);
-        basicNutritions.add("Fat: " + String.valueOf(nutrition.getFat_value()) + "gr");
+        basicNutritionalAdapter.add("Fat: " + String.valueOf(nutrition.getFat_value()) + "gr");
         basicNutritions.add("C.Hydrate: " +String.valueOf(nutrition.getCarbohydrate_value()) + "gr");
         basicNutritions.add("Protein: " + String.valueOf(nutrition.getProtein_value())+"gr");
         basicNutritions.add("Calorie: " + String.valueOf(nutrition.getCalorie_value())+ "cal");

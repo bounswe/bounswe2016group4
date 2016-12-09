@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -164,12 +165,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView userMailAddress =(TextView) this.findViewById(R.id.user_email_address);
         userMailAddress.setText(user.user_email_address);
 
-/*
-        ListView lw = (ListView) this.findViewById(R.id.consumption_history);
-        ListAdapter listAdapter = new ConsumptionListAdapter(this,consumptionHistory);
-        lw.setAdapter(listAdapter);
-*/
-        ListView lw2 = (ListView) this.findViewById(R.id.eating_preferences);
+
+        GridView lw2 = (GridView) this.findViewById(R.id.eating_preferences_grid);
         eatingPrefs = setEatPref(user);
         if(eatingPrefs != null) {
             ArrayAdapter<String> eatingPrefAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, eatingPrefs);
@@ -391,20 +388,35 @@ public class ProfilePageActivity extends AppCompatActivity {
         queue.add(sr);
     }
 
-    public List<String> setEatPref(User user){
+    public List<String> setEatPref(User user) {
         List<String> temp = new ArrayList<>();
-        temp.add("Protein Lower Bound  \t \t    : " + user.protein_lower_bound);
-        temp.add("Fat Lower Bound       \t \t   : " + user.fat_lower_bound);
-        temp.add("Carbohydrate Lower Bound \t : " + user.carbohydrate_lower_bound);
-        temp.add("Calorie Lower Bound     \t : " + user.calorie_lower_bound);
-        temp.add("Sugar Lower Bound        \t\t: " + user.sugar_lower_bound);
-        temp.add("Protein Upper Bound     \t \t: " + user.protein_upper_bound);
-        temp.add("Fat Upper Bound         \t\t : " + user.fat_upper_bound);
-        temp.add("Carbohydrate Upper Bound \t: " + user.carbohydrate_upper_bound);
-        temp.add("Calorie Upper Bound      \t\t: " + user.calorie_upper_bound);
-        temp.add("Sugar Upper Bound        \t\t: " + user.sugar_upper_bound);
-        if(user.wanted_list.length != 0 )temp.add("Wanted Ingredients       \t\t: " + toString(user.wanted_list));
-        if(user.unwanted_list.length != 0 )temp.add("Unwanted Ingredients       \t: " + toString(user.unwanted_list));
+        temp.add("Protein Lower Bound: ");
+        temp.add("" + user.protein_lower_bound);
+        temp.add("Fat Lower Bound: ");
+        temp.add("" + user.fat_lower_bound);
+        temp.add("Carbohydrate Lower Bound: ");
+        temp.add("" + user.carbohydrate_lower_bound);
+        temp.add("Calorie Lower Bound: ");
+        temp.add("" + user.calorie_lower_bound);
+        temp.add("Sugar Lower Bound: ");
+        temp.add("" + user.sugar_lower_bound);
+        temp.add("Protein Upper Bound: ");
+        temp.add("" + user.protein_upper_bound);
+        temp.add("Fat Upper Bound: ");
+        temp.add("" + user.fat_upper_bound);
+        temp.add("Carbohydrate Upper Bound: ");
+        temp.add("" + user.carbohydrate_upper_bound);
+        temp.add("Calorie Upper Bound: ");
+        temp.add("" + user.calorie_upper_bound);
+        temp.add("Sugar Upper Bound: ");
+        temp.add("" + user.sugar_upper_bound);
+        if (user.wanted_list.length != 0){
+            temp.add("Wanted Ingredients: ");
+        temp.add(toString(user.wanted_list));
+        }if(user.unwanted_list.length != 0 ){
+            temp.add("Unwanted Ingredients: ");
+            temp.add(toString(user.unwanted_list));
+        }
 
         return temp;
     }

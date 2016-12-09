@@ -13,105 +13,124 @@
     tools:context="com.knowwhatwoueat.kwue.Activities.ProfilePageActivity"
     tools:showIn="@layout/activity_profile_page">
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:id="@+id/user_email_address"
-        android:layout_below="@+id/user_name"
-        android:layout_alignParentEnd="true" />
-    <Button
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/user_email_address"
-        android:id="@+id/add_food_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="@android:color/transparent"
-        android:drawableTop="@android:drawable/ic_input_add"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_info">
+
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/user_email_address"
+            android:layout_below="@+id/user_name"
+            android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textSize="30sp"
+            android:id="@+id/user_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+
+        <Button
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/user_email_address"
+            android:id="@+id/add_food_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            android:text="Add Food"/>
+
+        <ImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/user_email_address" />
+
+
+    </RelativeLayout>
+
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/recent_consumptions"
+    android:layout_below="@+id/user_info"
+    >
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/consumption_history_interval"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/eating_preferences"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="11dp">
+        android:layout_below="@id/consumption_history_title"
+        android:layout_marginLeft="100dp">
 
     </Spinner>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="20sp"
-        android:layout_below="@+id/user_profile_image"
-        android:id="@+id/eating_preferences_title"
-        android:text="Eating Preferences"/>
-
-
-    <ImageView
-        android:id="@+id/user_profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:textSize="30sp"
-        android:id="@+id/user_name"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
     <Button
         android:id="@+id/all_consumption_history"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:drawableTop="@android:drawable/ic_input_add"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
-        </Button>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:id="@+id/eating_preferences"
-        android:layout_below="@+id/eating_preferences_title"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/consumption_history_title">
-    </ListView>
-
-    <!--
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/consumption_history"
-        android:layout_below="@+id/consumption_history_interval"
-        android:layout_alignParentStart="true">
-    </ListView>
--->
-    <Button
-
-        android:id="@+id/update_eating_preferences"
         android:layout_height="30dp"
         android:layout_width="wrap_content"
         android:gravity="center"
-        android:background="@android:color/darker_gray"
-        android:text="Update"
-        android:layout_above="@+id/eating_preferences"
+        android:background="@android:color/holo_blue_light"
+        android:text="See All"
+        android:layout_alignTop="@+id/consumption_history_title"
         android:layout_alignParentEnd="true">
     </Button>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:textSize="20sp"
         android:text="Recent Consumptions"
         android:id="@+id/consumption_history_title"
-        android:layout_above="@+id/all_consumption_history"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
 
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/eating_preferences"
+        android:layout_below="@+id/recent_consumptions"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="20sp"
+            android:id="@+id/eating_preferences_title"
+            android:text="Eating Preferences"/>
+        <GridView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eating_preferences_title"
+            android:numColumns="2"
+            android:stretchMode="columnWidth"
+            android:id="@+id/eating_preferences_grid"
+            />
+
+        <Button
+
+            android:id="@+id/update_eating_preferences"
+            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            android:text="Update"
+            android:layout_alignParentEnd="true">
+        </Button>
+
+
+
+    </RelativeLayout>
 </RelativeLayout>

@@ -3,6 +3,7 @@ from kwue.models.models import IngredientModel
 
 def db_insert_ingredient(ingredient_name):
     try:
+        ingredient_name = ingredient_name.strip()
         if ingredient_name is None:
             return False
         if ingredient_name is '':

@@ -232,6 +232,15 @@ urlpatterns = (
     url(r'^rate_food', food.rate_food),
 
     ### REQUEST
+    # POST
+    # 'food_id'
+    # 'comment_text'
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^comment_food', food.comment_food),
+
+    ### REQUEST
     # GET
     # 'food_id'
     ### RESPONSE

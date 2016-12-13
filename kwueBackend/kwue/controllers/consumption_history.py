@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from kwue.DB_functions.consumption_history_db_functions import *
-from unixtimestampfield.fields import UnixTimeStampField
+#from unixtimestampfield.fields import UnixTimeStampField
+import time
 from django.http import HttpResponse
 import json
 from kwue.helper_functions.time_helpers import *
@@ -20,8 +21,9 @@ def get_start_timestamp_date(timestamp, setting):
 
 
 def get_consumption_history(req):
-    date = UnixTimeStampField()
-    end_timestamp_date = date.get_timestampnow()
+    #date = UnixTimeStampField()
+    #end_timestamp_date = date.get_timestampnow()
+    end_timestamp_date = time.time() + 60*60*3;
     setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 

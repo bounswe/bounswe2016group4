@@ -17,7 +17,7 @@ def db_insert_consumption_record(user_id,food_id):
         return False
 
 
-def db_search_consumption_records(start_timestamp_date,end_timestamp_date,user_id):
+def db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id):
     try:
         user = db_retrieve_user(user_id)
         records = list(ConsumptionHistory.objects.filter(date__range=(start_timestamp_date,end_timestamp_date), user=user))

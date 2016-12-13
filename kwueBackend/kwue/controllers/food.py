@@ -93,7 +93,14 @@ def get_nutritional_values(req):
 #     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def rate_food(req):
-    return render(req, 'kwue/food.html', {})
+    rate_dict = req.POST.dict()
+    is_success = False
+    reason = ""
+    if db_rate_food(rate_dict['food_id'], rate_dict['rate_value']):
+        is_success = True
+    else:
+        reason = 'Rating food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def comment_food(req):
     return render(req, 'kwue/food.html', {})

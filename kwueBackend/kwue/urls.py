@@ -223,6 +223,15 @@ urlpatterns = (
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST
+    # POST
+    # 'food_id'
+    # 'rate_value' : Any value from 1.0 to 5.0
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^rate_food', food.rate_food),
+
+    ### REQUEST
     # GET
     # 'food_id'
     ### RESPONSE

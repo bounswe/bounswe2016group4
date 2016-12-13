@@ -117,12 +117,14 @@ def get_consumption_history(req):
 
 @csrf_exempt
 def mark_as_eaten(req):
+    user_dict = req.POST.dict()
     user_id = req.POST.dict()['user_id']
     food_id = req.POST.dict()['food_id']
     is_success = False
     reason = ""
-    if db_insert_consumption_record(user_id, food_id):
-        is_success = True
-    else:
-        reason = "Couldn't eat the food."
+    if user_id != -1 and user_id != -2:
+        if db_insert_consumption_record(user_id, food_id):
+            is_success = True
+        else:
+            reason = "Couldn't eat the food."
     return HttpResponse(json.dumps({"is_success": is_success, "reason": reason}))

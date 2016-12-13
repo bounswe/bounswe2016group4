@@ -79,11 +79,19 @@ def login(req):
     user_dict = req.POST.dict()
     user_email_address = user_dict['user_email_address']
     user_password = user_dict["user_password"]
+    user_id = user_dict["user_id"]
 
     if db_validate_user(user_email_address, user_password):
         print("User"+user_email_address+ "exists")
-        req.session['email_adress']= user_email_address #SESSION STARTS
+        req.session['id']= user_id  #SESSION STARTS
     else:
         print("User does not exists.")
 
     return render(req, 'kwue/food.html', {})
+
+def logout(req):
+    user_dict = req.POST.dict()
+    user_id = user_dict["user_id"]
+
+    req.session['user_id'] = -1
+    return render (req, 'kwue/home.html', {})

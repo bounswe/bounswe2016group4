@@ -223,6 +223,24 @@ urlpatterns = (
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST
+    # POST
+    # 'food_id'
+    # 'rate_value' : Any value from 1.0 to 5.0
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^rate_food', food.rate_food),
+
+    ### REQUEST
+    # POST
+    # 'food_id'
+    # 'comment_text'
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^comment_food', food.comment_food),
+
+    ### REQUEST
     # GET
     # 'food_id'
     ### RESPONSE
@@ -241,6 +259,7 @@ urlpatterns = (
     # 'food_id'
     # 'carbohydrate_value'
     # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
+    # 'comments' : Array of 'user_id', 'user_name', 'comment_text's.
     url(r'^get__food', food.get_food, name='get_food'),
 
 

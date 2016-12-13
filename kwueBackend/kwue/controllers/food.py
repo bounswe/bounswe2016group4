@@ -12,8 +12,9 @@ def get_food(req):
     del food_dict['_state']  # alptekin fix FacePalm
     tag_list = return_tags(food_id, "Food")
     food_dict['tag_list'] = tag_list
+    food_dict['comments'] = db_get_comments(food_id)
     food_json = json.dumps(food_dict)
-    #return render(req, 'kwue/food.html', food_dict
+
     return HttpResponse(food_json, content_type="application/json")
 
 
@@ -93,10 +94,24 @@ def get_nutritional_values(req):
 #     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def rate_food(req):
-    return render(req, 'kwue/food.html', {})
+    rate_dict = req.POST.dict()
+    is_success = False
+    reason = ""
+    if db_rate_food(rate_dict['food_id'], rate_dict['rate_value']):
+        is_success = True
+    else:
+        reason = 'Rating food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def comment_food(req):
-    return render(req, 'kwue/food.html', {})
+    comment_dict = req.POST.dict()
+    is_success = False
+    reason = ""
+    if db_comment_food(comment_dict['food_id'], comment_dict['user_id'], comment_dict['comment_text']):
+        is_success = True
+    else:
+        reason = 'Commenting food failed.'
+    return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
 def update_food(req):
     return render(req, 'kwue/food.html', {})

@@ -8,3 +8,5 @@ def get_home(req):
     req.session['username'] = 'doruk1994'
     print(req.session['username']+ " has been authenticated")
     return render(req, 'kwue/home.html', {'foods': food})
+
+def suggest(user_id):

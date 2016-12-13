@@ -156,6 +156,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
+    # 'rate_lower_bound'
+    # 'rate_upper_bound'
     # 'wanted_list' : ['pepper','apple'...]
     # 'unwanted_list' : ['pepper','apple'...]
     #

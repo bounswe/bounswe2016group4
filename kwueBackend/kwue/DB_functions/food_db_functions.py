@@ -100,7 +100,7 @@ def db_update_food(food_id, food_tuple):
         return True
 
 
-def db_rate_food(food_id,rate_value):
+def db_rate_food(food_id, rate_value):
     try:
         food = FoodModel.objects.get(food_id=food_id)
         rate = food.food_rate
@@ -121,5 +121,38 @@ def db_add_consumption_history(user_id, food_id, rate=0):
         new_history = ConsumptionHistory(user=user, food=food, food_rate=rate)
         new_history.save()
         return True
+    except:
+        return False
+
+
+def db_comment_food(food_id, user_id,comment_text):
+    try:
+        food = FoodModel.objects.get(food_id=food_id)
+        user = UserModel.objects.get(user_id=user_id)
+        print(food)
+        new_comment = SimpleComment(
+            food=food,
+            user=user,
+            comment_text=comment_text
+        )
+        new_comment.save()
+        return True
+    except:
+        return False
+
+
+def db_get_comments(food_id):
+    try:
+        food = db_retrieve_food(food_id)
+        comments = list(SimpleComment.objects.filter(food=food))
+        comment_list = []
+        for comment in comments:
+            comment_dict=dict(
+                comment_text=comment.comment_text,
+                user_id=comment.user.user_id,
+                user_name=comment.user.user_name,
+            )
+            comment_list.append(comment_dict)
+        return comment_list
     except:
         return False

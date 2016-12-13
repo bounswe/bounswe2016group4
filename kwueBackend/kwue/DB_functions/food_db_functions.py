@@ -140,7 +140,6 @@ def db_comment_food(food_id, user_id,comment_text):
     except:
         return False
 
-
 def db_get_comments(food_id):
     try:
         food = db_retrieve_food(food_id)
@@ -156,3 +155,22 @@ def db_get_comments(food_id):
         return comment_list
     except:
         return False
+
+
+def db_get_user_foods(user_id):
+    try:
+        user = db_retrieve_user(user_id)
+        foods = list(FoodModel.objects.filter(food_owner=user))
+        food_list = []
+        for food in foods:
+            food_dict=dict(
+                food_name=food.food_name,
+                food_id=food.food_id,
+                food_image=food.food_image
+            )
+            food_list.append(food_dict)
+        return food_list
+    except:
+        return False
+
+

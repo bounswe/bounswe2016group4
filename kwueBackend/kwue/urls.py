@@ -17,9 +17,8 @@ urlpatterns = (
     # 'tag_description'
     #
     ### RESPONSE
-    #
-    #
-    #
+    # 'is_success'
+    # 'reason'
     url(r'^tag_user', tag.tag_user),
 
     ### REQUEST
@@ -292,6 +291,7 @@ urlpatterns = (
     # 'food_name'
     # 'food_image' : should be a url
     # 'food_owner'
+    # 'number_of_servings' : Identifies how many people are these ingredients of the food for.
     # 'ingredients' : should be in json format [{"ingredient":ing1, "value":val1},{"ingredient":ing2, "value": val2}]"
     # 'food_tags' : should be array of "tag_name" and "tag_id" "tag_label" "tag_description" given from semantic tag api.
     ### RESPONSE

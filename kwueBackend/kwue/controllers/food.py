@@ -38,7 +38,10 @@ def add_food(req):
     for ingredient in ingredients:
         food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
         ingredient_list.append(ingredient["ingredient"])
-    nutrition_dict = request_nutrition(food_recipe, food_dict['number_of_servings'])
+    try:
+        nutrition_dict = request_nutrition(food_recipe, food_dict['number_of_servings'])
+    except:
+        nutrition_dict = request_nutrition(food_recipe)
     food_dict['food_recipe'] = food_recipe
 
     is_success = False

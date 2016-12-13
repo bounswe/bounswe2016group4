@@ -10,3 +10,4 @@ def get_home(req):
     return render(req, 'kwue/home.html', {'foods': food})
 
 def suggest(user_id):
+    pass

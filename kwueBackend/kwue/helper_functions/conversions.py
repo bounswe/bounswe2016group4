@@ -37,6 +37,7 @@ def ingredient_list_to_ingredient_object(list):
             obj_list.append(result)
     return obj_list
 
+
 def ingredient_from_object_to_list(list):
     wanted_ing_list = []
     unwanted_ing_list = []

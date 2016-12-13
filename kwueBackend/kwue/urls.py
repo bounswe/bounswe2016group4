@@ -250,6 +250,7 @@ urlpatterns = (
     # 'food_id'
     # 'carbohydrate_value'
     # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
+    # 'comments' : Array of 'user_id', 'user_name', 'comment_text's.
     url(r'^get__food', food.get_food, name='get_food'),
 
 

@@ -162,6 +162,12 @@ class SimpleComment(models.Model):
     food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     comment_text = models.TextField()
+    date = models.IntegerField(default=0)
+
+    def save(self):
+        if self.date is 0:
+            self.date = time.time() + 60*60*3;
+            super().save(self)
 
     def __str__(self):
         return self.comment_text

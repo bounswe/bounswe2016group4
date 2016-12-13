@@ -32,6 +32,7 @@ def ingredient_list_to_ingredient_object(list):
     obj_list = []
     list = json.loads(list)
     for ing in list:
+        ing = ing.strip()
         result = db_retrieve_ingredient(ing)
         if result is not False:
             obj_list.append(result)
@@ -45,6 +46,7 @@ def ingredient_from_object_to_list(list):
         wanted_ing_list.append(ing[0])
     for ing in list.unwanted_ingredients.values_list('ingredient_name'):
         unwanted_ing_list.append(ing[0])
+
     dict = list.__dict__
     dict.update(wanted_list=wanted_ing_list, unwanted_list=unwanted_ing_list)
     return dict

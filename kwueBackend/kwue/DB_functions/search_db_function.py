@@ -121,3 +121,9 @@ def rate_search(lower_bound=0, upper_bound=5, foods=None):
     if foods is None:
         foods = FoodModel.objects.all()
     return foods.filter(food_rate__range=(lower_bound, upper_bound))
+
+
+def fiber_search(lower_bound=0, upper_bound=5, foods=None):
+    if foods is None:
+        foods = FoodModel.objects.all()
+    return foods.filter(fiber_value__range=(lower_bound, upper_bound))

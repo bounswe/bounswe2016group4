@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
 from kwue.helper_functions.conversions import *
 from django.views.decorators.csrf import csrf_exempt
-
+from kwue.DB_functions.food_db_functions import *
 
 def get_user(req):
     user_id = req.GET.dict()['user_id']
@@ -15,6 +15,7 @@ def get_user(req):
     del user_dict['_state'] # alptekin fix FacePalm
     tag_list = return_tags(user_id, "User")
     user_dict['tag_list'] = tag_list
+    user_dict['foods'] = db_get_user_foods(user_id)
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):

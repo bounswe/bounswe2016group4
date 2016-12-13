@@ -124,6 +124,7 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
+    # 'foods' : Array of 'food_id', 'food_image', 'food_name's.
     #
     url(r'^get_user', user.get_user),
 

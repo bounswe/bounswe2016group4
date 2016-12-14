@@ -2,19 +2,24 @@ from django.shortcuts import render
 from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.consumption_history_db_functions import db_search_consumption_foods
 from kwue.DB_functions.search_db_function import *
-from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
+from kwue.DB_functions.user_db_function import *
 from datetime import datetime, timedelta, timezone
 import time
 from collections import Counter
-
 
 
 def get_home(req):
     food = db_retrieve_all_foods()
     #req.session['has_access']=True
     #req.session['id']=11
-    req.session['username'] = 'doruk1994'
-    print(req.session['username']+ " has been authenticated")
+    #req.session['username'] = 'doruk1994'
+    #print(req.session['username']+ " has been authenticated")
+    user_id = 1 # need to get it from session
+    if db_retrieve_user(user_id).user_type is False:
+        recommendation = suggest(user_id)
+    else
+        analysis_report = analyze(user_id)
+
     return render(req, 'kwue/home.html', {'foods': food})
 
 

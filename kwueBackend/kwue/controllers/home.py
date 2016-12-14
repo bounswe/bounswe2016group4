@@ -3,6 +3,8 @@ from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.consumption_history_db_functions import db_search_consumption_foods
 from kwue.DB_functions.search_db_function import *
 from kwue.DB_functions.user_db_function import *
+from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
+from kwue.models.models import *
 from datetime import datetime, timedelta, timezone
 import time
 from collections import Counter
@@ -17,10 +19,10 @@ def get_home(req):
     user_id = 1 # need to get it from session
     if db_retrieve_user(user_id).user_type is False:
         recommendation = suggest(user_id)
-    else
+        return render(req, 'kwue/home.html', {'foods': food, 'recommendations': recommendation})
+    else:
         analysis_report = analyze(user_id)
-
-    return render(req, 'kwue/home.html', {'foods': food})
+        return render(req, 'kwue/home.html', {'foods': food, 'analysis_report': analysis_report})
 
 
 def suggest(user_id):
@@ -107,3 +109,91 @@ def suggest(user_id):
         )
         suggested_foods.append(food_dict)
     return suggested_foods
+
+
+def analyze(user_id, setting='montly'):
+    user = db_retrieve_user(user_id)
+    user_foods = list(FoodModel.objects.filter(food_owner=user))
+    rate_foods = list(FoodModel.objects.filter(food_owner=user).order_by("-food_rate")[:5])
+    comment_foods = list(SimpleComment.objects.filter(food__in=user_foods).order_by("-date")[:5])
+    if setting is  'daily':
+        start_time = time.time() + 3*60*60 - 86400
+    elif setting is 'monthly':
+        start_time = time.time() + 3*60*60 - 2592000
+    else:
+        start_time = time.time() + 3*60*60 - 604800
+    end_time = time.time() + 3*60*60
+
+    last_comment_number = SimpleComment.objects.filter(food__in=user_foods, date__range=(start_time, end_time)).count()
+    last_consumed_number = ConsumptionHistory.objects.filter(food__in=user_foods, date__range=(start_time, end_time)).count()
+    last_consumption_records = list(ConsumptionHistory.objects.filter(food__in=user_foods, date__range=(start_time, end_time)))
+    last_comments = list(SimpleComment.objects.filter(food__in=user_foods, date__range=(start_time, end_time)))
+    last_consumed_food_id = []
+    last_commneted_food_id = []
+
+    for record in last_consumption_records:
+        last_consumed_food_id.append(record.food.food_id)
+    for comment in last_comments:
+        last_commneted_food_id.append(comment.food.food_id)
+
+    most_consumed_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
+    most_commented_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
+    most_consumed_food = []
+    most_commented_food = []
+
+    for food_id in most_commented_food_id:
+        food = FoodModel.objects.get(food_id=food_id)
+        food_dict = dict(
+            food_id=food.food_id,
+            food_name=food.food_name,
+            food_image=food.food_image
+        )
+        most_commented_food.append(food_dict)
+
+    for food_id in most_consumed_food_id:
+        food = FoodModel.objects.get(food_id=food_id)
+        food_dict = dict(
+            food_id=food.food_id,
+            food_name=food.food_name,
+            food_image=food.food_image
+        )
+        most_consumed_food.append(food_dict)
+
+    high_rate_foods = []
+    for food in rate_foods:
+        food_dict = dict(
+            food_id=food.food_id,
+            food_name=food.food_name,
+            food_image=food.food_image
+        )
+        high_rate_foods.append(food_dict)
+
+    last_comments =[]
+    for comment in comment_foods:
+        comment_dict = dict(
+            comment_text=comment.comment_text,
+            comment_id=comment.comment_id,
+            food_id=comment.food.food_id,
+            food_name=comment.food.food_name,
+            food_image=comment.food.food_image,
+            user_id=comment.user.user_id,
+            user_image=comment.user.user_image,
+            user_name=comment.user.user_name
+        )
+        last_comments.append(comment_dict)
+
+    analysis_report=dict(
+        comment_number=last_comment_number,
+        consumed_number=last_consumed_number,
+        high_rated_foods=high_rate_foods,
+        most_consumed_foods=most_consumed_food,
+        most_commented_foods=most_commented_food,
+        last_comments=last_comments,
+    )
+    return analysis_report
+
+
+
+
+
+

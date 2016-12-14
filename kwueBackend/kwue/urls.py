@@ -343,6 +343,42 @@ urlpatterns = (
     #
     url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),  # .
 
-
+    ### REQUEST
+    #
+    #
+    #
+    ### RESPONSE
+    # if user is not food server
+    #  'recommendation' -> Array of JSONs of
+    #      'food_image'
+    #      'food_id'
+    #      'calorie_value'
+    #      'food_rate'
+    #      'food_name'
+    # if user is food server
+    #  'analysis_report'
+    #     -> 'most_commented_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'high_rated_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'consumed_number' -> An integer meaning how many times, foods of this food server are eaten.
+    #     -> 'most_consumed_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'last_comments' -> Array of JSONs of
+    #             'comment_id'
+    #             'comment_text'
+    #             'food_id'
+    #             'food_image'
+    #             'food_name'
+    #             'user_id'
+    #             'user_image'
+    #             'user_name'
+    #     -> 'comment_number' -> An integer meaning how many times, foods of this food server are commented.
     url(r'^$', home.get_home, name='home'),
 )

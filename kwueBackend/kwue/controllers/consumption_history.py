@@ -30,13 +30,14 @@ def get_monthly_graph_on_daily_basis(user_id):
         end_timestamp_date += 86400
         start_timestamp_date += 86400
         nutr_val_dict = {
+            'day_number': 0,
             'protein_value': 0,
             'fat_value': 0,
             'carbohydrate_value': 0,
-            'fiber_value': 0,
             'calorie_value': 0,
             'sugar_value': 0,
         }
+        nutr_val_dict['day_number'] += 1
         for dict in daily_cons_hist:
             food = dict['food']
             nutr_val_dict['protein_value'] += food.protein_value
@@ -44,7 +45,10 @@ def get_monthly_graph_on_daily_basis(user_id):
             nutr_val_dict['carbohydrate_value'] += food.carbohydrate_value
             nutr_val_dict['calorie_value'] += food.calorie_value
             nutr_val_dict['sugar_value'] += food.sugar_value
+        # for key in list(nutr_val_dict.keys()):
+        #     nutr_val_dict[key] = "%.3f" % nutr_val_dict[key]
         nutr_val_dicts.append(nutr_val_dict)
+
     return nutr_val_dicts
 
 def get_consumption_history(req):
@@ -134,11 +138,16 @@ def get_consumption_history(req):
         nutritional_values_dict['zinc'] += food.zinc
 
     for key in list(nutritional_values_dict.keys()):
+        if setting == 'weekly':
+            nutritional_values_dict[key] /= 7
+        elif setting == 'monthly':
+            nutritional_values_dict[key] /= 30
         nutritional_values_dict[key] = "%.3f" % nutritional_values_dict[key]
 
     results_dict = {
         'foods': foods,
-        'nutritional_values_dict': nutritional_values_dict
+        'nutritional_values_dict': nutritional_values_dict,
+        'graph_dict': get_monthly_graph_on_daily_basis(user_id)
     }
     print(results_dict)
     return HttpResponse(json.dumps(results_dict), content_type='application/json')

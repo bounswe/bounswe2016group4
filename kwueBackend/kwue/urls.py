@@ -85,7 +85,13 @@ urlpatterns = (
     #     'phosphorus' mg
     #     'selenium' mcg
     #     'zinc' mg
-    #
+    # 'graph_dict': Array of monthly nutritional value graph on daily basis ->
+    #     'day_number'
+    #     'calorie_value'
+    #     'sugar_value'
+    #     'protein_value'
+    #     'carbohydrate_value'
+    #     'fat_value'
     url(r'^get_consumption_history', consumption_history.get_consumption_history),
 
     ### REQUEST

@@ -191,9 +191,6 @@ def analyze(user_id, setting='montly'):
         most_commented_foods=most_commented_food,
         last_comments=last_comments,
     )
-
-
-
     return analysis_report
 
 

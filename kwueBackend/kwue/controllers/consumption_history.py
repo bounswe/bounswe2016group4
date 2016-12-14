@@ -19,6 +19,33 @@ def get_start_timestamp_date(timestamp, setting):
         'alltime': 0
     }.get(setting, 0)
 
+def get_monthly_graph_on_daily_basis(user_id):
+    end_timestamp_date = time.time() + 60*60*3
+    start_timestamp_date = get_start_timestamp_date(end_timestamp_date, 'monthly')
+    nutr_val_dicts = []
+
+    end_timestamp_date = start_timestamp_date + 86400
+    for i in range(1, 31):
+        daily_cons_hist = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
+        end_timestamp_date += 86400
+        start_timestamp_date += 86400
+        nutr_val_dict = {
+            'protein_value': 0,
+            'fat_value': 0,
+            'carbohydrate_value': 0,
+            'fiber_value': 0,
+            'calorie_value': 0,
+            'sugar_value': 0,
+        }
+        for dict in daily_cons_hist:
+            food = dict['food']
+            nutr_val_dict['protein_value'] += food.protein_value
+            nutr_val_dict['fat_value'] += food.fat_value
+            nutr_val_dict['carbohydrate_value'] += food.carbohydrate_value
+            nutr_val_dict['calorie_value'] += food.calorie_value
+            nutr_val_dict['sugar_value'] += food.sugar_value
+        nutr_val_dicts.append(nutr_val_dict)
+    return nutr_val_dicts
 
 def get_consumption_history(req):
     #date = UnixTimeStampField()

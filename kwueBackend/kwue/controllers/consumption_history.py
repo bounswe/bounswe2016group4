@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from kwue.DB_functions.consumption_history_db_functions import *
-from unixtimestampfield.fields import UnixTimeStampField
+#from unixtimestampfield.fields import UnixTimeStampField
+import time
 from django.http import HttpResponse
 import json
 from kwue.helper_functions.time_helpers import *
@@ -18,10 +19,42 @@ def get_start_timestamp_date(timestamp, setting):
         'alltime': 0
     }.get(setting, 0)
 
+def get_monthly_graph_on_daily_basis(user_id):
+    end_timestamp_date = time.time() + 60*60*3
+    start_timestamp_date = get_start_timestamp_date(end_timestamp_date, 'monthly')
+    nutr_val_dicts = []
+
+    end_timestamp_date = start_timestamp_date + 86400
+    for i in range(1, 31):
+        daily_cons_hist = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
+        end_timestamp_date += 86400
+        start_timestamp_date += 86400
+        nutr_val_dict = {
+            'day_number': 0,
+            'protein_value': 0,
+            'fat_value': 0,
+            'carbohydrate_value': 0,
+            'calorie_value': 0,
+            'sugar_value': 0,
+        }
+        nutr_val_dict['day_number'] += 1
+        for dict in daily_cons_hist:
+            food = dict['food']
+            nutr_val_dict['protein_value'] += food.protein_value
+            nutr_val_dict['fat_value'] += food.fat_value
+            nutr_val_dict['carbohydrate_value'] += food.carbohydrate_value
+            nutr_val_dict['calorie_value'] += food.calorie_value
+            nutr_val_dict['sugar_value'] += food.sugar_value
+        # for key in list(nutr_val_dict.keys()):
+        #     nutr_val_dict[key] = "%.3f" % nutr_val_dict[key]
+        nutr_val_dicts.append(nutr_val_dict)
+
+    return nutr_val_dicts
 
 def get_consumption_history(req):
-    date = UnixTimeStampField()
-    end_timestamp_date = date.get_timestampnow()
+    #date = UnixTimeStampField()
+    #end_timestamp_date = date.get_timestampnow()
+    end_timestamp_date = time.time() + 60*60*3;
     setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 
@@ -73,40 +106,48 @@ def get_consumption_history(req):
         }
         foods.append(food_dict)
 
-        nutritional_values_dict['protein_value'] += round(food.protein_value, 3)
-        nutritional_values_dict['fat_value'] += round(food.fat_value, 3)
-        nutritional_values_dict['carbohydrate_value'] += round(food.carbohydrate_value, 3)
-        nutritional_values_dict['fiber_value'] += round(food.fiber_value, 3)
-        nutritional_values_dict['calorie_value'] += round(food.calorie_value, 3)
-        nutritional_values_dict['sugar_value'] += round(food.sugar_value, 3)
-        nutritional_values_dict['serving_weight_grams'] += round(food.serving_weight_grams, 3)
-        nutritional_values_dict['vitamin_A'] += round(food.vitamin_A, 3)
-        nutritional_values_dict['vitamin_C'] += round(food.vitamin_C, 3)
-        nutritional_values_dict['vitamin_D'] += round(food.vitamin_D, 3)
-        nutritional_values_dict['vitamin_E'] += round(food.vitamin_E, 3)
-        nutritional_values_dict['vitamin_K'] += round(food.vitamin_K, 3)
-        nutritional_values_dict['thiamin'] += round(food.thiamin, 3)
-        nutritional_values_dict['riboflavin'] += round(food.riboflavin, 3)
-        nutritional_values_dict['niacin'] += round(food.niacin, 3)
-        nutritional_values_dict['vitamin_B6'] += round(food.vitamin_B6, 3)
-        nutritional_values_dict['folatem'] += round(food.folatem, 3)
-        nutritional_values_dict['vitamin_B12'] += round(food.vitamin_B12, 3)
-        nutritional_values_dict['pantothenic_acid'] += round(food.pantothenic_acid, 3)
-        nutritional_values_dict['choline'] += round(food.choline, 3)
-        nutritional_values_dict['calcium'] += round(food.calcium, 3)
-        nutritional_values_dict['copper'] += round(food.copper, 3)
-        nutritional_values_dict['flouride'] += round(food.flouride, 3)
-        nutritional_values_dict['iron_Fe'] += round(food.iron_Fe, 3)
-        nutritional_values_dict['magnesium'] += round(food.magnesium, 3)
-        nutritional_values_dict['manganese'] += round(food.manganese, 3)
-        nutritional_values_dict['sodium_Na'] += round(food.sodium_Na, 3)
-        nutritional_values_dict['phosphorus'] += round(food.phosphorus, 3)
-        nutritional_values_dict['selenium'] += round(food.selenium, 3)
-        nutritional_values_dict['zinc'] += round(food.zinc, 3)
+        nutritional_values_dict['protein_value'] += food.protein_value
+        nutritional_values_dict['fat_value'] += food.fat_value
+        nutritional_values_dict['carbohydrate_value'] += food.carbohydrate_value
+        nutritional_values_dict['fiber_value'] += food.fiber_value
+        nutritional_values_dict['calorie_value'] += food.calorie_value
+        nutritional_values_dict['sugar_value'] += food.sugar_value
+        nutritional_values_dict['serving_weight_grams'] += food.serving_weight_grams
+        nutritional_values_dict['vitamin_A'] += food.vitamin_A
+        nutritional_values_dict['vitamin_C'] += food.vitamin_C
+        nutritional_values_dict['vitamin_D'] += food.vitamin_D
+        nutritional_values_dict['vitamin_E'] += food.vitamin_E
+        nutritional_values_dict['vitamin_K'] += food.vitamin_K
+        nutritional_values_dict['thiamin'] += food.thiamin
+        nutritional_values_dict['riboflavin'] += food.riboflavin
+        nutritional_values_dict['niacin'] += food.niacin
+        nutritional_values_dict['vitamin_B6'] += food.vitamin_B6
+        nutritional_values_dict['folatem'] += food.folatem
+        nutritional_values_dict['vitamin_B12'] += food.vitamin_B12
+        nutritional_values_dict['pantothenic_acid'] += food.pantothenic_acid
+        nutritional_values_dict['choline'] += food.choline
+        nutritional_values_dict['calcium'] += food.calcium
+        nutritional_values_dict['copper'] += food.copper
+        nutritional_values_dict['flouride'] += food.flouride
+        nutritional_values_dict['iron_Fe'] += food.iron_Fe
+        nutritional_values_dict['magnesium'] += food.magnesium
+        nutritional_values_dict['manganese'] += food.manganese
+        nutritional_values_dict['sodium_Na'] += food.sodium_Na
+        nutritional_values_dict['phosphorus'] += food.phosphorus
+        nutritional_values_dict['selenium'] += food.selenium
+        nutritional_values_dict['zinc'] += food.zinc
+
+    for key in list(nutritional_values_dict.keys()):
+        if setting == 'weekly':
+            nutritional_values_dict[key] /= 7
+        elif setting == 'monthly':
+            nutritional_values_dict[key] /= 30
+        nutritional_values_dict[key] = "%.3f" % nutritional_values_dict[key]
 
     results_dict = {
         'foods': foods,
-        'nutritional_values_dict': nutritional_values_dict
+        'nutritional_values_dict': nutritional_values_dict,
+        'graph_dict': get_monthly_graph_on_daily_basis(user_id)
     }
     print(results_dict)
     return HttpResponse(json.dumps(results_dict), content_type='application/json')

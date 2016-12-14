@@ -14,13 +14,17 @@ def tag_food(req):
     dict = req.POST.dict()
     dict['generic_id'] = dict['tagged_food_id']
     dict["type"] = "Food"
-    db_insert_tag(dict)
-    return HttpResponse({'is_success': 'true'}, content_type='application/json')
+    is_success=False
+    if db_insert_tag(dict):
+        is_success = True
+    return HttpResponse({'is_success': is_success}, content_type='application/json')
 
 @csrf_exempt
 def tag_user(req):
     dict = req.POST.dict()
     dict['generic_id'] = dict['tagged_user_id']
     dict["type"] = "User"
-    db_insert_tag(dict)
-    return HttpResponse({'is_success': 'true'}, content_type='application/json')
+    is_success=False
+    if db_insert_tag(dict):
+        is_success = True
+    return HttpResponse({'is_success': is_success}, content_type='application/json')

@@ -6,12 +6,12 @@ from mptt.models import MPTTModel, TreeForeignKey
 from kwue.helper_functions.time_helpers import show_date
 import time
 
+
 class IngredientModel(models.Model):
     ingredient_name = models.CharField(max_length=100, primary_key=True)
 
     def __str__(self):
         return self.ingredient_name+" "
-
 
 class UserModel(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -95,14 +95,13 @@ class TagModel(models.Model):
     tagged_object_id = models.PositiveIntegerField()
     tagged_object = GenericForeignKey('content_type', "tagged_object_id")
 
-    def __str__(self):
-        if self.content_type.model=="usermodel":
-            return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
-        elif self.content_type.model=="foodmodel":
-            return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
-        else:
-            return "Tagged Object is deleted"
-
+    # def __str__(self):
+    #     if self.content_type.model=="usermodel":
+    #         return str(self.tagged_object.user_name) + ' <<<===== ' + self.semantic_tag_item_label
+    #     elif self.content_type.model=="foodmodel":
+    #         return str(self.tagged_object.food_name) + ' <<<===== ' + self.semantic_tag_item_label
+    #     else:
+    #         return "Tagged Object is deleted"
 
 
 class CommentModel(MPTTModel):
@@ -147,9 +146,28 @@ class ConsumptionHistory(models.Model):
     history_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     food = models.ForeignKey(FoodModel)
-    date = models.IntegerField(default=time.time(), editable=True)
+    date = models.IntegerField(default=0)
 
+    def save(self):
+        if self.date is 0:
+            self.date = time.time() + 60*60*3;
+            super().save(self)
 
     def __str__(self):
         return show_date(self.date)
 
+
+class SimpleComment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    food = models.ForeignKey(FoodModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    comment_text = models.TextField()
+    date = models.IntegerField(default=0)
+
+    def save(self):
+        if self.date is 0:
+            self.date = time.time() + 60*60*3;
+            super().save(self)
+
+    def __str__(self):
+        return self.comment_text

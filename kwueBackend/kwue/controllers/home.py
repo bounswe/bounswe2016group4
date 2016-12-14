@@ -164,7 +164,8 @@ def analyze(user_id, setting='montly'):
         food_dict = dict(
             food_id=food.food_id,
             food_name=food.food_name,
-            food_image=food.food_image
+            food_image=food.food_image,
+            food_rate=food.food_rate
         )
         high_rate_foods.append(food_dict)
 

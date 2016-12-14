@@ -96,7 +96,9 @@ def suggest(user_id):
         food_dict = dict(
             food_name=food.food_name,
             food_id=food.food_id,
-            food_image=food.food_image
+            food_image=food.food_image,
+            food_rate=food.food_rate,
+            calorie_value=food.calorie_value
         )
         suggested_foods.append(food_dict)
     return suggested_foods

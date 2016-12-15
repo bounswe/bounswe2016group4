@@ -88,7 +88,7 @@ def suggest(user_id):
     user_preferences = db_retrieve_eating_preferences(user_id)
     foods_query = unwanted_search(user_preferences["unwanted_list"])
     foods_query = calorie_search(suggested_calories-200, suggested_calories+200,foods_query)
-    foods_query = sugar_search(suggested_sugar-15,suggested_sugar+15,foods_query)
+    foods_query = sugar_search(0,suggested_sugar+10,foods_query)
     foods = list(fat_search(suggested_total_fat-10,suggested_total_fat+10,foods_query))
     foods.extend(list(protein_search(suggested_protein-10,suggested_protein+10,foods_query)))
     foods.extend(list(carbohydrate_search(suggested_carbohydrate-30, suggested_carbohydrate+30,foods_query)))

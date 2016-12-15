@@ -136,7 +136,7 @@ def analyze(user_id, setting='montly'):
     for comment in last_comments:
         last_commneted_food_id.append(comment.food.food_id)
 
-    most_consumed_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
+    most_consumed_food_id = [ite for ite, it in Counter(last_consumed_food_id).most_common(5)]
     most_commented_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
     most_consumed_food = []
     most_commented_food = []

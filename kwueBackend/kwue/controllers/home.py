@@ -22,7 +22,7 @@ def get_home(req):
         return render(req, 'kwue/home.html', {'foods': food, 'recommendations': recommendation, 'user_type': 0})
     else:
         analysis_report = analyze(user_id)
-        return render(req, 'kwue/home.html', {'foods': food, 'analysis_report': analysis_report, 'user_type': 1})
+        return render(req, 'kwue/home.html', {'foods': food, 'analysis_report': analysis_report, 'user_type': 1, 'user_image': db_retrieve_user(user_id).user_image})
 
 
 def suggest(user_id):
@@ -115,7 +115,7 @@ def analyze(user_id, setting='monthly'):
     user = db_retrieve_user(user_id)
     user_foods = list(FoodModel.objects.filter(food_owner=user))
     rate_foods = list(FoodModel.objects.filter(food_owner=user).order_by("-food_rate")[:5])
-    comment_foods = list(SimpleComment.objects.filter(food__in=user_foods).order_by("-date")[:5])
+    # comment_foods = list(SimpleComment.objects.filter(food__in=user_foods).order_by("-date")[:5])
     if setting is  'daily':
         start_time = time.time() + 3*60*60 - 86400
     elif setting is 'monthly':
@@ -142,7 +142,7 @@ def analyze(user_id, setting='monthly'):
     most_commented_food = []
 
     for food_id in most_commented_food_id:
-       food = FoodModel.objects.get(food_id=food_id)
+       food. = FoodModel.objects.get(food_id=food_id)
        food_dict = dict(
            food_id=food.food_id,
            food_name=food.food_name,

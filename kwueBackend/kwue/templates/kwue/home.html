@@ -46,6 +46,11 @@
             {% else %}
             <div class="row home" id="analytics">
                 <div class="col-md-3">
+                    <p><img src="{{ user_image }}" style="width: 280px; height: auto;"></p>
+                    <p><h1>Consume Number: {{ analysis_report.consumed_number }}</h1></p>
+                    <p><h1>Comment Number: {{ analysis_report.comment_number}}</h1></p>
+                </div>
+                <div class="col-md-3">
                     <div class="panel panel-danger" id="high-rated-foods">
                         <div class="panel-heading">
                             High Rated Foods
@@ -99,10 +104,6 @@
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <p><h1>Consume Number: {{ analysis_report.consumed_number }}</h1></p>
-                    <p><h1>Comment Number: {{ analysis_report.comment_number}}</h1></p>
                 </div>
             </div>
             {% endif %}

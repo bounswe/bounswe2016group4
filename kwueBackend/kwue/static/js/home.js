@@ -124,12 +124,12 @@ $(document).ready(function () {
             }
         });
         $(".result-bar").show();
-        $("#featured-foods").hide();
+        $(".home").hide();
     });
     
     $("#adv-search-btn").click(function () {
         $(".result-bar").hide();
-        $("#featured-foods").show();
+        $(".home").show();
         $("#adv-search-bar").toggle();
     });
 
@@ -205,6 +205,6 @@ $(document).ready(function () {
             }
         });
         $(".result-bar").show();
-        $("#featured-foods").hide();
+        $(".home").hide();
     });
 });

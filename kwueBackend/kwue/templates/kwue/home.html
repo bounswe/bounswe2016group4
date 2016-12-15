@@ -22,14 +22,16 @@
         {% include 'kwue/navigation_bar.html' %}
 
         <div class="row">
-            <div class="col-md-4 result-bar" id="featured-foods">
+
+            {% if user_type == 0 %}
+            <div class="col-md-6 home" id="featured-foods">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Featured Foods: (all foods for now)
+                        Featured Foods:
                     </div>
                     <div class="panel-body" style="overflow: auto; height: 400px;">
                         <div class="list-group">
-                        {% for food in foods %}
+                        {% for food in recommendations %}
                             <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
                                 <p>name: {{ food.food_name }}</p>
                                 <p>description: {{ food.food_description }}</p>
@@ -41,6 +43,70 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <div class="row home" id="analytics">
+                <div class="col-md-3">
+                    <p><img src="{{ user_image }}" style="width: 280px; height: auto;"></p>
+                    <p><h1>Consume Number: {{ analysis_report.consumed_number }}</h1></p>
+                    <p><h1>Comment Number: {{ analysis_report.comment_number}}</h1></p>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-danger" id="high-rated-foods">
+                        <div class="panel-heading">
+                            High Rated Foods
+                        </div>
+                        <div class="panel-body" style="overflow: auto; height: 400px;">
+                            {% for food in analysis_report.high_rated_foods %}
+                                <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
+                                    <p>name: {{ food.food_name }}</p>
+                                    <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-primary" id="most-consumed-foods">
+                        <div class="panel-heading">
+                            Most Consumed Foods
+                        </div>
+                        <div class="panel-body" style="overflow: auto; height: 168px;">
+                            {% for food in analysis_report.most_consumed_foods %}
+                                <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
+                                    <p>name: {{ food.food_name }}</p>
+                                    <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="panel panel-success" id="most-commented-foods">
+                        <div class="panel-heading">
+                            Most Commented Foods
+                        </div>
+                        <div class="panel-body" style="overflow: auto; height: 168px;">
+                            {% for food in analysis_report.most_commented_foods %}
+                                <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
+                                    <p>name: {{ food.food_name }}</p>
+                                    <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-warning" id="last-comments">
+                        <div class="panel-heading">
+                            Last Comments
+                        </div>
+                        <div class="panel-body" style="overflow: auto; height: 400px;">
+                            {% for comment in analysis_report.last_comments%}
+                                <p class="list-group-item"> {{ comment.comment_text}} </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
         {% include 'kwue/search_result_template.html' %}
     </div>

@@ -34,7 +34,7 @@ def suggest(user_id):
     suggested_carbohydrate = 300
     suggested_fiber = 25
     suggested_calories = 2000
-    suggested_sugar = 3
+    suggested_sugar = 30
     ##############
     ##############
     ##############
@@ -43,7 +43,7 @@ def suggest(user_id):
     consumed_carbohydrate = 0
     consumed_fiber = 0
     consumed_calories = 0
-    consumed_sugar = 30
+    consumed_sugar = 0
     start = int(datetime.utcnow().date().strftime("%s")) + 6*60*60
     end = time.time() + 3 * 60 * 60
     records = db_search_consumption_foods(start,end,user_id)
@@ -72,7 +72,7 @@ def suggest(user_id):
         suggested_protein = 0
     suggested_carbohydrate = coefficient * 1 * suggested_carbohydrate - consumed_carbohydrate
     if suggested_carbohydrate < 0:
-        suggested_carbohydrate= 0
+        suggested_carbohydrate = 0
     suggested_fiber = coefficient * 1 * suggested_fiber - consumed_fiber
     if suggested_fiber < 0:
         suggested_fiber = 0
@@ -88,11 +88,11 @@ def suggest(user_id):
     user_preferences = db_retrieve_eating_preferences(user_id)
     foods_query = unwanted_search(user_preferences["unwanted_list"])
     foods_query = calorie_search(suggested_calories-200, suggested_calories+200,foods_query)
+    foods_query = sugar_search(suggested_sugar-15,suggested_sugar+15,foods_query)
     foods = list(fat_search(suggested_total_fat-10,suggested_total_fat+10,foods_query))
     foods.extend(list(protein_search(suggested_protein-10,suggested_protein+10,foods_query)))
     foods.extend(list(carbohydrate_search(suggested_carbohydrate-30, suggested_carbohydrate+30,foods_query)))
     foods.extend(list(fiber_search(suggested_fiber-10,suggested_fiber+10,foods_query)))
-    foods.extend(list(sugar_search(suggested_sugar-10,suggested_sugar+10,foods_query)))
     suggested_foods = []
     food_id_list = []
     for food in foods:

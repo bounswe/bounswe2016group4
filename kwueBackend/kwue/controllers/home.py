@@ -16,7 +16,7 @@ def get_home(req):
     #req.session['id']=11
     #req.session['username'] = 'doruk1994'
     #print(req.session['username']+ " has been authenticated")
-    user_id = 1 # need to get it from session
+    user_id = 4 # need to get it from session
     if db_retrieve_user(user_id).user_type is False:
         recommendation = suggest(user_id)
         return render(req, 'kwue/home.html', {'foods': food, 'recommendations': recommendation, 'user_type': 0})
@@ -115,7 +115,7 @@ def analyze(user_id, setting='monthly'):
     user = db_retrieve_user(user_id)
     user_foods = list(FoodModel.objects.filter(food_owner=user))
     rate_foods = list(FoodModel.objects.filter(food_owner=user).order_by("-food_rate")[:5])
-    # comment_foods = list(SimpleComment.objects.filter(food__in=user_foods).order_by("-date")[:5])
+    comment_foods = list(SimpleComment.objects.filter(food__in=user_foods).order_by("-date")[:5])
     if setting is  'daily':
         start_time = time.time() + 3*60*60 - 86400
     elif setting is 'monthly':
@@ -136,13 +136,13 @@ def analyze(user_id, setting='monthly'):
     for comment in last_comments:
        last_commneted_food_id.append(comment.food.food_id)
 
-    most_consumed_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
+    most_consumed_food_id = [ite for ite, it in Counter(last_consumed_food_id).most_common(5)]
     most_commented_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
     most_consumed_food = []
     most_commented_food = []
 
     for food_id in most_commented_food_id:
-       food. = FoodModel.objects.get(food_id=food_id)
+       food = FoodModel.objects.get(food_id=food_id)
        food_dict = dict(
            food_id=food.food_id,
            food_name=food.food_name,

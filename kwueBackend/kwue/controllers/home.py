@@ -19,10 +19,10 @@ def get_home(req):
     user_id = 1 # need to get it from session
     if db_retrieve_user(user_id).user_type is False:
         recommendation = suggest(user_id)
-        return render(req, 'kwue/home.html', {'foods': food, 'recommendations': recommendation})
+        return render(req, 'kwue/home.html', {'foods': food, 'recommendations': recommendation, 'user_type': 0})
     else:
         analysis_report = analyze(user_id)
-        return render(req, 'kwue/home.html', {'foods': food, 'analysis_report': analysis_report})
+        return render(req, 'kwue/home.html', {'foods': food, 'analysis_report': analysis_report, 'user_type': 1})
 
 
 def suggest(user_id):
@@ -111,7 +111,7 @@ def suggest(user_id):
     return suggested_foods
 
 
-def analyze(user_id, setting='montly'):
+def analyze(user_id, setting='monthly'):
     user = db_retrieve_user(user_id)
     user_foods = list(FoodModel.objects.filter(food_owner=user))
     rate_foods = list(FoodModel.objects.filter(food_owner=user).order_by("-food_rate")[:5])
@@ -134,7 +134,7 @@ def analyze(user_id, setting='montly'):
     for record in last_consumption_records:
         last_consumed_food_id.append(record.food.food_id)
     for comment in last_comments:
-        last_commneted_food_id.append(comment.food.food_id)
+       last_commneted_food_id.append(comment.food.food_id)
 
     most_consumed_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
     most_commented_food_id = [ite for ite, it in Counter(last_commneted_food_id).most_common(5)]
@@ -142,13 +142,13 @@ def analyze(user_id, setting='montly'):
     most_commented_food = []
 
     for food_id in most_commented_food_id:
-        food = FoodModel.objects.get(food_id=food_id)
-        food_dict = dict(
-            food_id=food.food_id,
-            food_name=food.food_name,
-            food_image=food.food_image
-        )
-        most_commented_food.append(food_dict)
+       food = FoodModel.objects.get(food_id=food_id)
+       food_dict = dict(
+           food_id=food.food_id,
+           food_name=food.food_name,
+           food_image=food.food_image
+       )
+       most_commented_food.append(food_dict)
 
     for food_id in most_consumed_food_id:
         food = FoodModel.objects.get(food_id=food_id)
@@ -192,9 +192,3 @@ def analyze(user_id, setting='montly'):
         last_comments=last_comments,
     )
     return analysis_report
-
-
-
-
-
-

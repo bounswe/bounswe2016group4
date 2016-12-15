@@ -43,7 +43,7 @@ def suggest(user_id):
     consumed_carbohydrate = 0
     consumed_fiber = 0
     consumed_calories = 0
-    consumed_sugar = 30
+    consumed_sugar = 0
     start = int(datetime.utcnow().date().strftime("%s")) + 6*60*60
     end = time.time() + 3 * 60 * 60
     records = db_search_consumption_foods(start,end,user_id)

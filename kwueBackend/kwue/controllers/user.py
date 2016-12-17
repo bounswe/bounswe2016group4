@@ -1,13 +1,14 @@
-from django.shortcuts import render
-from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
-from kwue.helper_functions.conversions import *
 from django.views.decorators.csrf import csrf_exempt
-from kwue.DB_functions.food_db_functions import *
+from kwue.controllers.home import *
 
 def get_user(req):
-    user_id = req.GET.dict()['user_id']
+
+    if req.session.has_key('user_id') & req.session['user_id'] != -2:
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
     user_dict = ingredient_from_object_to_list(user)
@@ -19,7 +20,11 @@ def get_user(req):
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):
-    user_id = req.GET.dict()['user_id']
+
+    if req.session['user_id'] != -2:
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
     user_dict = ingredient_from_object_to_list(user)
@@ -73,6 +78,7 @@ def sign_up(req):
     db_insert_user(user_information_dict)
     return render(req, 'kwue/food.html', {})
 
+@csrf_exempt
 def login(req):
     # DB den user ın var olup olmadığına dair bilgi gelsin
     # DB bana userın id sini versin ve o id ile session başlasın
@@ -81,10 +87,27 @@ def login(req):
     user_email_address = user_dict['user_email_address']
     user_password = user_dict["user_password"]
 
-    if db_validate_user(user_email_address, user_password):
+    user = db_validate_user(user_email_address, user_password)
+
+    if user:
         print("User"+user_email_address+ "exists")
-        req.session['email_adress']= user_email_address #SESSION STARTS
+        req.session['user_id']= user.user_id
+        user_type = user.user_type
+        user_id = user.user_id
+        user_name = user.user_name
+        user_image = user.user_image
+        if user_type is False:
+            return render(req, 'kwue/home.html', {'recommendations': suggest(user_id), 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
+        else:
+            return render(req, 'kwue/home.html', {'analysis_report': analyze(user_id), 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
     else:
         print("User does not exists.")
+        return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
-    return render(req, 'kwue/food.html', {})
+def get_login(req):
+    return render(req, 'kwue/login.html', {'user_name': 'Guest'})
+
+def logout(req):
+    foods = db_retrieve_all_foods()
+    req.session['user_id'] = -2
+    return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})

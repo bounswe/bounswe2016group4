@@ -342,7 +342,7 @@ urlpatterns = (
     #
     #
     #
-    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),  # .
+    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),
 
     ### REQUEST
     #
@@ -382,4 +382,35 @@ urlpatterns = (
     #             'user_name'
     #     -> 'comment_number' -> An integer meaning how many times, foods of this food server are commented.
     url(r'^$', home.get_home, name='home'),
+
+
+    ### REQUEST
+    #
+    #  empty
+    #
+    ### RESPONSE
+    #
+    #  renders login page
+    #
+    url(r'^login', user.get_login, name='login'),
+
+
+    ### REQUEST
+    #
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    ## DISCLAIMER: THIS METHOD MAY BE CHANGED. JUST FOR TEST FOR NOW.
+    url(r'^validate_login', user.login),
+
+    ### REQUEST
+    #
+    #
+    ### RESPONSE
+    #
+    #
+    ## DISCLAIMER: THIS METHOD MAY BE CHANGED. JUST FOR TEST FOR NOW.
+    url(r'^logout', user.logout, name='logout'),
 )

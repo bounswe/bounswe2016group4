@@ -1,16 +1,25 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="nav nav-pills">
-          <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
-          <li role="presentation"><a href="{% url 'new_food' %}">Add Food</a></li>
-          <li role="presentation"><a href="user_profile_page?user_id=1">Profile</a></li>
-          <li role="presentation"><a href="{% url 'consumption_history' %}">Consumption History</a></li>
+            <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
+          {% if user_name != 'Guest' %}
+            <li role="presentation"><a href="{% url 'new_food' %}">Add Food</a></li>
+          {% endif %}
+          {% if user_type != 1 and user_name != 'Guest' %}
+              <li role="presentation"><a href="user_profile_page?user_id={{ user_id }}">Profile</a></li>
+            <li role="presentation"><a href="{% url 'consumption_history' %}">Consumption History</a></li>
+          {% endif %}
+          {% if user_name == 'Guest' %}
+              <li role="presentation"><a href="{% url 'login' %}" id="login">Login</a></li>
+          {% else %}
+              <li role="presentation"><a href="{% url 'logout' %}" id="logout">Logout</a></li>
+          {% endif %}
         </ul>
     </div>
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h4>Welcome User</h4>
+        <h4>Welcome {{ user_name }}</h4>
     </div>
     <div class="col-md-6">
         <div class="input-group">

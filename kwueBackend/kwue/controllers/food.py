@@ -19,11 +19,24 @@ def get_food(req):
 
 
 def get_food_page(req):
+    id = req.session['user_id']
+    if id == -2:
+        user_type = 0
+        user_name = 'Guest'
+    else:
+        user = db_retrieve_user(id)
+        user_type = user.user_type
+        user_name = user.user_name
+
+
     food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
     del food_dict['_state']  # alptekin fix FacePalm
     tag_list = return_tags(food_id, "Food")
     food_dict['tag_list'] = tag_list
+    food_dict['user_name'] = user_name
+    food_dict['user_type'] = user_type
+    food_dict['user_id'] = id
     return render(req, 'kwue/food.html', food_dict)
 
 @csrf_exempt
@@ -73,7 +86,14 @@ def add_food(req):
 
 
 def get_add_food_page(req):
-    return render(req, 'kwue/add_food.html', {})
+    id = req.session['user_id']
+    if id == -2:
+        return render(req, 'kwue/home.html', {'recommendations': db_retrieve_all_foods(), 'user_type': 0, 'user_name': 'Guest'})
+    else:
+        user = db_retrieve_user(id)
+        user_type = user.user_type
+        user_name = user.user_name
+    return render(req, 'kwue/add_food.html', {'user_type': user_type, 'user_name': user_name, 'user_id': id})
 
 
 @csrf_exempt

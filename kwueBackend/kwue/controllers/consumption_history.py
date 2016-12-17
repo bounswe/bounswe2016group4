@@ -1,15 +1,19 @@
 from django.shortcuts import render
 from kwue.DB_functions.consumption_history_db_functions import *
-#from unixtimestampfield.fields import UnixTimeStampField
-import time
 from django.http import HttpResponse
 import json
-from kwue.helper_functions.time_helpers import *
 from django.views.decorators.csrf import csrf_exempt
-
+from kwue.DB_functions.food_db_functions import *
 
 def get_consumption_page(req):
-    return render(req, 'kwue/consumption_history.html', {})
+    id = req.session['user_id']
+    if id == -2:
+        return render(req, 'kwue/home.html', {'recommendations': db_retrieve_all_foods(), 'user_type': 0, 'user_name': 'Guest'})
+    else:
+        user = db_retrieve_user(id)
+        user_type = user.user_type
+        user_name = user.user_name
+    return render(req, 'kwue/consumption_history.html', {'user_name': user_name, 'user_type': user_type, 'user_id': id})
 
 def get_start_timestamp_date(timestamp, setting):
     return {

@@ -113,6 +113,8 @@ def suggest(user_id):
             food_id=food.food_id,
             food_image=food.food_image,
             food_rate=food.food_rate,
+            food_description = food.food_description,
+            food_owner = food.food_owner,
             calorie_value=food.calorie_value
         )
         suggested_foods.append(food_dict)

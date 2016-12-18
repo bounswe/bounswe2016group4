@@ -17,7 +17,7 @@ $(document).ready(function () {
             var nutritions = response['nutritional_values_dict'];
             var daily_graph = response['graph_dict'];
 
-            var cal_data = [];
+            // var cal_data = [];
             var sug_data = [];
             var carbo_data = [];
             var pro_data = [];
@@ -25,11 +25,11 @@ $(document).ready(function () {
 
 
             for(i=0; i<daily_graph.length; i++){
-                cal_data[i] = {x: i, y: daily_graph[i]['calorie_value']};
-                sug_data[i] = {x: i, y: daily_graph[i]['sugar_value']};
-                carbo_data[i] = {x: i, y: daily_graph[i]['carbohydrate_value']};
-                pro_data[i] = {x: i, y: daily_graph[i]['protein_value']};
-                fat_data[i] = {x: i, y: daily_graph[i]['fat_value']};
+                // cal_data[i] = {x: i+1, y: daily_graph[i]['calorie_value']};
+                sug_data[i] = {x: i+1, y: daily_graph[i]['sugar_value']};
+                carbo_data[i] = {x: i+1, y: daily_graph[i]['carbohydrate_value']};
+                pro_data[i] = {x: i+1, y: daily_graph[i]['protein_value']};
+                fat_data[i] = {x: i+1, y: daily_graph[i]['fat_value']};
             }
 
             var ctx = document.getElementById("daily-graph");
@@ -37,29 +37,38 @@ $(document).ready(function () {
                 type: 'line',
                 data: {
                     datasets: [
-                        {
-                            label: 'Calorie Value',
-                            data: cal_data,
-                            strokeColor: 'rgba(220,0,0,1)',
-                            fill: false
-                        },
+                        // {
+                        //     label: 'Calorie Value',
+                        //     data: cal_data,
+                        //     borderColor: "rgba(118, 28, 25, 1)",
+                        //     backgroundColor: "rgba(118, 28, 25, 0.2)",
+                        //     fill: false
+                        // },
                         {
                             label: 'Sugar Value',
+                            borderColor: "rgba(140, 140, 140, 1)",
+                            backgroundColor: "rgba(140, 140, 140, 0.2)",
                             data: sug_data,
                             fill: false
                         },
                         {
                             label: 'Carbohydrate Value',
+                            borderColor: "rgba(62, 143, 62, 1)",
+                            backgroundColor: "rgba(62, 143, 62, 0.2)",
                             data: carbo_data,
                             fill: false
                         },
                         {
                             label: 'Protein Value',
+                            borderColor: "rgba(217, 83, 79, 1)",
+                            backgroundColor: "rgba(217, 83, 79, 0.2)",
                             data: pro_data,
                             fill: false
                         },
                         {
                             label: 'Fat Value',
+                            borderColor: "rgba(152, 95, 13, 1)",
+                            backgroundColor: "rgba(152, 95, 13, 0.2)",
                             data: fat_data,
                             fill: false
                         }

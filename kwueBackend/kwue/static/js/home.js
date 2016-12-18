@@ -15,6 +15,55 @@ $(document).ready(function () {
     var slide_cal;
     var slide_sugar;
 
+    var consumed_today = [];
+
+    $.ajax({
+        url: 'get_consumption_history',
+        data: {
+            setting: 'daily'
+        },
+        success: function (response) {
+            var nutritions = response['nutritional_values_dict'];
+            consumed_today = [nutritions['carbohydrate_value'],
+                                nutritions['sugar_value'],
+                                nutritions['fat_value'],
+                                nutritions['protein_value'],
+                                nutritions['fiber_value']];
+
+            var data = {
+                labels: ["Carbohydrate", "Sugar", "Fat", "Protein", "Fiber"],
+                datasets: [
+                        {
+                            label: "Suggested amount of nutritions",
+                            backgroundColor: "rgba(0, 230, 226, 0.1)",
+                            borderColor: "rgba(0, 230, 226, 1)",
+                            pointBackgroundColor: "rgba(0, 230, 226, 1)",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "rgba(0, 230, 226, 1)",
+                            data: [300, 30, 65, 50, 25]
+                        },
+                        {
+                            label: "Amount consumed today",
+                            backgroundColor: "rgba(255,99,132,0.2)",
+                            borderColor: "rgba(255,99,132,1)",
+                            pointBackgroundColor: "rgba(255,99,132,1)",
+                            pointBorderColor: "#fff",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "rgba(255,99,132,1)",
+                            data: consumed_today
+                        }
+                ]
+            };
+
+            var context = document.getElementById("comparative");
+            var myRadarChart = new Chart(context, {
+                type: 'radar',
+                data: data
+            });
+        }
+    });
+
     $.ajax({
         url: 'get_eating_preferences',
         data: {
@@ -125,11 +174,13 @@ $(document).ready(function () {
         });
         $(".result-bar").show();
         $(".home").hide();
+        $("#comparative").hide();
     });
     
     $("#adv-search-btn").click(function () {
         $(".result-bar").hide();
         $(".home").show();
+        $("#comparative").show();
         $("#adv-search-bar").toggle();
     });
 
@@ -206,5 +257,6 @@ $(document).ready(function () {
         });
         $(".result-bar").show();
         $(".home").hide();
+        $("#comparative").hide();
     });
 });

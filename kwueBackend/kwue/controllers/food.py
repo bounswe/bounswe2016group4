@@ -42,6 +42,7 @@ def get_food_page(req):
 @csrf_exempt
 def add_food(req):
     food_dict = req.POST.dict()
+    food_dict['food_owner'] = req.session['user_id']
 
     # get nutrition values from api
     ingredients = json.loads(food_dict['ingredients'])

@@ -10,6 +10,7 @@
     <script src="{% static 'js/bootstrap-slider.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
     <script src="{% static 'js/consumption.js' %}"></script>
+    <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
     <title>KWUE</title>
 </head>
 <body>
@@ -37,12 +38,19 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="panel panel-warning">
-                    <div class="panel panel-heading">
-                        You consumed:
-                    </div>
-                    <div class="panel panel-body list-group" id="nutrition-panel">
+                <div class="row">
+                    <canvas id="daily-graph" style="height: 300px; width: 100%";>
 
+                    </canvas>
+                </div>
+                <div class="row">
+                    <div class="panel panel-warning">
+                        <div class="panel panel-heading">
+                            You consumed:
+                        </div>
+                        <div class="panel panel-body list-group" id="nutrition-panel">
+
+                        </div>
                     </div>
                 </div>
             </div>

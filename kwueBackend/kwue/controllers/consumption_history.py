@@ -56,13 +56,11 @@ def get_monthly_graph_on_daily_basis(user_id):
     return nutr_val_dicts
 
 def get_consumption_history(req):
-    #date = UnixTimeStampField()
-    #end_timestamp_date = date.get_timestampnow()
     end_timestamp_date = time.time() + 60*60*3;
     setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 
-    user_id = req.GET.dict()['user_id']
+    user_id = req.session['user_id']
     results = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
 
     foods = []
@@ -159,7 +157,7 @@ def get_consumption_history(req):
 
 @csrf_exempt
 def mark_as_eaten(req):
-    user_id = req.POST.dict()['user_id']
+    user_id = req.session['user_id']
     food_id = req.POST.dict()['food_id']
     is_success = False
     reason = ""

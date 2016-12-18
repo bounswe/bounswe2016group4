@@ -5,10 +5,7 @@ from kwue.controllers.home import *
 
 def get_user(req):
 
-    if req.session.has_key('user_id') & req.session['user_id'] != -2:
-        user_id = req.session['user_id']
-    else:
-        user_id = req.GET.dict()['user_id']
+    user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
     user_dict = ingredient_from_object_to_list(user)
@@ -38,13 +35,8 @@ def get_user_profile_page(req):
 def update_profile(req):
     return render(req, 'kwue/food.html', {})
 
-def get_consumption_history(req):
-    # 1 - From the tabs "last one day" "last one week" "last one month" "all time" the last one day is default.
-    # 2 - Get the foods eaten last one day with the taken nutrition values from db.
-    return render(req, 'kwue/food.html', {})
-
 def get_eating_preferences(req):
-    user_id = req.GET.dict()['user_id']
+    user_id = req.session['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
     return HttpResponse(json.dumps(ep), content_type='application/json')
@@ -53,7 +45,7 @@ def get_eating_preferences(req):
 @csrf_exempt
 def update_eating_preferences(req):
     ep = req.POST.dict()
-    user_id = ep['user_id']
+    user_id = req.session['user_id']
 
     db_update_user_preferences(user_id, ep)
     db_insert_user_unwanted_ing(user_id, json.loads(ep['unwanted_list']))
@@ -76,7 +68,7 @@ def sign_up(req):
         user_type=new_user_dict["user_type"]
     )
     db_insert_user(user_information_dict)
-    return render(req, 'kwue/food.html', {})
+    return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
 @csrf_exempt
 def login(req):

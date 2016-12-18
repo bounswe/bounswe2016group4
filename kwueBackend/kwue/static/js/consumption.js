@@ -15,6 +15,66 @@ $(document).ready(function () {
         success: function (response) {
             var foods = response['foods'];
             var nutritions = response['nutritional_values_dict'];
+            var daily_graph = response['graph_dict'];
+
+            var cal_data = [];
+            var sug_data = [];
+            var carbo_data = [];
+            var pro_data = [];
+            var fat_data = [];
+
+
+            for(i=0; i<daily_graph.length; i++){
+                cal_data[i] = {x: i, y: daily_graph[i]['calorie_value']};
+                sug_data[i] = {x: i, y: daily_graph[i]['sugar_value']};
+                carbo_data[i] = {x: i, y: daily_graph[i]['carbohydrate_value']};
+                pro_data[i] = {x: i, y: daily_graph[i]['protein_value']};
+                fat_data[i] = {x: i, y: daily_graph[i]['fat_value']};
+            }
+
+            var ctx = document.getElementById("daily-graph");
+            var scatterChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Calorie Value',
+                            data: cal_data,
+                            strokeColor: 'rgba(220,0,0,1)',
+                            fill: false
+                        },
+                        {
+                            label: 'Sugar Value',
+                            data: sug_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Carbohydrate Value',
+                            data: carbo_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Protein Value',
+                            data: pro_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Fat Value',
+                            data: fat_data,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+
             var html_foods = "";
             var html_nutritions = "";
             for(i=0; i<foods.length; i++) {

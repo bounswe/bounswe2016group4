@@ -9,6 +9,7 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/bootstrap-slider.js' %}"></script>
     <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
     <title>KWUE</title>
 </head>
 <body>
@@ -24,7 +25,7 @@
         <div class="row">
 
             {% if user_type == 0 %}
-            <div class="col-md-6 home" id="featured-foods">
+            <div class="col-md-3 home" id="featured-foods">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         Featured Foods:
@@ -43,6 +44,13 @@
                     </div>
                 </div>
             </div>
+                <div class="col-md-9">
+                {% if user_type == 0 and user_name != 'Guest' %}
+                    <canvas id="comparative" style="width: 500px; height: 100%">
+
+                    </canvas>
+                {% endif %}
+                </div>
             {% else %}
             <div class="row home" id="analytics">
                 <div class="col-md-3">

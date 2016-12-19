@@ -46,6 +46,8 @@ def suggest(user_id):
     consumed_sugar = 0
     start = int(datetime.utcnow().date().strftime("%s")) + 6*60*60
     end = time.time() + 3 * 60 * 60
+    if end < start:
+        start -= 24 * 60 * 60
     records = db_search_consumption_foods(start,end,user_id)
     count = 1
     for record in records:

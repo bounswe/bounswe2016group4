@@ -75,11 +75,11 @@ $(document).ready(function () {
             carbohydrate_bound = [response['carbohydrate_lower_bound'], response['carbohydrate_upper_bound']];
             calorie_bound = [response['calorie_lower_bound'], response['calorie_upper_bound']];
             sugar_bound = [response['sugar_lower_bound'], response['sugar_upper_bound']];
-            slide_pro = $("#protein-slider").slider({ id: "protein", min: 0, max: 1000, range: true, value: protein_bound, tooltip: 'hide' });
-            slide_fat = $("#fat-slider").slider({ id: "fat", min: 0, max: 1000, range: true, value: fat_bound, tooltip: 'hide' });
-            slide_carbo = $("#carbohydrate-slider").slider({ id: "carbohydrate", min: 0, max: 1000, range: true, value: carbohydrate_bound, tooltip: 'hide' });
-            slide_cal = $("#calorie-slider").slider({ id: "calorie", min: 0, max: 1000, range: true, value: calorie_bound, tooltip: 'hide' });
-            slide_sugar = $("#sugar-slider").slider({ id: "sugar", min: 0, max: 1000, range: true, value: sugar_bound, tooltip: 'hide' });
+            slide_pro = $("#protein-slider").slider({ id: "protein", min: 0, max: 3000, range: true, value: protein_bound, tooltip: 'hide' });
+            slide_fat = $("#fat-slider").slider({ id: "fat", min: 0, max: 3000, range: true, value: fat_bound, tooltip: 'hide' });
+            slide_carbo = $("#carbohydrate-slider").slider({ id: "carbohydrate", min: 0, max: 3000, range: true, value: carbohydrate_bound, tooltip: 'hide' });
+            slide_cal = $("#calorie-slider").slider({ id: "calorie", min: 0, max: 3000, range: true, value: calorie_bound, tooltip: 'hide' });
+            slide_sugar = $("#sugar-slider").slider({ id: "sugar", min: 0, max: 3000, range: true, value: sugar_bound, tooltip: 'hide' });
 
             $("#protein-amount").text(protein_bound[0]+"/"+protein_bound[1]);
             $("#fat-amount").text(fat_bound[0] + "/" + fat_bound[1]);

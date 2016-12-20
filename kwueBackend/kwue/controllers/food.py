@@ -104,7 +104,7 @@ def get_nutritional_values(req):
     for ingredient in ingredients:
         food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
     nutrition_dict = request_nutrition(food_recipe)
-    return HttpResponse(json.dumps(nutrition_dict))
+    return HttpResponse(json.dumps(nutrition_dict), content_type='application/json')
 
 
 # def remove_food(req):

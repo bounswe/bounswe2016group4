@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.consumption_history_db_functions import db_search_consumption_foods
 from kwue.DB_functions.search_db_function import *
@@ -9,6 +10,11 @@ from datetime import datetime
 import time
 from collections import Counter
 
+
+def create_session(req):
+    if req.session.has_key('user_id') is False:
+        req.session['user_id'] = -2
+    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
 
 def get_home(req):
     food = db_retrieve_all_foods()

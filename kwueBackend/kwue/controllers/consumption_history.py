@@ -1,14 +1,19 @@
 from django.shortcuts import render
 from kwue.DB_functions.consumption_history_db_functions import *
-from unixtimestampfield.fields import UnixTimeStampField
 from django.http import HttpResponse
 import json
-from kwue.helper_functions.time_helpers import *
 from django.views.decorators.csrf import csrf_exempt
-
+from kwue.DB_functions.food_db_functions import *
 
 def get_consumption_page(req):
-    return render(req, 'kwue/consumption_history.html', {})
+    id = req.session['user_id']
+    if id == -2:
+        return render(req, 'kwue/home.html', {'recommendations': db_retrieve_all_foods(), 'user_type': 0, 'user_name': 'Guest'})
+    else:
+        user = db_retrieve_user(id)
+        user_type = user.user_type
+        user_name = user.user_name
+    return render(req, 'kwue/consumption_history.html', {'user_name': user_name, 'user_type': user_type, 'user_id': id})
 
 def get_start_timestamp_date(timestamp, setting):
     return {
@@ -18,14 +23,44 @@ def get_start_timestamp_date(timestamp, setting):
         'alltime': 0
     }.get(setting, 0)
 
+def get_monthly_graph_on_daily_basis(user_id):
+    end_timestamp_date = time.time() + 60*60*3
+    start_timestamp_date = get_start_timestamp_date(end_timestamp_date, 'monthly')
+    nutr_val_dicts = []
+
+    end_timestamp_date = start_timestamp_date + 86400
+    for i in range(1, 31):
+        daily_cons_hist = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
+        end_timestamp_date += 86400
+        start_timestamp_date += 86400
+        nutr_val_dict = {
+            'day_number': 0,
+            'protein_value': 0,
+            'fat_value': 0,
+            'carbohydrate_value': 0,
+            'calorie_value': 0,
+            'sugar_value': 0,
+        }
+        nutr_val_dict['day_number'] += 1
+        for dict in daily_cons_hist:
+            food = dict['food']
+            nutr_val_dict['protein_value'] += food.protein_value
+            nutr_val_dict['fat_value'] += food.fat_value
+            nutr_val_dict['carbohydrate_value'] += food.carbohydrate_value
+            nutr_val_dict['calorie_value'] += food.calorie_value
+            nutr_val_dict['sugar_value'] += food.sugar_value
+        # for key in list(nutr_val_dict.keys()):
+        #     nutr_val_dict[key] = "%.3f" % nutr_val_dict[key]
+        nutr_val_dicts.append(nutr_val_dict)
+
+    return nutr_val_dicts
 
 def get_consumption_history(req):
-    date = UnixTimeStampField()
-    end_timestamp_date = date.get_timestampnow()
+    end_timestamp_date = time.time() + 60*60*3;
     setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 
-    user_id = req.GET.dict()['user_id']
+    user_id = req.session['user_id']
     results = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
 
     foods = []
@@ -105,11 +140,16 @@ def get_consumption_history(req):
         nutritional_values_dict['zinc'] += food.zinc
 
     for key in list(nutritional_values_dict.keys()):
+        if setting == 'weekly':
+            nutritional_values_dict[key] /= 7
+        elif setting == 'monthly':
+            nutritional_values_dict[key] /= 30
         nutritional_values_dict[key] = "%.3f" % nutritional_values_dict[key]
 
     results_dict = {
         'foods': foods,
-        'nutritional_values_dict': nutritional_values_dict
+        'nutritional_values_dict': nutritional_values_dict,
+        'graph_dict': get_monthly_graph_on_daily_basis(user_id)
     }
     print(results_dict)
     return HttpResponse(json.dumps(results_dict), content_type='application/json')
@@ -117,14 +157,12 @@ def get_consumption_history(req):
 
 @csrf_exempt
 def mark_as_eaten(req):
-    user_dict = req.POST.dict()
-    user_id = req.POST.dict()['user_id']
+    user_id = req.session['user_id']
     food_id = req.POST.dict()['food_id']
     is_success = False
     reason = ""
-    if user_id != -1 and user_id != -2:
-        if db_insert_consumption_record(user_id, food_id):
-            is_success = True
-        else:
-            reason = "Couldn't eat the food."
+    if db_insert_consumption_record(user_id, food_id):
+        is_success = True
+    else:
+        reason = "Couldn't eat the food."
     return HttpResponse(json.dumps({"is_success": is_success, "reason": reason}))

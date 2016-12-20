@@ -17,9 +17,8 @@ urlpatterns = (
     # 'tag_description'
     #
     ### RESPONSE
-    #
-    #
-    #
+    # 'is_success'
+    # 'reason'
     url(r'^tag_user', tag.tag_user),
 
     ### REQUEST
@@ -86,7 +85,13 @@ urlpatterns = (
     #     'phosphorus' mg
     #     'selenium' mcg
     #     'zinc' mg
-    #
+    # 'graph_dict': Array of monthly nutritional value graph on daily basis ->
+    #     'day_number'
+    #     'calorie_value'
+    #     'sugar_value'
+    #     'protein_value'
+    #     'carbohydrate_value'
+    #     'fat_value'
     url(r'^get_consumption_history', consumption_history.get_consumption_history),
 
     ### REQUEST
@@ -125,6 +130,7 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
+    # 'foods' : Array of 'food_id', 'food_image', 'food_name's.
     #
     url(r'^get_user', user.get_user),
 
@@ -156,6 +162,8 @@ urlpatterns = (
     # 'carbohydrate_upper_bound'
     # 'calorie_upper_bound'
     # 'sugar_upper_bound'
+    # 'rate_lower_bound'
+    # 'rate_upper_bound'
     # 'wanted_list' : ['pepper','apple'...]
     # 'unwanted_list' : ['pepper','apple'...]
     #
@@ -223,6 +231,25 @@ urlpatterns = (
     url(r'^search_semantic_tags', tag.search_semantic_tags),
 
     ### REQUEST
+    # POST
+    # 'food_id'
+    # 'rate_value' : Any value from 1.0 to 5.0
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^rate_food', food.rate_food),
+
+    ### REQUEST
+    # POST
+    # 'food_id'
+    # 'user_id'
+    # 'comment_text'
+    ### RESPONSE
+    # 'is_success'
+    # 'reason'
+    url(r'^comment_food', food.comment_food),
+
+    ### REQUEST
     # GET
     # 'food_id'
     ### RESPONSE
@@ -241,6 +268,7 @@ urlpatterns = (
     # 'food_id'
     # 'carbohydrate_value'
     # 'tag_list' : Array of 'tag_name', 'tag_id', 'tag_label', 'tag_description's.
+    # 'comments' : Array of 'user_id', 'user_name', 'comment_text's.
     url(r'^get__food', food.get_food, name='get_food'),
 
 
@@ -273,6 +301,7 @@ urlpatterns = (
     # 'food_name'
     # 'food_image' : should be a url
     # 'food_owner'
+    # 'number_of_servings' : Identifies how many people are these ingredients of the food for.
     # 'ingredients' : should be in json format [{"ingredient":ing1, "value":val1},{"ingredient":ing2, "value": val2}]"
     # 'food_tags' : should be array of "tag_name" and "tag_id" "tag_label" "tag_description" given from semantic tag api.
     ### RESPONSE
@@ -313,8 +342,75 @@ urlpatterns = (
     #
     #
     #
-    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),  # .
+    url(r'^user_profile_page', user.get_user_profile_page, name='user_profile_page'),
 
-
+    ### REQUEST
+    #
+    #
+    #
+    ### RESPONSE
+    # if user is not food server
+    #  'recommendation' -> Array of JSONs of
+    #      'food_image'
+    #      'food_id'
+    #      'calorie_value'
+    #      'food_rate'
+    #      'food_name'
+    # if user is food server
+    #  'analysis_report'
+    #     -> 'most_commented_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'high_rated_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'consumed_number' -> An integer meaning how many times, foods of this food server are eaten.
+    #     -> 'most_consumed_foods' -> Array of JSONs of
+    #             'food_image'
+    #             'food_id'
+    #             'food_name'
+    #     -> 'last_comments' -> Array of JSONs of
+    #             'comment_id'
+    #             'comment_text'
+    #             'food_id'
+    #             'food_image'
+    #             'food_name'
+    #             'user_id'
+    #             'user_image'
+    #             'user_name'
+    #     -> 'comment_number' -> An integer meaning how many times, foods of this food server are commented.
     url(r'^$', home.get_home, name='home'),
+
+
+    ### REQUEST
+    #
+    #  empty
+    #
+    ### RESPONSE
+    #
+    #  renders login page
+    #
+    url(r'^login', user.get_login, name='login'),
+
+
+    ### REQUEST
+    #
+    #
+    ### RESPONSE
+    #
+    #
+    #
+    ## DISCLAIMER: THIS METHOD MAY BE CHANGED. JUST FOR TEST FOR NOW.
+    url(r'^validate_login', user.login),
+
+    ### REQUEST
+    #
+    #
+    ### RESPONSE
+    #
+    #
+    ## DISCLAIMER: THIS METHOD MAY BE CHANGED. JUST FOR TEST FOR NOW.
+    url(r'^logout', user.logout, name='logout'),
 )

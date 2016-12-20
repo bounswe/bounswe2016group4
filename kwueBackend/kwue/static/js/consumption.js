@@ -15,6 +15,75 @@ $(document).ready(function () {
         success: function (response) {
             var foods = response['foods'];
             var nutritions = response['nutritional_values_dict'];
+            var daily_graph = response['graph_dict'];
+
+            // var cal_data = [];
+            var sug_data = [];
+            var carbo_data = [];
+            var pro_data = [];
+            var fat_data = [];
+
+
+            for(i=0; i<7; i++){
+                // cal_data[i] = {x: i+1, y: daily_graph[i+23]['calorie_value']};
+                sug_data[i] = {x: i+1, y: daily_graph[i+23]['sugar_value']};
+                carbo_data[i] = {x: i+1, y: daily_graph[i+23]['carbohydrate_value']};
+                pro_data[i] = {x: i+1, y: daily_graph[i+23]['protein_value']};
+                fat_data[i] = {x: i+1, y: daily_graph[i+23]['fat_value']};
+            }
+
+            var ctx = document.getElementById("daily-graph");
+            var scatterChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        // {
+                        //     label: 'Calorie',
+                        //     data: cal_data,
+                        //     borderColor: "rgba(118, 28, 25, 1)",
+                        //     backgroundColor: "rgba(118, 28, 25, 0.2)",
+                        //     fill: false
+                        // },
+                        {
+                            label: 'Sugar',
+                            borderColor: "rgba(140, 140, 140, 1)",
+                            backgroundColor: "rgba(140, 140, 140, 0.2)",
+                            data: sug_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Carbohydrate',
+                            borderColor: "rgba(62, 143, 62, 1)",
+                            backgroundColor: "rgba(62, 143, 62, 0.2)",
+                            data: carbo_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Protein',
+                            borderColor: "rgba(217, 83, 79, 1)",
+                            backgroundColor: "rgba(217, 83, 79, 0.2)",
+                            data: pro_data,
+                            fill: false
+                        },
+                        {
+                            label: 'Fat',
+                            borderColor: "rgba(152, 95, 13, 1)",
+                            backgroundColor: "rgba(152, 95, 13, 0.2)",
+                            data: fat_data,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+
             var html_foods = "";
             var html_nutritions = "";
             for(i=0; i<foods.length; i++) {
@@ -69,6 +138,16 @@ $(document).ready(function () {
     $(".history-setting").click(function () {
         var el = $(this);
         var setting = el.attr('id');
+        var k = 0;
+
+        if(setting == "daily" || setting == "weekly") {
+            k = 23;
+        } else {
+            k = 0;
+        }
+
+
+
         $(".active").removeClass("active");
         el.parent().addClass("active");
 
@@ -81,8 +160,76 @@ $(document).ready(function () {
             success: function (response) {
                 var foods = response['foods'];
                 var nutritions = response['nutritional_values_dict'];
+                var daily_graph = response['graph_dict'];
                 var html_foods = "";
                 var html_nutritions = "";
+
+                var sug_data = [];
+                var carbo_data = [];
+                var pro_data = [];
+                var fat_data = [];
+
+                for(i=0; i<30-k; i++){
+                    // cal_data[i] = {x: i+1, y: daily_graph[i+k]['calorie_value']};
+                    sug_data[i] = {x: i+1, y: daily_graph[i+k]['sugar_value']};
+                    carbo_data[i] = {x: i+1, y: daily_graph[i+k]['carbohydrate_value']};
+                    pro_data[i] = {x: i+1, y: daily_graph[i+k]['protein_value']};
+                    fat_data[i] = {x: i+1, y: daily_graph[i+k]['fat_value']};
+                }
+
+                var ctx = document.getElementById("daily-graph");
+                var scatterChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: [
+                            // {
+                            //     label: 'Calorie',
+                            //     data: cal_data,
+                            //     borderColor: "rgba(118, 28, 25, 1)",
+                            //     backgroundColor: "rgba(118, 28, 25, 0.2)",
+                            //     fill: false
+                            // },
+                            {
+                                label: 'Sugar',
+                                borderColor: "rgba(140, 140, 140, 1)",
+                                backgroundColor: "rgba(140, 140, 140, 0.2)",
+                                data: sug_data,
+                                fill: false
+                            },
+                            {
+                                label: 'Carbohydrate',
+                                borderColor: "rgba(62, 143, 62, 1)",
+                                backgroundColor: "rgba(62, 143, 62, 0.2)",
+                                data: carbo_data,
+                                fill: false
+                            },
+                            {
+                                label: 'Protein',
+                                borderColor: "rgba(217, 83, 79, 1)",
+                                backgroundColor: "rgba(217, 83, 79, 0.2)",
+                                data: pro_data,
+                                fill: false
+                            },
+                            {
+                                label: 'Fat',
+                                borderColor: "rgba(152, 95, 13, 1)",
+                                backgroundColor: "rgba(152, 95, 13, 0.2)",
+                                data: fat_data,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'linear',
+                                position: 'bottom'
+                            }]
+                        }
+                    }
+                });
+
+
                 for(i=0; i<foods.length; i++) {
                     html_foods = html_foods + "<a href='food_page?food_id=" +
                         foods[i]['food_id'] +"' class='list-group-item'><h4><p>"+

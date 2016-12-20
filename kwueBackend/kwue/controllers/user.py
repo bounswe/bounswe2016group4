@@ -1,12 +1,10 @@
-from django.shortcuts import render
-from kwue.DB_functions.user_db_function import *
 from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
-from kwue.helper_functions.conversions import *
 from django.views.decorators.csrf import csrf_exempt
-
+from kwue.controllers.home import *
 
 def get_user(req):
+
     user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
@@ -15,10 +13,15 @@ def get_user(req):
     del user_dict['_state'] # alptekin fix FacePalm
     tag_list = return_tags(user_id, "User")
     user_dict['tag_list'] = tag_list
+    user_dict['foods'] = db_get_user_foods(user_id)
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
 
 def get_user_profile_page(req):
-    user_id = req.GET.dict()['user_id']
+
+    if req.session['user_id'] != -2:
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
     user = db_retrieve_user(user_id)
 
     user_dict = ingredient_from_object_to_list(user)
@@ -32,13 +35,8 @@ def get_user_profile_page(req):
 def update_profile(req):
     return render(req, 'kwue/food.html', {})
 
-def get_consumption_history(req):
-    # 1 - From the tabs "last one day" "last one week" "last one month" "all time" the last one day is default.
-    # 2 - Get the foods eaten last one day with the taken nutrition values from db.
-    return render(req, 'kwue/food.html', {})
-
 def get_eating_preferences(req):
-    user_id = req.GET.dict()['user_id']
+    user_id = req.session['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
     return HttpResponse(json.dumps(ep), content_type='application/json')
@@ -47,7 +45,7 @@ def get_eating_preferences(req):
 @csrf_exempt
 def update_eating_preferences(req):
     ep = req.POST.dict()
-    user_id = ep['user_id']
+    user_id = req.session['user_id']
 
     db_update_user_preferences(user_id, ep)
     db_insert_user_unwanted_ing(user_id, json.loads(ep['unwanted_list']))
@@ -70,8 +68,9 @@ def sign_up(req):
         user_type=new_user_dict["user_type"]
     )
     db_insert_user(user_information_dict)
-    return render(req, 'kwue/food.html', {})
+    return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
+@csrf_exempt
 def login(req):
     # DB den user ın var olup olmadığına dair bilgi gelsin
     # DB bana userın id sini versin ve o id ile session başlasın
@@ -79,19 +78,28 @@ def login(req):
     user_dict = req.POST.dict()
     user_email_address = user_dict['user_email_address']
     user_password = user_dict["user_password"]
-    user_id = user_dict["user_id"]
 
-    if db_validate_user(user_email_address, user_password):
+    user = db_validate_user(user_email_address, user_password)
+
+    if user:
         print("User"+user_email_address+ "exists")
-        req.session['id']= user_id  #SESSION STARTS
+        req.session['user_id']= user.user_id
+        user_type = user.user_type
+        user_id = user.user_id
+        user_name = user.user_name
+        user_image = user.user_image
+        if user_type is False:
+            return render(req, 'kwue/home.html', {'recommendations': suggest(user_id), 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
+        else:
+            return render(req, 'kwue/home.html', {'analysis_report': analyze(user_id), 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
     else:
         print("User does not exists.")
+        return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
-    return render(req, 'kwue/food.html', {})
+def get_login(req):
+    return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
 def logout(req):
-    user_dict = req.POST.dict()
-    user_id = user_dict["user_id"]
-
-    req.session['user_id'] = -1
-    return render (req, 'kwue/home.html', {})
+    foods = db_retrieve_all_foods()
+    req.session['user_id'] = -2
+    return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})

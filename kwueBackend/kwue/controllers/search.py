@@ -6,7 +6,7 @@ from kwue.helper_functions.semantic_tag_helpers import *
 
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
-    user_id = req.GET.dict()['user_id']
+    user_id = req.session['user_id']
     ep = db_retrieve_eating_preferences(user_id)
 
     search_results = search_alg(req.GET.dict(), ep)
@@ -60,7 +60,12 @@ def search_by_parameters(ep, foods):
     foods = carbohydrate_search(ep['carbohydrate_lower_bound'], ep['carbohydrate_upper_bound'], foods)
     foods = calorie_search(ep['calorie_lower_bound'], ep['calorie_upper_bound'], foods)
     foods = sugar_search(ep['sugar_lower_bound'], ep['sugar_upper_bound'], foods)
+    try:
+        foods = rate_search(ep['rate_lower_bound'], ep['rate_upper_bound'], foods)
+    except:
+        pass
     return foods
+
 
 def shortcut_sementic_search(req):
     semantic_tags = get_semantic_tags(req.GET.dict()['search_text'])
@@ -69,3 +74,4 @@ def shortcut_sementic_search(req):
         tag_ids.append(semantic_tag['tag_id'])
     results = db_shortcut_semantic_search(tag_ids)
     return HttpResponse(json.dumps(results), content_type="application/json")
+

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +37,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.Adapters.SimpleNutritionAdapter;
 import com.knowwhatwoueat.kwue.DataModels.ConsumptionItem;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.MonthlyConsumptionGraph;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -53,6 +60,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ArrayList<String> simpleNutritions;
     private ArrayList<String> wholeNutritions;
     private ConsumptionItem consumptionItem;
+    private DataPoint[] mothlyFat;
+    private DataPoint[] mothlySugar;
+    private DataPoint[] mothlyCalorie;
+    private DataPoint[] mothlyProtein;
+    private DataPoint[] mothlyCarbohydrate;
 
     private Toolbar toolbar;
     private ListView simpleNutritionListView;
@@ -60,12 +72,17 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ListView consumptionListView;
     private TextView intervalView;
     private Button showMoreButton;
+    private Button showGraphButton;
+    private GraphView graphView;
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
     private SimpleNutritionAdapter wholeNutritionAdapter;
 
     private AlertDialog alertDialog;
+    private AlertDialog alertDialogGraph;
+
+
 
 
     private String url = Constants.endPoint;
@@ -87,7 +104,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
         consumptionHistory = new ArrayList<>();
-
+        /*mothlyFat = new ArrayList<>();
+        mothlySugar = new ArrayList<>();
+        mothlyCalorie = new ArrayList<>();
+        mothlyProtein = new ArrayList<>();
+        mothlyCarbohydrate = new ArrayList<>();*/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -147,12 +168,91 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         });
 
 
+
+
+
+        final AlertDialog.Builder buildAnother = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
+        buildAnother.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialogGraph.dismiss();
+            }
+        });
+        alertDialogGraph = build.create();
+        View convertViewGraph =  inflater.inflate(R.layout.graph_dialog, null);
+
+        alertDialogGraph.setView(convertViewGraph);
+        alertDialogGraph.setTitle("Monthly Graph");
+        graphView = (GraphView) convertViewGraph.findViewById(R.id.graph);
+
+
+        Spinner dropdownGraphType = (Spinner) this.findViewById(R.id.graph_type);
+        String[] items = new String[]{"calorie","sugar","fat","protein","carbohydrate"};
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,items);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdownGraphType.setAdapter(typeAdapter);
+
+        dropdownGraphType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean firstTimeShown = true;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String type = parent.getItemAtPosition(position).toString();
+                //showAlertDialog(type);
+                if(!firstTimeShown) {
+                    showGraph(type);
+                    alertDialogGraph.show();
+                }else {
+                    firstTimeShown = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
         /*ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
         ListView listView = (ListView) findViewById(R.id.consumptionlist);
 
         listView.setAdapter(adapter);*/
     }
 
+    /*protected void showAlertDialog(String type){
+        if(!firstTimeDrop){
+            alertDialogGraph.show();
+        }
+        }
+    }*/
+
+    protected void showGraph(String type){
+        graphView.removeAllSeries();
+        LineGraphSeries<DataPoint> series;
+        switch (type){
+            case "calorie":
+                series = new LineGraphSeries<>(mothlyCalorie);
+                graphView.addSeries(series);
+                return ;
+            case "protein":
+                series = new LineGraphSeries<>( mothlyProtein);
+                graphView.addSeries(series);
+                return ;
+            case "carbohydrate":
+                series = new LineGraphSeries<>( mothlyCarbohydrate);
+                graphView.addSeries(series);
+                return ;
+            case "fat":
+                series = new LineGraphSeries<>( mothlyFat);
+                graphView.addSeries(series);
+                return ;
+            case "sugar":
+                series = new LineGraphSeries<>((DataPoint[]) mothlySugar);
+                graphView.addSeries(series);
+                return ;
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -219,6 +319,21 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
         consumptionListAdapter.addAll(consumptionItem.getFoods());
+        MonthlyConsumptionGraph[] graphArray = consumptionItem.getGraph_dict();
+        mothlyCalorie = new DataPoint[graphArray.length];
+        mothlyFat = new DataPoint[graphArray.length];
+        mothlyProtein = new DataPoint[graphArray.length];
+        mothlyCarbohydrate = new DataPoint[graphArray.length];
+        mothlySugar = new DataPoint[graphArray.length];
+        for(int i = 0 ; i < graphArray.length;i++){
+            MonthlyConsumptionGraph temp = graphArray[i];
+            mothlyCalorie[i]= (new DataPoint(i +1 ,temp.getCalorie_value()));
+            mothlyCarbohydrate[i]= (new DataPoint(i +1,temp.getCarbohydrate_value()));
+            mothlyFat[i]= (new DataPoint(i +1,temp.getFat_value()));
+            mothlyProtein[i]= (new DataPoint(i +1,temp.getProtein_value()));
+            mothlySugar[i]= (new DataPoint(i +1,temp.getSugar_value()));
+        }
+
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
         simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
         simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");

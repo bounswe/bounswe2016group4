@@ -11,15 +11,41 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.test.utils import setup_test_environment
 
 def userCreate():
-    return User.objects.create_user(username="TestUser", email="testuser@testuser.com", password="123456")
+    return User.objects.create_user(username="TestUser", email="testuser@testuser.com", password="123456",id= 3)
 
 class foodCreate(unittest.TestCase):
 
-    def setUp(self):
-        testuser = userCreate()
-        testuser.id=99
+    def settingUp(self):
+       self.user = userCreate()
+       self.user.is_authenticated = True
+
+    def test_add_food(self):
+        data = {'food_name': 'food1', 'food_id' : 1 , 'food_owner': 'TestUser', 'food_owner_id': 3}
+
+        self.assertEqual(FoodModel.objects.count(), 1)
+        self.assertEqual(FoodModel.objects.get().name, 'food1')
+        self.assertEqual(FoodModel.objects.get().food_id, 1)
+        self.assertEqual(FoodModel.objects.get().food_owner, 'TestUser')
+        self.assertEqual(FoodModel.objects.get().food_owner_id, 3)
 
 
+class foodManupulation(unittest.TestCase)
+
+    def settingUp(self):
+       self.user = userCreate()
+       self.user.is_authenticated = True
+
+     def add_description(self):
+         data = {'food_id':1, 'food_description':'This is a description.'}
+
+         self.assertEqual(FoodModel.objects.count(), 1)
+         self.assertEqual(FoodModel.objects.get().food_id, 1)
+         self.assertEqual(FoodModel.objects.get().food_description, "This is a description.")
+
+    def rate_food(self):
+        data = {'food_rate': 5}
+
+        self.assertEqual(FoodModel.objects.get().food_rate, 5)
 
 
 

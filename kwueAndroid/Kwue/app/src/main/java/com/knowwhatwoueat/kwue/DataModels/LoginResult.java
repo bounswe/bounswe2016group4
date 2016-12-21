@@ -5,13 +5,13 @@ package com.knowwhatwoueat.kwue.DataModels;
  */
 
 public class LoginResult {
-    private int userID;
+    private int user_id;
 
     public int getUserID() {
-        return userID;
+        return user_id;
     }
 
     public void setUserID(int userID) {
-        this.userID = userID;
+        this.user_id = userID;
     }
 }

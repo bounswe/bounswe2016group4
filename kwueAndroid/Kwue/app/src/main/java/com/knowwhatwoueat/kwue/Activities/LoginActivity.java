@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
         Gson gson = new Gson();
 
-        sendSessionRequest();
+
 
         final EditText emailTextbox = (EditText) findViewById(R.id.emailTextbox);
         final EditText passwordTextbox = (EditText) findViewById(R.id.passwordTextbox);
@@ -98,18 +98,22 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
+        sendSessionRequest();
     }
 
     protected void sendLoginHttpRequest() {
 
+<<<<<<< HEAD
         String loginUrl = url + "loginmobile";
+=======
+        String loginUrl = url + "android_login?user_email_address="+email+"&user_password="+password;
+>>>>>>> 08a29bd653ccae6a6fb4951752264dc17a0afde5
         System.out.println(loginUrl);
         System.out.println(email);
         System.out.println(password);
-        //final String semanticsResponse;
+
         Gson gson = new Gson();
-        StringRequest sr = new StringRequest(Request.Method.POST,loginUrl,new Response.Listener<String>() {
+        StringRequest sr = new StringRequest(Request.Method.GET,loginUrl,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("login", "onResponse: success" + response);
@@ -120,26 +124,9 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("response", "That didn't work!");
+                Log.d("response login", "That didn't work!");
             }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("user_email_address",email);
-                params.put("user_password",password);
-
-
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-        };
+        });
         queue.add(sr);
     }
 
@@ -147,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         login = gson.fromJson(response,LoginResult.class);
         userID = login.getUserID();
-
+        Constants.user_id = login.getUserID();
     }
 
 
@@ -155,26 +142,26 @@ public class LoginActivity extends AppCompatActivity {
     protected void sendSessionRequest() {
 
         String sessionUrl = url + "create_session";
-
+        Log.d("session", "sendSessionRequest: " + sessionUrl);
 
         // Request a string response from the provided URL.
-        GsonRequest<SessionResult> gsonRequest = new GsonRequest<>(sessionUrl, SessionResult.class, Request.Method.GET,
-                new Response.Listener<SessionResult>() {
+        StringRequest sr = new StringRequest(Request.Method.GET,sessionUrl,
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(SessionResult response) {
+                    public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: session");
+                        Log.d("responsesession", "onResponse: session   " + response);
 
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("response", "That didn't work!");
+                Log.d("response session", "That didn't work!");
             }
         });
 
         // Add the request to the RequestQueue.
-        queue.add(gsonRequest);
+        queue.add(sr);
     }
 }

@@ -102,14 +102,14 @@ public class BasicSearch extends AppCompatActivity  {
                 if(isUser){
                     if(userId.get(i)!=-1) {
                         j = new Intent(BasicSearch.this, ProfilePageActivity.class);
-                        System.out.println(userId.get(i));
+                        System.out.println(userId.get(i)+"userIDDDD");
                         j.putExtra("isUser", userId.get(i));
                         startActivity(j);
                     }
                 }else{
                     if(foodId.get(i)!=-1) {
                         j = new Intent(BasicSearch.this, FoodProfile.class);
-                        System.out.println(foodId.get(i));
+                        System.out.println(foodId.get(i)+"foodIddd");
                         j.putExtra("isFood", foodId.get(i));
                         startActivity(j);
                     }

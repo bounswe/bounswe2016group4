@@ -12,12 +12,79 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.knowwhatwoueat.kwue.Activities.ProfilePageActivity">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_info"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:id="@+id/user_email_address"
+            android:layout_below="@+id/user_name"
+            android:layout_alignParentEnd="true" />
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textSize="30sp"
+            android:id="@+id/user_name"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+
+        <Button
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/user_email_address"
+            android:id="@+id/add_food_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:background="@android:color/darker_gray"
+            android:text="Add Food"/>
+
+        <ImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
 
     <RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:id="@+id/user_tag"
+        android:layout_below="@+id/user_info"
+        >
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20sp"
+            android:text="User Tags"
+            android:id="@+id/user_tags_title"/>
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_tags_title"
+            android:id="@+id/tags_list"
+            android:numColumns="2"
+            >
+        </GridView>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
     android:id="@+id/recent_consumptions"
-    android:layout_below="@+id/user_info"
+    android:layout_below="@+id/user_tag"
     >
 
     <Spinner
@@ -91,46 +158,4 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_info"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:id="@+id/user_email_address"
-            android:layout_below="@+id/user_name"
-            android:layout_alignParentEnd="true" />
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:textSize="30sp"
-            android:id="@+id/user_name"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-
-
-        <Button
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/user_email_address"
-            android:id="@+id/add_food_button"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:background="@android:color/darker_gray"
-            android:text="Add Food"/>
-
-        <ImageView
-            android:id="@+id/user_profile_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
-
-
-    </RelativeLayout>
 </RelativeLayout>

@@ -409,13 +409,15 @@ public class AdvancedSearch extends AppCompatActivity {
 
                 for (int i = 0; i < lengthOfwanted; i++) {
                     String x = wanted_List[i];
-                    jsonwanted[i] = "{\"name\":\"" + x + "\"}";
+                   // jsonwanted[i] = "{\"name\":\"" + x + "\"}";
+                    jsonwanted[i] = "\"" + x + "\"";
                     //System.out.println(jsonwanted[i]);
                 }
 
                 for (int i = 0; i < lengthOfunwanted; i++) {
                     String x = unwanted_list[i];
-                    jsonunwanted[i] = "{\"name\":\"" + x + "\"}";
+                    //jsonunwanted[i] = "{\"name\":\"" + x + "\"}";
+                    jsonunwanted[i] = "\""+ x + "\"";
                     //System.out.println(jsonunwanted[i]);
                 }
 
@@ -429,6 +431,7 @@ public class AdvancedSearch extends AppCompatActivity {
 
                 for (int i = 0; i < jsonwanted.length; i++) {
                     String x = jsonwanted[i];
+
                     searchQuery += x;
                     if (i != jsonwanted.length - 1) {
                         searchQuery += ",";

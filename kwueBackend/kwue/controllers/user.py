@@ -85,6 +85,7 @@ def signup_page(req):
 
 
 
+
 @csrf_exempt
 def login(req):
     # DB den user ın var olup olmadığına dair bilgi gelsin

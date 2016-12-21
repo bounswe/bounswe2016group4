@@ -41,6 +41,7 @@ def update_diet_page(req):
 
 
 def get_eating_preferences(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:
@@ -53,6 +54,7 @@ def get_eating_preferences(req):
 
 @csrf_exempt
 def update_eating_preferences(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:

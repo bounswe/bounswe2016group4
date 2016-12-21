@@ -44,6 +44,7 @@ def get_food_page(req):
 
 @csrf_exempt
 def add_food(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:
@@ -139,6 +140,7 @@ def rate_food(req):
 
 @csrf_exempt
 def comment_food(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:

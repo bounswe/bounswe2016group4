@@ -61,6 +61,7 @@ def get_monthly_graph_on_daily_basis(user_id):
     return nutr_val_dicts
 
 def get_consumption_history(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:
@@ -166,6 +167,7 @@ def get_consumption_history(req):
 
 @csrf_exempt
 def mark_as_eaten(req):
+    user_id = 0
     if req.session.has_key('user_id'):
         user_id = req.session['user_id']
     else:

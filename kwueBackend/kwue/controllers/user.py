@@ -1,5 +1,6 @@
 from kwue.DB_functions.tag_db_functions import *
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import requires_csrf_token
 from kwue.controllers.home import *
 
 
@@ -131,3 +132,25 @@ def logout(req):
     return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})
 
 
+@csrf_exempt
+@requires_csrf_token
+def android_login(req):
+    user_dict = req.GET.dict()
+    user_email_address = user_dict['user_email_address']
+    user_password = user_dict["user_password"]
+
+    user = db_validate_user(user_email_address, user_password)
+
+    if user:
+        req.session['user_id'] = user.user_id
+        return HttpResponse(json.dumps({'user_id': user.user_id}), content_type='application/json')
+    else:
+        req.session['user_id'] = -2
+        return HttpResponse(json.dumps({'user_id': -2}), content_type='application/json')
+
+
+@csrf_exempt
+@requires_csrf_token
+def android_logout(req):
+    req.session['user_id'] = -2
+    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')

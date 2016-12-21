@@ -207,3 +207,10 @@ def analyze(user_id, setting='monthly'):
         last_comments=last_comments,
     )
     return analysis_report
+
+
+def create_session(req):
+    if req.session.has_key('user_id') is False:
+        req.session['user_id'] = -2
+
+    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')

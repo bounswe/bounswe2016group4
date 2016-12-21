@@ -1,0 +1,67 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-slider.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+    <script src="{% static 'js/update_page.js' %}"></script>
+    <title>KWUE</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+
+        {% include 'kwue/navigation_bar.html' %}
+
+        <div class="row">
+            <div id="update-diet">
+                <form action="update_eating_preferences" method="post" id="update-diet-form">
+                    <div class="">
+                        <span class="">Protein Amount</span>
+                        <input type="text" class="slider slider-horizontal form-control" name="new-protein-bound" id="new-protein-slider" data-slider-min="0" data-slider-max="3000">
+                        <span class="" id="new-protein-amount"></span>
+                    </div>
+                    <div class="">
+                        <span class="">Fat Amount</span>
+                        <input type="text" class="slider slider-horizontal form-control" name="new-fat-bound" id="new-fat-slider" data-slider-min="0" data-slider-max="3000">
+                        <span class="" id="new-fat-amount"></span>
+                    </div>
+                    <div class="">
+                        <span class="">Carbohydrate Amount</span>
+                        <input type="text" class="slider slider-horizontal form-control" name="new-carbohydrate-bound" id="new-carbohydrate-slider" data-slider-min="0" data-slider-max="3000">
+                        <span class="" id="new-carbo-amount"></span>
+                    </div>
+                    <div class="">
+                        <span class="">Calorie</span>
+                        <input type="text" class="slider slider-horizontal form-control" name="new-calorie-bound" id="new-calorie-slider" data-slider-min="0" data-slider-max="3000">
+                        <span class="" id="new-cal-amount"></span>
+                    </div>
+                    <div class="">
+                        <span class="">Sugar Amount</span>
+                        <input type="text" class="slider slider-horizontal form-control" name="new-sugar-bound" id="new-sugar-slider" data-slider-min="0" data-slider-max="3000">
+                        <span class="" id="new-sugar-amount"></span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Wanted List</span>
+                        <input type="text" class="form-control" id="new-wanted">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Unwanted List</span>
+                        <input type="text" class="form-control" id="new-unwanted">
+                    </div>
+                    <a href="#" class="btn btn-info" id="submit-diet">Submit</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

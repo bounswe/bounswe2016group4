@@ -64,7 +64,7 @@ def db_update_user_preferences(user_id, user_dict):
         user.update(
             fat_lower_bound=user_dict["fat_lower_bound"],
             protein_lower_bound=user_dict["protein_lower_bound"],
-            carbohydrate_lower_bound=user_dict[""],
+            carbohydrate_lower_bound=user_dict["carbohydrate_lower_bound"],
             calorie_lower_bound=user_dict["calorie_lower_bound"],
             sugar_lower_bound=user_dict["sugar_lower_bound"],
             protein_upper_bound=user_dict["protein_upper_bound"],

@@ -11,7 +11,7 @@
           {% endif %}
           {% if user_name == 'Guest' %}
               <li role="presentation"><a href="{% url 'login' %}" id="login">Login</a></li>
-              <li role="presentation"><a href="{% url 'signup' %}" id="login">Signup</a></li>
+              <li role="presentation"><a href="{% url 'signup' %}" id="signup">Signup</a></li>
           {% else %}
               <li role="presentation"><a href="{% url 'logout' %}" id="logout">Logout</a></li>
           {% endif %}

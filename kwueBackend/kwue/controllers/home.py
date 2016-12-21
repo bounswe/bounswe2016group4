@@ -9,6 +9,8 @@ from kwue.models.models import *
 from datetime import datetime
 import time
 from collections import Counter
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import requires_csrf_token
 
 
 def get_home(req):
@@ -209,6 +211,8 @@ def analyze(user_id, setting='monthly'):
     return analysis_report
 
 
+@csrf_exempt
+@requires_csrf_token
 def create_session(req):
     if req.session.has_key('user_id') is False:
         req.session['user_id'] = -2

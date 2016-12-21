@@ -22,6 +22,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
+import com.knowwhatwoueat.kwue.DataModels.LoginResult;
+import com.knowwhatwoueat.kwue.DataModels.Nutrition;
 import com.knowwhatwoueat.kwue.DataModels.SessionResult;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -35,18 +37,22 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
     private int userID;
+    private LoginResult login;
 
     private RequestQueue queue;
     String url = Constants.endPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sendSessionRequest();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         queue = Volley.newRequestQueue(this);
         Gson gson = new Gson();
+
+        sendSessionRequest();
 
         final EditText emailTextbox = (EditText) findViewById(R.id.emailTextbox);
         final EditText passwordTextbox = (EditText) findViewById(R.id.passwordTextbox);
@@ -98,7 +104,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void sendLoginHttpRequest() {
 
         String loginUrl = url + "login_mobile";
-        final String semanticsResponse;
+        System.out.println(loginUrl);
+        System.out.println(email);
+        System.out.println(password);
+        //final String semanticsResponse;
         Gson gson = new Gson();
         StringRequest sr = new StringRequest(Request.Method.POST,loginUrl,new Response.Listener<String>() {
             @Override
@@ -111,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d("response", "That didn't work!");
             }
         }){
             @Override
@@ -135,10 +144,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void assingUserID(String response){
-
-        userID = Integer.parseInt(response);
+        Gson gson = new Gson();
+        login = gson.fromJson(response,LoginResult.class);
+        userID = login.getUserID();
 
     }
+
 
 
     protected void sendSessionRequest() {
@@ -152,18 +163,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(SessionResult response) {
                         // Display the first 500 characters of the response string.
-                        Log.d("response", "onResponse: in");
+                        Log.d("response", "onResponse: session");
 
-                        /*
-                        Intent i = new Intent(BasicSearch.this, SearchResult.class);
-
-                        i.putExtra("FoodSet", food_set);
-                        i.putExtra("SemanticFoodSet", semantic_food_set);
-                        i.putExtra("UserSet",user_set);
-                        i.putExtra("SemanticUserSet",semantic_user_set);
-
-                        startActivity(i);
-                        */
                     }
 
                 }, new Response.ErrorListener() {

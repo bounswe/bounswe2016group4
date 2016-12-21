@@ -460,7 +460,7 @@ urlpatterns = (
     url(r'^create_session', home.create_session),
 
    ### REQUEST
-   # POST
+   # GET
    # 'user_email_address'
    # 'user_password'
    #

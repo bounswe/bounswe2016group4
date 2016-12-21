@@ -78,10 +78,10 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
 
                     Log.d("login", "onClick: clicked");
-                    sendLoginHttpRequest();
+                    //sendLoginHttpRequest();
 
                     Intent i = new Intent(LoginActivity.this, ProfilePageActivity.class);
-                    i.putExtra("userId", userID);
+                    //i.putExtra("userId", "1");
                     //i.putExtra("PasswordTextView", password);
                     startActivity(i);
 

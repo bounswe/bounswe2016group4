@@ -55,6 +55,7 @@ def update_eating_preferences(req):
     db_insert_user_wanted_ing(user_id, json.loads(ep['wanted_list']))
 
 
+@csrf_exempt
 def sign_up(req):
     #DB ye user kaydedilsin
 
@@ -73,6 +74,11 @@ def sign_up(req):
     )
     db_insert_user(user_information_dict)
     return render(req, 'kwue/login.html', {'user_name': 'Guest'})
+
+
+def signup_page(req):
+    return render(req, 'kwue/signup.html', {'user_name': 'Guest'})
+
 
 
 @csrf_exempt

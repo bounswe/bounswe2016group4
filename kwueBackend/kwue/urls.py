@@ -427,6 +427,31 @@ urlpatterns = (
     url(r'^logout', user.logout, name='logout'),
 
     ### REQUEST
+    #
+    # empty
+    #
+    ### RESPONSE
+    #
+    # renders signup page
+    #
+    url(r'^signup', user.signup_page, name='signup'),
+
+
+    ### REQUEST
+    # POST
+    # 'user_name'
+    # 'user_nick'
+    # 'user_email_address'
+    # 'user_password'
+    # 'user_image'
+    # 'user_type'
+    ### RESPONSE
+    #
+    # renders home page
+    #
+    url(r'^sign_request', user.sign_up),
+
+    ### REQUEST
     # POST
     # 'user_email_address'
     # 'user_password'

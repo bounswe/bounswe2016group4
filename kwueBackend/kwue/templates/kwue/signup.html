@@ -1,0 +1,62 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-slider.js' %}"></script>
+    <title>KWUE</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Know What You Eat</h2>
+            </div>
+        </div>
+
+        {% include 'kwue/navigation_bar.html' %}
+
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/sign_request" method="post">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="name_field">Name: </label>
+                        <input type="text" class="form-control" name="user_name" id="name_field" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="name_field">Nick: </label>
+                        <input type="text" class="form-control" name="user_nick" id="nick_field" placeholder="Enter your nick">
+                    </div>
+                    <div class="form-group">
+                        <label for="email_field">Email: </label>
+                        <input type="email" class="form-control" name="user_email_address" id="email_field" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="pass_field">Password: </label>
+                        <input type="password" class="form-control" name="user_password" id="pass_field" placeholder="Enter your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="image_field">Profile Picture: </label>
+                        <input type="text" class="form-control" name="user_image" id="image_field" placeholder="Enter url of the image">
+                    </div>
+                    <div class="form-group">
+                        <label for="image_field">User</label>
+                        <input type="radio" class="form-control" name="user_type" id="type_field" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="image_field">Food Server</label>
+                        <input type="radio" class="form-control" name="user_type" id="type_field" value="1">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default form-control" name="logbutton">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

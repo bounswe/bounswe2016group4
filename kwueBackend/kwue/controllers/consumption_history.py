@@ -33,19 +33,20 @@ def get_monthly_graph_on_daily_basis(user_id):
     nutr_val_dicts = []
 
     end_timestamp_date = start_timestamp_date + 86400
+    day_number = -1
     for i in range(1, 31):
         daily_cons_hist = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
         end_timestamp_date += 86400
         start_timestamp_date += 86400
+        day_number += 1
         nutr_val_dict = {
-            'day_number': 0,
+            'day_number': day_number,
             'protein_value': 0,
             'fat_value': 0,
             'carbohydrate_value': 0,
             'calorie_value': 0,
             'sugar_value': 0,
         }
-        nutr_val_dict['day_number'] += 1
         for dict in daily_cons_hist:
             food = dict['food']
             nutr_val_dict['protein_value'] += food.protein_value

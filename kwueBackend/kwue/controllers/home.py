@@ -14,7 +14,9 @@ from collections import Counter
 def create_session(req):
     if req.session.has_key('user_id') is False:
         req.session['user_id'] = -2
+
     return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
+
 
 def get_home(req):
     food = db_retrieve_all_foods()

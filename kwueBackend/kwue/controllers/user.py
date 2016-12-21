@@ -123,8 +123,8 @@ def logout(req):
 
 
 @csrf_exempt
-def moblog(req):
-    user_dict = req.POST.dict()
+def android_login(req):
+    user_dict = req.GET.dict()
     user_email_address = user_dict['user_email_address']
     user_password = user_dict["user_password"]
 
@@ -138,7 +138,7 @@ def moblog(req):
         return HttpResponse(json.dumps({'user_id': -2}), content_type='application/json')
 
 
-def logoutm(req):
+def android_logout(req):
     req.session['user_id'] = -2
     return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
 

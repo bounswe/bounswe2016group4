@@ -52,6 +52,9 @@ def update_eating_preferences(req):
     user_id = req.session['user_id']
 
     db_update_user_preferences(user_id, ep)
+    user = db_retrieve_user(user_id)
+    user.unwanted_ingredients.clear()
+    user.wanted_ingredients.clear()
     db_insert_user_unwanted_ing(user_id, json.loads(ep['unwanted_list']))
     db_insert_user_wanted_ing(user_id, json.loads(ep['wanted_list']))
     return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')

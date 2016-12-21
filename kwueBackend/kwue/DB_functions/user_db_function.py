@@ -83,15 +83,17 @@ def db_insert_user_unwanted_ing(user_id,ing_name_list):
     for ing_name in ing_name_list:
         try:
             ing = db_retrieve_ingredient(ing_name)
+            if ing is False:
+                ing = db_insert_ingredient(ing_name)
             user.unwanted_ingredients.add(ing)
-            return True
         except:
             try:
                 new_ing = db_insert_ingredient(ing_name)
                 user.unwanted_ingredients.add(new_ing)
-                return True
             except:
-                return False
+                pass
+
+    return True
 
 
 def db_insert_user_wanted_ing(user_id,ing_name_list):
@@ -100,15 +102,16 @@ def db_insert_user_wanted_ing(user_id,ing_name_list):
         try:
             ing = db_retrieve_ingredient(ing_name)
             user.wanted_ingredients.add(ing)
-            return True
+            if ing is False:
+                ing = db_insert_ingredient(ing_name)
+            user.wanted_ingredients.add(ing)
         except:
             try:
                 new_ing = db_insert_ingredient(ing_name)
                 user.wanted_ingredients.add(new_ing)
-                return True
             except:
-                return False
-
+                pass
+    return True
 
 def db_update_user_profile(user_id, user_dict):
     user = UserModel.objects.filter(user_id=user_id)

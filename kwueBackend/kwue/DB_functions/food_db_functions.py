@@ -108,6 +108,7 @@ def db_rate_food(food_id, rate_value):
         total = rate * count + int(rate_value)
         count += 1
         rate = total / count
+        food = FoodModel.objects.filter(food_id=food_id)
         food.update(food_rate=rate, food_rate_count=count)
         return rate
     except:

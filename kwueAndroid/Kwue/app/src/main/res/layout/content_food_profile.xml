@@ -46,6 +46,23 @@
                     android:height="5dp"
                     android:background="@color/colorPrimaryDark"
                     android:text="Eaten" />
+                <Button
+                    android:id="@+id/commentFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="70dp"
+                    android:height="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Comment" />
+                <Button
+                    android:id="@+id/rateFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="70dp"
+                    android:height="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Rate" />
+
 
             </LinearLayout>
 

@@ -296,7 +296,8 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
     private void sendConsumptionRequest(){
-        String semanticUrl = url +"get_consumption_history?user_id=" + Constants.user_id + "&setting=" + interval;
+        int user_id = Constants.getInstance().getUser_id();
+        String semanticUrl = url +"get_consumption_history?user_id=" + user_id + "&setting=" + interval;
 
         StringRequest gsonRequest = new StringRequest(Request.Method.GET,semanticUrl,
                 new Response.Listener<String>() {

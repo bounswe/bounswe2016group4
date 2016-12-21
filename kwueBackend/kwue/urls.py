@@ -231,6 +231,15 @@ urlpatterns = (
 
     ### REQUEST
     # GET
+    # empty
+    ### RESPONSE
+    #
+    # renders update eating preference page
+    #
+    url(r'update_diet_page', user.update_diet_page),
+
+    ### REQUEST
+    # GET
     # 'tag_name'
     ### RESPONSE
     # Array of semantic tags

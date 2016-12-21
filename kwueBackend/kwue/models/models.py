@@ -152,6 +152,8 @@ class ConsumptionHistory(models.Model):
         if self.date is 0:
             self.date = time.time() + 60*60*3;
             super().save(self)
+        else:
+            super().save(self)
 
     def __str__(self):
         return show_date(self.date)
@@ -167,6 +169,8 @@ class SimpleComment(models.Model):
     def save(self):
         if self.date is 0:
             self.date = time.time() + 60*60*3;
+            super().save(self)
+        else:
             super().save(self)
 
     def __str__(self):

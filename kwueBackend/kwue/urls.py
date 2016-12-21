@@ -457,8 +457,7 @@ urlpatterns = (
     #
     # 'is_success
     #
-      url(r'^create_session', home.create_session),
-    -
+    url(r'^create_session', home.create_session),
 
    ### REQUEST
    # POST
@@ -469,7 +468,7 @@ urlpatterns = (
    #
    # 'user_id'
    #
-   url(r'^android_login', user.android_login),
+    url(r'^android_login', user.android_login),
 
    ### REQUEST
    # GET
@@ -479,6 +478,6 @@ urlpatterns = (
    #
    # 'is_success'
    #
-   url(r'^android_logout', user.android_logout),
+    url(r'^android_logout', user.android_logout),
 )
 

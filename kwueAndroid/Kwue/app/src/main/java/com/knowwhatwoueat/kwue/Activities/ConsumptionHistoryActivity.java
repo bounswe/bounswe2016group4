@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.Adapters.SimpleNutritionAdapter;
 import com.knowwhatwoueat.kwue.DataModels.ConsumptionItem;
@@ -60,12 +65,14 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ListView consumptionListView;
     private TextView intervalView;
     private Button showMoreButton;
+    private Button showGraphButton;
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
     private SimpleNutritionAdapter wholeNutritionAdapter;
 
     private AlertDialog alertDialog;
+    private AlertDialog alertDialogGraph;
 
 
     private String url = Constants.endPoint;
@@ -147,11 +154,66 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         });
 
 
+
+
+
+        final AlertDialog.Builder buildAnother = new AlertDialog.Builder(ConsumptionHistoryActivity.this);
+        buildAnother.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialogGraph.dismiss();
+            }
+        });
+        alertDialogGraph = build.create();
+        View convertViewGraph =  inflater.inflate(R.layout.graph_dialog, null);
+
+        alertDialogGraph.setView(convertViewGraph);
+        alertDialogGraph.setTitle("Daily Graph");
+        GraphView graph = (GraphView) convertViewGraph.findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3)
+        });
+        graph.addSeries(series);
+        Spinner dropdownGraphType = (Spinner) this.findViewById(R.id.graph_type);
+        String[] items = new String[]{"calorie","sugar","fat","protein"};
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,items);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdownGraphType.setAdapter(typeAdapter);
+
+        dropdownGraphType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean firstTimeShown = true;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String type = parent.getItemAtPosition(position).toString();
+                //showAlertDialog(type);
+                if(!firstTimeShown)
+                    alertDialogGraph.show();
+                else
+                    firstTimeShown = false;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
         /*ListAdapter adapter = new ConsumptionListAdapter(this,consumptionHistory);
         ListView listView = (ListView) findViewById(R.id.consumptionlist);
 
         listView.setAdapter(adapter);*/
     }
+
+    /*protected void showAlertDialog(String type){
+        if(!firstTimeDrop){
+            alertDialogGraph.show();
+        }
+        }
+    }*/
 
     @Override
     protected void onStart() {

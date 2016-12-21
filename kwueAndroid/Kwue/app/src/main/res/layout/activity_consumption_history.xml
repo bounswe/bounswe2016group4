@@ -32,7 +32,7 @@
 
 
             android:layout_width="wrap_content"
-            android:layout_height="400dp">
+            android:layout_height="360dp">
             <include layout="@layout/content_consumption_history" />
         </LinearLayout>
 
@@ -57,6 +57,14 @@
                     android:layout_height="30dp"
                     android:background="@android:color/transparent"
                     android:drawableBottom="@android:drawable/ic_menu_more"/>
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/graph_type"
+                    android:spinnerMode="dropdown">
+
+                </Spinner>
+
             </LinearLayout>
             <ListView
                 android:id="@+id/simpleNutritionList"

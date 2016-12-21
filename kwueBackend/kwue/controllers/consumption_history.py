@@ -60,11 +60,15 @@ def get_monthly_graph_on_daily_basis(user_id):
     return nutr_val_dicts
 
 def get_consumption_history(req):
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
+
     end_timestamp_date = time.time() + 60*60*3;
     setting = req.GET.dict()['setting']
     start_timestamp_date = get_start_timestamp_date(end_timestamp_date, setting)
 
-    user_id = req.session['user_id']
     results = db_search_consumption_records(start_timestamp_date, end_timestamp_date, user_id)
 
     foods = []

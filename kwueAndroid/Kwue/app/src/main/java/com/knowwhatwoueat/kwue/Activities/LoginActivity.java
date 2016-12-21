@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void sendLoginHttpRequest() {
 
-        String loginUrl = url + "login_mobile";
+        String loginUrl = url + "loginmobile";
         System.out.println(loginUrl);
         System.out.println(email);
         System.out.println(password);

@@ -123,7 +123,7 @@ def logout(req):
     return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})
 
 
-@csrf_exempt
+
 def android_login(req):
     user_dict = req.GET.dict()
     user_email_address = user_dict['user_email_address']

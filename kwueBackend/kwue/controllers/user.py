@@ -1,7 +1,7 @@
-from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
 from django.views.decorators.csrf import csrf_exempt
 from kwue.controllers.home import *
+
 
 def get_user(req):
 
@@ -15,6 +15,7 @@ def get_user(req):
     user_dict['tag_list'] = tag_list
     user_dict['foods'] = db_get_user_foods(user_id)
     return HttpResponse(json.dumps(user_dict), content_type='application/json')
+
 
 def get_user_profile_page(req):
 
@@ -32,8 +33,10 @@ def get_user_profile_page(req):
 
     return render(req, 'kwue/user_profile_page.html', user_dict)
 
+
 def update_profile(req):
     return render(req, 'kwue/food.html', {})
+
 
 def get_eating_preferences(req):
     user_id = req.session['user_id']
@@ -51,6 +54,8 @@ def update_eating_preferences(req):
     db_insert_user_unwanted_ing(user_id, json.loads(ep['unwanted_list']))
     db_insert_user_wanted_ing(user_id, json.loads(ep['wanted_list']))
 
+
+@csrf_exempt
 def sign_up(req):
     #DB ye user kaydedilsin
 
@@ -69,6 +74,12 @@ def sign_up(req):
     )
     db_insert_user(user_information_dict)
     return render(req, 'kwue/login.html', {'user_name': 'Guest'})
+
+
+def signup_page(req):
+    return render(req, 'kwue/signup.html', {'user_name': 'Guest'})
+
+
 
 @csrf_exempt
 def login(req):
@@ -96,10 +107,34 @@ def login(req):
         print("User does not exists.")
         return render(req, 'kwue/login.html', {'user_name': 'Guest'})
 
+
 def get_login(req):
     return render(req, 'kwue/login.html', {'user_name': 'Guest'})
+
 
 def logout(req):
     foods = db_retrieve_all_foods()
     req.session['user_id'] = -2
     return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})
+
+
+@csrf_exempt
+def login_mobile(req):
+    user_dict = req.POST.dict()
+    user_email_address = user_dict['user_email_address']
+    user_password = user_dict["user_password"]
+
+    user = db_validate_user(user_email_address, user_password)
+
+    if user:
+        req.session['user_id'] = user.user_id
+        return HttpResponse(json.dumps({'user_id': user.user_id}), content_type='application/json')
+    else:
+        req.session['user_id'] = -2
+        return HttpResponse(json.dumps({'user_id': -2}), content_type='application/json')
+
+
+def logout_mobile(req):
+    req.session['user_id'] = -2
+    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
+

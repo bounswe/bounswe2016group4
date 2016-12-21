@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from kwue.DB_functions.food_db_functions import *
 from kwue.DB_functions.consumption_history_db_functions import db_search_consumption_foods
 from kwue.DB_functions.search_db_function import *
@@ -9,6 +10,11 @@ from datetime import datetime
 import time
 from collections import Counter
 
+
+def create_session(req):
+    if req.session.has_key('user_id') is False:
+        req.session['user_id'] = -2
+    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
 
 def get_home(req):
     food = db_retrieve_all_foods()
@@ -113,6 +119,8 @@ def suggest(user_id):
             food_id=food.food_id,
             food_image=food.food_image,
             food_rate=food.food_rate,
+            food_description = food.food_description,
+            food_owner = food.food_owner,
             calorie_value=food.calorie_value
         )
         suggested_foods.append(food_dict)
@@ -154,7 +162,8 @@ def analyze(user_id, setting='monthly'):
        food_dict = dict(
            food_id=food.food_id,
            food_name=food.food_name,
-           food_image=food.food_image
+           food_image=food.food_image,
+           food_rate=food.food_rate
        )
        most_commented_food.append(food_dict)
 
@@ -163,7 +172,8 @@ def analyze(user_id, setting='monthly'):
         food_dict = dict(
             food_id=food.food_id,
             food_name=food.food_name,
-            food_image=food.food_image
+            food_image=food.food_image,
+            food_rate=food.food_rate
         )
         most_consumed_food.append(food_dict)
 

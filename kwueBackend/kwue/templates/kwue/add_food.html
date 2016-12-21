@@ -38,6 +38,10 @@
                     <input type="text" class="form-control" id="food_image" name="food_image">
                   </div>
                   <div class="form-group">
+                    <label for="number_of_servings">Number of servings:</label>
+                    <input type="text" class="form-control" id="number_of_servings" name="number_of_servings">
+                  </div>
+                  <div class="form-group">
                     <input type="hidden" class="form-control" id="food_owner" name="food_owner" value="1">
                   </div>
                 </form>
@@ -76,6 +80,21 @@
                     <input type="text" class="form-control" id="ingredient-1" value="" placeholder="Ingredient name">
                 </div>
                 <a class="btn btn-success" id="ingredient-add"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <a class="btn btn-primary" id="calc-nutr">Calculate Nutritional Information</a>
+                </div>
+                <div class="row">
+                    <div class="panel panel-info">
+                        <div class="panel panel-heading">
+                        Nutrition Information
+                        </div>
+                        <div class="panel panel-body" id="nutrition-values">
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         {% include 'kwue/search_result_template.html' %}

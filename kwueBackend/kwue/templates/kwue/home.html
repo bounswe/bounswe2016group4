@@ -66,7 +66,8 @@
                         <div class="panel-body" style="overflow: auto; height: 400px;">
                             {% for food in analysis_report.high_rated_foods %}
                                 <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
-                                    <p>name: {{ food.food_name }}</p>
+                                    <p>{{ food.food_name }}</p>
+                                    <p>Rate: {{ food.food_rate}}</p>
                                     <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
                                 </a>
                             {% endfor %}
@@ -81,7 +82,8 @@
                         <div class="panel-body" style="overflow: auto; height: 168px;">
                             {% for food in analysis_report.most_consumed_foods %}
                                 <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
-                                    <p>name: {{ food.food_name }}</p>
+                                    <p>{{ food.food_name }}</p>
+                                    <p>Rate: {{ food.food_rate}}</p>
                                     <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
                                 </a>
                             {% endfor %}
@@ -94,7 +96,8 @@
                         <div class="panel-body" style="overflow: auto; height: 168px;">
                             {% for food in analysis_report.most_commented_foods %}
                                 <a href="food_page?food_id={{ food.food_id }}" class="list-group-item">
-                                    <p>name: {{ food.food_name }}</p>
+                                    <p>{{ food.food_name }}</p>
+                                    <p>Rate: {{ food.food_rate}}</p>
                                     <img src=" {{ food.food_image }}" style="width: 100px; height: auto">
                                 </a>
                             {% endfor %}

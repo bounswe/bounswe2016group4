@@ -3,6 +3,22 @@
  */
 $(document).ready(function () {
 
+    $('#star-rating').rating(function(vote, event){
+
+        var food_id = $("#mark-as-eaten").data('foodid');
+        $.ajax({
+            url: "rate_food",
+            method: 'post',
+            data: {
+                food_id: food_id,
+                rate_value: vote
+            },
+            success: function (r) {
+                console.log(r);
+            }
+        });
+    });
+
     $("#search-tags").click(function () {
         var tag_name = $("#sem-tags").val();
         $("#tag-result-panel").show();

@@ -9,6 +9,16 @@ from kwue.controllers import consumption_history
 urlpatterns = (
 
     ### REQUEST
+    #
+    #   empty
+    #
+    ### RESPONSE
+    #
+    #   'is_success
+    #
+    url(r'^create_session', home.create_session),
+
+    ### REQUEST
     # POST
     # 'tagged_user_id'
     # 'tag_name'
@@ -396,7 +406,9 @@ urlpatterns = (
 
 
     ### REQUEST
-    #
+    # POST
+    # 'user_email_address'
+    # 'user_password'
     #
     ### RESPONSE
     #
@@ -413,4 +425,52 @@ urlpatterns = (
     #
     ## DISCLAIMER: THIS METHOD MAY BE CHANGED. JUST FOR TEST FOR NOW.
     url(r'^logout', user.logout, name='logout'),
+
+    ### REQUEST
+    #
+    # empty
+    #
+    ### RESPONSE
+    #
+    # renders signup page
+    #
+    url(r'^signup', user.signup_page, name='signup'),
+
+
+    ### REQUEST
+    # POST
+    # 'user_name'
+    # 'user_nick'
+    # 'user_email_address'
+    # 'user_password'
+    # 'user_image'
+    # 'user_type'
+    ### RESPONSE
+    #
+    # renders home page
+    #
+    url(r'^sign_request', user.sign_up),
+
+    ### REQUEST
+    # POST
+    # 'user_email_address'
+    # 'user_password'
+    #
+    ### RESPONSE
+    #
+    # 'user_id'
+    #
+    url(r'^login_mobile', user.login_mobile),
+
+    ### REQUEST
+    # GET
+    # empty
+    #
+    ### RESPONSE
+    #
+    # 'is_success'
+    #
+    url(r'^logout_mobile', user.logout_mobile),
+
 )
+

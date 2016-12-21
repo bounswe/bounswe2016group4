@@ -105,7 +105,7 @@ def db_rate_food(food_id, rate_value):
         food = FoodModel.objects.get(food_id=food_id)
         rate = food.food_rate
         count = food.food_rate_count
-        total = rate * count + rate_value
+        total = rate * count + int(rate_value)
         count += 1
         rate = total / count
         food.update(food_rate=rate, food_rate_count=count)

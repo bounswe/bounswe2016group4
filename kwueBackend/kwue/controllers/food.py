@@ -104,7 +104,7 @@ def get_nutritional_values(req):
     for ingredient in ingredients:
         food_recipe += ingredient["value"] + " " + ingredient["ingredient"] + "\n"
     nutrition_dict = request_nutrition(food_recipe)
-    return HttpResponse(json.dumps(nutrition_dict))
+    return HttpResponse(json.dumps(nutrition_dict), content_type='application/json')
 
 
 # def remove_food(req):
@@ -117,6 +117,7 @@ def get_nutritional_values(req):
 #         reason = 'Removing food failed.'
 #     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
+@csrf_exempt
 def rate_food(req):
     rate_dict = req.POST.dict()
     is_success = False
@@ -127,15 +128,18 @@ def rate_food(req):
         reason = 'Rating food failed.'
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
+
+@csrf_exempt
 def comment_food(req):
     comment_dict = req.POST.dict()
     is_success = False
     reason = ""
-    if db_comment_food(comment_dict['food_id'], comment_dict['user_id'], comment_dict['comment_text']):
+    if db_comment_food(comment_dict['food_id'], req.session['user_id'], comment_dict['comment_text']):
         is_success = True
     else:
         reason = 'Commenting food failed.'
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
+
 
 def update_food(req):
     return render(req, 'kwue/food.html', {})

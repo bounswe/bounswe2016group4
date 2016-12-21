@@ -2,6 +2,65 @@
  * Created by alper on 09/11/2016.
  */
 $(document).ready(function(){
+
+    $("#calc-nutr").click(function () {
+
+        var ings = [];
+        $(".ing-group").each(function () {
+            var fieldName = $(this).children("#ingredient-1").val();
+            var fieldValue = $(this).children("#ingredient-1-val").val();
+            var temp = {'ingredient': fieldName, 'value': fieldValue};
+            ings.push(temp);
+        });
+
+        $.ajax({
+            url: 'get_nutritional_values',
+            method: 'post',
+            data: {
+                ingredients: JSON.stringify(ings)
+            },
+            success: function (nutritions) {
+                var html_nutritions = "";
+                html_nutritions = html_nutritions + "<p><strong>Carbohydrate: </strong>"+ nutritions['carbohydrate_value'] +" g</p>";
+                html_nutritions = html_nutritions + "<p><strong>Sugar: </strong>"+ nutritions['sugar_value'] +" g</p>";
+                html_nutritions = html_nutritions + "<p><strong>Fat: </strong>"+ nutritions['fat_value'] + " g</p>";
+                html_nutritions = html_nutritions + "<p><strong>Protein: </strong>"+ nutritions['protein_value'] +" g</p>";
+                html_nutritions = html_nutritions + "<p><strong>Calorie: </strong>"+ nutritions['calorie_value'] +" kcal</p>";
+                html_nutritions = html_nutritions + "<div hidden id='others'>"
+                html_nutritions = html_nutritions + "<p><strong>Fiber: </strong>"+ nutritions['fiber_value'] +" g</p>";
+                html_nutritions = html_nutritions + "<p><strong>Serving Weight: </strong>"+ nutritions['serving_weight_grams'] +" g</p>";
+                html_nutritions = html_nutritions + "<h4><p><strong style='color: #5bc0de;'>Vitamins</strong></p></h4>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin A: </strong>"+ nutritions['vitamin_A'] +" IU</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin C: </strong>"+ nutritions['vitamin_C'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin D: </strong>"+ nutritions['vitamin_D'] +" IU</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin E: </strong>"+ nutritions['vitamin_E'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin K: </strong>"+ nutritions['vitamin_K'] +" mcg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Thiamin: </strong>"+ nutritions['thiamin'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Riboflavin: </strong>"+ nutritions['riboflavin'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Niacin: </strong>"+ nutritions['niacin'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin B6: </strong>"+ nutritions['vitamin_B6'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Vitamin B12: </strong>"+ nutritions['vitamin_B12'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Pantothenic acid: </strong>"+ nutritions['pantothenic_acid'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Choline: </strong>"+ nutritions['choline'] +" mg</p>";
+                html_nutritions = html_nutritions + "<h4><p><strong style='color: #f0ad4e;'>Minerals</strong></p></h4>";
+                html_nutritions = html_nutritions + "<p><strong>Calcium: </strong>"+ nutritions['calcium'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Copper: </strong>"+ nutritions['copper'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Flouride: </strong>"+ nutritions['flouride'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>IronFe: </strong>"+ nutritions['iron_Fe'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Magnesium: </strong>"+ nutritions['magnesium'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Manganese: </strong>"+ nutritions['manganese'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Sodium Na: </strong>"+ nutritions['sodium_Na'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Phosphorus: </strong>"+ nutritions['phosphorus'] +" mg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Selenium: </strong>"+ nutritions['selenium'] +" mcg</p>";
+                html_nutritions = html_nutritions + "<p><strong>Zinc: </strong>"+ nutritions['zinc'] +" mg</p>";
+                html_nutritions = html_nutritions + "</div>";
+                html_nutritions = html_nutritions + "<a id='more-button'>More...</a>";
+
+                $("#nutrition-values").html(html_nutritions);
+            }
+        })
+    });
+
     $("#submit-button").click(function () {
         var data = $('#food-form').serializeArray();
         var ingredients = [];
@@ -119,4 +178,15 @@ $(document).on('click', ".sem-tag-selected", function () {
     $("#semantic-tag-result").find("#" + label_id).removeClass("label-info");
     $("#semantic-tag-result").find("#" + label_id).addClass("label-default");
     $(this).remove();
-})
+});
+
+$(document).on("click", "#more-button", function () {
+    var toggle = $(this).text();
+    if(toggle == "More...") {
+        $("#others").show();
+        $(this).text("Less");
+    } else {
+        $("#others").hide();
+        $(this).text("More...");
+    }
+});

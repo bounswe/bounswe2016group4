@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -39,8 +42,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
+import com.knowwhatwoueat.kwue.Adapters.TagsListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.EatingPreferences;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.Tag;
 import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -57,10 +62,16 @@ import java.util.Map;
 public class ProfilePageActivity extends AppCompatActivity {
 
     public static User user = new User();
+   // int userId = getIntent().getExtras().getInt("isUser");
+    //int userId = Constants.user_id;
     int userId = 1 ;
     public List<Food> foods ;
     private RequestQueue queue;
     String url = Constants.endPoint;
+
+
+    //deneme
+    public static Map<String,String> deneme = new HashMap<String, String>();
 
     public static String intervalChoise = "daily" ;
     public List<String> eatingPrefs = new ArrayList<>();
@@ -82,8 +93,6 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     public static String wanted_list ;
     public static String unwanted_list;
-
-    public Gson gson ;
 
     private Button addFoodButton;
 
@@ -162,6 +171,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView userMailAddress =(TextView) this.findViewById(R.id.user_email_address);
         userMailAddress.setText(user.user_email_address);
 
+        GridView tags_view = (GridView) this.findViewById(R.id.tags_list);
+        TagsListAdapter tagsAdapter = new TagsListAdapter(this,user.tag_list);
+        tags_view.setAdapter(tagsAdapter);
 
         GridView lw2 = (GridView) this.findViewById(R.id.eating_preferences_grid);
         eatingPrefs = setEatPref(user);
@@ -204,6 +216,8 @@ public class ProfilePageActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 updateEatingPrefs();
                 alertDialog.dismiss();
+                Intent i = new Intent(ProfilePageActivity.this, FoodProfile.class);
+                i.putExtra("isUser",1);
             }
         });
         alertDialog = build.create();
@@ -224,6 +238,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 wantedList.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        
                         addWantedItem();
 
 
@@ -342,7 +357,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST,updateEatPref, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("add food", "onResponse: added" + response);
+                Log.d("eating prefs", "onResponse: updated" + response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -352,11 +367,11 @@ public class ProfilePageActivity extends AppCompatActivity {
         }){
             @Override
             protected Map<String,String> getParams(){
-                gson = new Gson();
-                wanted_list = gson.toJson(wantedList);
-                unwanted_list = gson.toJson(unwanted_list);
+
+                wanted_list = Constants.toJson(wantedList);
+                unwanted_list = Constants.toJson(unWantedList);
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("user_id","1");
+                params.put("user_id",""+userId);
                 params.put("protein_lower_bound",""+eatPref.protein_lower_bound);
                 params.put("fat_lower_bound",""+eatPref.fat_lower_bound);
                 params.put("carbohydrate_lower_bound",""+eatPref.carbohydrate_lower_bound);
@@ -370,6 +385,10 @@ public class ProfilePageActivity extends AppCompatActivity {
                 params.put("wanted_list",wanted_list);
                 params.put("unwanted_list",unwanted_list);
 
+                deneme = params;
+                System.out.println(deneme.toString());
+
+                System.out.println(Constants.toJson(wantedList));
 
 
                 return params;
@@ -384,6 +403,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         };
         queue.add(sr);
     }
+
+
+
 
     public List<String> setEatPref(User user) {
         List<String> temp = new ArrayList<>();
@@ -438,9 +460,6 @@ public class ProfilePageActivity extends AppCompatActivity {
     }
 
 
-
-
-    //TODO: Food server pages will be implemented.
     protected void setViewFoodServer(User user){
         setContentView(R.layout.content_profile_page_foodserver);
         new DownloadImageTask((ImageView) findViewById(R.id.server_profile_image))

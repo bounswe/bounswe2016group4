@@ -218,3 +218,20 @@ def create_session(req):
         req.session['user_id'] = -2
 
     return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
+
+
+@csrf_exempt
+def get_home_url(req):
+    user_id = req.POST.dict()['user_id']
+
+    user = db_retrieve_user(user_id)
+    user_name = user.user_name
+    user_image = user.user_image
+    user_type = user.user_type
+
+    if user_type is False:
+        recommendation = suggest(user_id)
+        return HttpResponse(json.dumps({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id}))
+    else:
+        analysis_report = analyze(user_id)
+        return HttpResponse(json.dumps({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image}))

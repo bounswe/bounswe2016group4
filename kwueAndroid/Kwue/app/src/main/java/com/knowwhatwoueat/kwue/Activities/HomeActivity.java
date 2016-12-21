@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
 
     protected void sendHomeRequest(){
         int user_id = Constants.getInstance().getUser_id();
-        String semanticUrl = url +"get_consumption_history?user_id=" +user_id + "&setting=" ;
+        String semanticUrl = url +"get_home_url?user_id=" +user_id  ;
 
         StringRequest gsonRequest = new StringRequest(Request.Method.GET,semanticUrl,
                 new Response.Listener<String>() {

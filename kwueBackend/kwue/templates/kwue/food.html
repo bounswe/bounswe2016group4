@@ -41,6 +41,18 @@
                             <input type="radio" name="example" class="rating" value="5" />
                         </div></p>
                         <p><a class="btn btn-primary" id="mark-as-eaten" data-foodid="{{ food_id }}">Mark as Eaten</a></p>
+                        <div class="panel panel-info">
+                            <div class="panel panel-heading">
+                                Comments
+                            </div>
+                            <div class="panel panel-body" style="overflow: auto;">
+                                {% for comment in comments %}
+                                    <p><strong> {{ comment.user_name }}</strong> {{ comment.comment_text }}</p>
+                                {% endfor %}
+                                <textarea class="form-control" id="comment"></textarea>
+                                <a href="#" class="btn btn-default" id="add-comment">Add Comment</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="row" style="overflow: auto">

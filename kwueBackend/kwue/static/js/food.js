@@ -140,7 +140,7 @@ $(document).ready(function(){
             "<input type='text' class='form-control ing-name' id='ingredient-1' value='' placeholder='Ingredient name'>" +
             "</div>";
         $("#ingredient-add").before(html);
-    })
+    });
 });
 
 $(document).on('click', '.ingredient-delete', function () {

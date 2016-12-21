@@ -34,6 +34,7 @@ def get_food_page(req):
     del food_dict['_state']  # alptekin fix FacePalm
     tag_list = return_tags(food_id, "Food")
     food_dict['tag_list'] = tag_list
+    food_dict['comments'] = db_get_comments(food_id)
     food_dict['user_name'] = user_name
     food_dict['user_type'] = user_type
     food_dict['user_id'] = id

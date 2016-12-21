@@ -261,7 +261,6 @@ urlpatterns = (
     ### REQUEST
     # POST
     # 'food_id'
-    # 'user_id'
     # 'comment_text'
     ### RESPONSE
     # 'is_success'

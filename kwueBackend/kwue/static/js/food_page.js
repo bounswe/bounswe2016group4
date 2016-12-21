@@ -103,6 +103,19 @@ $(document).ready(function () {
             $(this).text("More...");
         }
     });
+
+    $("#add-comment").click(function () {
+        var comment = $("#comment").val();
+        var foodid = $("#mark-as-eaten").data('foodid');
+        $.ajax({
+            url: 'comment_food',
+            method: 'post',
+            data: {
+                comment_text: comment,
+                food_id: foodid
+            }
+        });
+    });
 });
 
 $(document).on('click', '.sem-tag', function () {

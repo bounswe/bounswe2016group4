@@ -11,7 +11,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.test.utils import setup_test_environment
 
 def userCreate():
-    return User.objects.create_user(username="TestUser", email="testuser@testuser.com", password="123456",id= 3)
+    return User.objects.create_user(username="TestUser", email="testuser@testuser.com", password="123456",id= 3, user_type=True)
 
 class foodCreate(unittest.TestCase):
 
@@ -29,7 +29,7 @@ class foodCreate(unittest.TestCase):
         self.assertEqual(FoodModel.objects.get().food_owner_id, 3)
 
 
-class foodManupulation(unittest.TestCase)
+class foodManupulation(unittest.TestCase):
 
     def settingUp(self):
        self.user = userCreate()
@@ -47,34 +47,37 @@ class foodManupulation(unittest.TestCase)
 
         self.assertEqual(FoodModel.objects.get().food_rate, 5)
 
+class Searching(unittest.TestCase):
+
+    def settingUp(self):
+       self.user = userCreate()
+       self.user.is_authenticated = True
+
+    def search_food(self):
+
+        data = {'food_name': 'food1'}
+
+        self.assertEqual(FoodModel.objects.count(), 1)
+        self.assertEqual(FoodModel.objects.get().food_name, 'food1')
+
+    def search_food_owner(self):
+
+        data = {'food_owner': 'owner'}
+
+        self.assertEqual(FoodModel.objects.get().food_owner, 'owner')
+
+class Tagging(unittest.TestCase):
+
+    def settingUp(self):
+       self.user = userCreate()
+       self.user.is_authenticated = True
+
+    def add_tag(self):
+
+        data= {'tag_label': 'labl1', 'tagged_object': 'food1'}
+
+        self.assertEqual(TagModel.objects.get().tag_label,'labl1')
+        self.assertEqual(TagModel.objects.get().tagged_object,'food1')
 
 
 
-
-
-         #    class TestClient(Client):
-
-#        def login_user(self, user):
-#            """
-#            Login as specified user, does not depend on auth backend (hopefully)
-
-#            This is based on Client.login() with a small hack that does not
-#           require the call to authenticate()
-#            """
-#            if not 'django.contrib.sessions' in settings.INSTALLED_APPS:
-#                raise AssertionError("Unable to login without django.contrib.sessions in INSTALLED_APPS")
-        #            user.backend = "%s.%s" % ("django.contrib.auth.backends",
-        #                             "ModelBackend")
-        #   engine = import_module(settings.SESSION_ENGINE)
-
-            # Create a fake request to store login details.
-        #   request = HttpRequest()
-        #   if self.session:
-        #       request.session = self.session
-        #   else:
-        #       request.session = engine.SessionStore()
-        #   login(request)
-
-    #            request.session.save()
-
-# Create your tests here.

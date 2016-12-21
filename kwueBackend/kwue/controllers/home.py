@@ -162,7 +162,8 @@ def analyze(user_id, setting='monthly'):
        food_dict = dict(
            food_id=food.food_id,
            food_name=food.food_name,
-           food_image=food.food_image
+           food_image=food.food_image,
+           food_rate=food.food_rate
        )
        most_commented_food.append(food_dict)
 
@@ -171,7 +172,8 @@ def analyze(user_id, setting='monthly'):
         food_dict = dict(
             food_id=food.food_id,
             food_name=food.food_name,
-            food_image=food.food_image
+            food_image=food.food_image,
+            food_rate=food.food_rate
         )
         most_consumed_food.append(food_dict)
 

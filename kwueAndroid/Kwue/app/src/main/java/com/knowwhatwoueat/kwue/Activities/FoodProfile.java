@@ -2,6 +2,7 @@ package com.knowwhatwoueat.kwue.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,16 +11,24 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +43,7 @@ import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.FoodProfileModel;
 import com.knowwhatwoueat.kwue.DataModels.GetFoodProfileResult;
+import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.DataModels.Tag;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -42,6 +52,7 @@ import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 import org.w3c.dom.Text;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,6 +98,21 @@ public class FoodProfile extends AppCompatActivity {
     private double vitamin_E;
     private Tag[] tag_list;
     private boolean eaten;
+
+
+    private String tag_name;
+    private String tag_id;
+    private String tag_label;
+    private String tag_description;
+
+    private SemanticTag newTag;
+    private String tag;
+    private AlertDialog alertDialog;
+
+    private ArrayList<SemanticTag> semanticTags;
+    private ArrayList<String> semanticTagNames;
+
+    private ListAdapter semanticListAdapter;
 
     private RequestQueue queue;
     String url = Constants.endPoint;
@@ -254,6 +280,9 @@ public class FoodProfile extends AppCompatActivity {
 
     protected void assingTextView() {
 
+        semanticTagNames= new ArrayList<String>();
+        semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,semanticTagNames);
+
         TextView foodNameTextView = (TextView) findViewById(R.id.foodName);
         foodNameTextView.setText(food_name);
 
@@ -273,6 +302,58 @@ public class FoodProfile extends AppCompatActivity {
         }else{
             markAsEaten.setText("Marked as Eaten");
         }
+
+
+        final EditText newTagTextbox = (EditText) findViewById(R.id.newTag);
+
+
+        Button addTag = (Button) findViewById(R.id.addTag);
+
+        addTag.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("addTag button", "onClick: clicked");
+                //sendAddTagHttpRequest(tag);
+                tag = newTagTextbox.getText().toString();
+                System.out.println(tag + "taggg");
+                sendSemanticTagHttpRequest(tag);
+
+                final AlertDialog.Builder build = new AlertDialog.Builder(FoodProfile.this);
+                build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog = build.create();
+                LayoutInflater inflater = getLayoutInflater();
+                View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
+                alertDialog.setView(convertView);
+                alertDialog.setTitle("Semantic Tags");
+                ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+                lv.setAdapter(semanticListAdapter);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                         newTag = semanticTags.get(position);
+                        sendAddTagHttpRequest();
+                        Toast.makeText(FoodProfile.this, "Tag is successfully added!", Toast.LENGTH_LONG).show();
+
+                        Intent j = new Intent(FoodProfile.this, FoodProfile.class);
+                        //System.out.println(foodId.get(i)+"foodIddd");
+                        j.putExtra("isFood", food_id);
+                        startActivity(j);
+
+
+                    }
+                });
+
+
+            }
+        });
+
+
 
         new FoodProfile.DownloadImageTask((ImageView) findViewById(R.id.foodImage))
                 .execute(food_image);
@@ -452,6 +533,94 @@ public class FoodProfile extends AppCompatActivity {
             bmImage.setImageBitmap(result);
         }
     }
+
+    protected void sendAddTagHttpRequest() {
+
+        String addTagUrl = url + "tag_food";
+        final String semanticsResponse;
+        Gson gson = new Gson();
+        StringRequest sr = new StringRequest(Request.Method.POST,addTagUrl,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("addTag", "onResponse:" + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+
+                Map<String,String> params = new HashMap<String, String>();
+                tag_name = newTag.tag_name;
+                tag_id = newTag.tag_id;
+                tag_label = newTag.tag_label;
+                tag_description = newTag.tag_description;
+
+
+                params.put("tagged_food_id",""+food_id);
+                params.put("tag_name",tag_name);
+                params.put("tag_id",tag_id);
+                params.put("tag_label",tag_label);
+                params.put("tag_description",tag_description);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+    }
+
+
+
+    protected void sendSemanticTagHttpRequest(String query){
+
+        String semanticUrl = url +"search_semantic_tags?tag_name="+ query;
+        // Request a string response from the provided URL.
+        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(semanticUrl,SemanticTag[].class, Request.Method.GET,
+                new Response.Listener<SemanticTag[]>() {
+                    @Override
+                    public void onResponse(SemanticTag[] response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response tag", "onResponse: in");
+                        assignTagTitles(response);
+                        showAlertDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response","That didn't work!");
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(gsonRequest);
+    }
+
+    protected void assignTagTitles(SemanticTag[] response){
+        semanticTags = new ArrayList<>();
+        semanticTagNames.removeAll(semanticTagNames);
+        for(int i = 0; i < response.length;i++){
+            semanticTagNames.add(response[i].tag_label+ " : "+ response[i].tag_description);
+            semanticTags.add(response[i]);
+        }
+    }
+
+    protected void showAlertDialog(){
+        alertDialog.show();
+    }
+
+
+
 
 
 

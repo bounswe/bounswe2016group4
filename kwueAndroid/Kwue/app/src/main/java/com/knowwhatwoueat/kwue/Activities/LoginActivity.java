@@ -3,17 +3,12 @@ package com.knowwhatwoueat.kwue.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,16 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.LoginResult;
-import com.knowwhatwoueat.kwue.DataModels.Nutrition;
-import com.knowwhatwoueat.kwue.DataModels.SessionResult;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
-import com.knowwhatwoueat.kwue.Utils.GsonRequest;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -131,8 +119,6 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         login = gson.fromJson(response,LoginResult.class);
         userID = login.getUserID();
-
-        Constants.user_id = login.getUserID();
     }
 
 

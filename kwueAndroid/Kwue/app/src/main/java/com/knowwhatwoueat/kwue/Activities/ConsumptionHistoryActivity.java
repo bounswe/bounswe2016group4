@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -59,11 +60,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ArrayList<String> simpleNutritions;
     private ArrayList<String> wholeNutritions;
     private ConsumptionItem consumptionItem;
-    private ArrayList<DataPoint> mothlyFat;
-    private ArrayList<DataPoint> mothlySugar;
-    private ArrayList<DataPoint> mothlyCalorie;
-    private ArrayList<DataPoint> mothlyProtein;
-    private ArrayList<DataPoint> mothlyCarbohydrate;
+    private DataPoint[] mothlyFat;
+    private DataPoint[] mothlySugar;
+    private DataPoint[] mothlyCalorie;
+    private DataPoint[] mothlyProtein;
+    private DataPoint[] mothlyCarbohydrate;
 
     private Toolbar toolbar;
     private ListView simpleNutritionListView;
@@ -103,11 +104,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
         consumptionHistory = new ArrayList<>();
-        mothlyFat = new ArrayList<>();
+        /*mothlyFat = new ArrayList<>();
         mothlySugar = new ArrayList<>();
         mothlyCalorie = new ArrayList<>();
         mothlyProtein = new ArrayList<>();
-        mothlyCarbohydrate = new ArrayList<>();
+        mothlyCarbohydrate = new ArrayList<>();*/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -196,10 +197,12 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String type = parent.getItemAtPosition(position).toString();
                 //showAlertDialog(type);
-                if(!firstTimeShown)
+                if(!firstTimeShown) {
                     showGraph(type);
-                else
+                    alertDialogGraph.show();
+                }else {
                     firstTimeShown = false;
+                }
             }
 
             @Override
@@ -229,23 +232,23 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series;
         switch (type){
             case "calorie":
-                series = new LineGraphSeries<>((DataPoint[]) mothlyCalorie.toArray());
+                series = new LineGraphSeries<>(mothlyCalorie);
                 graphView.addSeries(series);
                 return ;
             case "protein":
-                series = new LineGraphSeries<>((DataPoint[]) mothlyProtein.toArray());
+                series = new LineGraphSeries<>( mothlyProtein);
                 graphView.addSeries(series);
                 return ;
             case "carbohydrate":
-                series = new LineGraphSeries<>((DataPoint[]) mothlyCarbohydrate.toArray());
+                series = new LineGraphSeries<>( mothlyCarbohydrate);
                 graphView.addSeries(series);
                 return ;
             case "fat":
-                series = new LineGraphSeries<>((DataPoint[]) mothlyFat.toArray());
+                series = new LineGraphSeries<>( mothlyFat);
                 graphView.addSeries(series);
                 return ;
             case "sugar":
-                series = new LineGraphSeries<>((DataPoint[]) mothlySugar.toArray());
+                series = new LineGraphSeries<>((DataPoint[]) mothlySugar);
                 graphView.addSeries(series);
                 return ;
         }
@@ -317,13 +320,18 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
         consumptionListAdapter.addAll(consumptionItem.getFoods());
         MonthlyConsumptionGraph[] graphArray = consumptionItem.getGraph_dict();
+        mothlyCalorie = new DataPoint[graphArray.length];
+        mothlyFat = new DataPoint[graphArray.length];
+        mothlyProtein = new DataPoint[graphArray.length];
+        mothlyCarbohydrate = new DataPoint[graphArray.length];
+        mothlySugar = new DataPoint[graphArray.length];
         for(int i = 0 ; i < graphArray.length;i++){
             MonthlyConsumptionGraph temp = graphArray[i];
-            mothlyCalorie.add(new DataPoint(temp.getDay_number(),temp.getCalorie_value()));
-            mothlyCarbohydrate.add(new DataPoint(temp.getDay_number(),temp.getCarbohydrate_value()));
-            mothlyFat.add(new DataPoint(temp.getDay_number(),temp.getFat_value()));
-            mothlyProtein.add(new DataPoint(temp.getDay_number(),temp.getProtein_value()));
-            mothlySugar.add(new DataPoint(temp.getDay_number(),temp.getSugar_value()));
+            mothlyCalorie[i]= (new DataPoint(i +1 ,temp.getCalorie_value()));
+            mothlyCarbohydrate[i]= (new DataPoint(i +1,temp.getCarbohydrate_value()));
+            mothlyFat[i]= (new DataPoint(i +1,temp.getFat_value()));
+            mothlyProtein[i]= (new DataPoint(i +1,temp.getProtein_value()));
+            mothlySugar[i]= (new DataPoint(i +1,temp.getSugar_value()));
         }
 
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");

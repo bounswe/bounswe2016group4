@@ -43,6 +43,7 @@ import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
 import com.knowwhatwoueat.kwue.Adapters.SimpleNutritionAdapter;
 import com.knowwhatwoueat.kwue.DataModels.ConsumptionItem;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.MonthlyConsumptionGraph;
 import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -58,6 +59,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ArrayList<String> simpleNutritions;
     private ArrayList<String> wholeNutritions;
     private ConsumptionItem consumptionItem;
+    private ArrayList<DataPoint> mothlyFat;
+    private ArrayList<DataPoint> mothlySugar;
+    private ArrayList<DataPoint> mothlyCalorie;
+    private ArrayList<DataPoint> mothlyProtein;
+    private ArrayList<DataPoint> mothlyCarbohydrate;
 
     private Toolbar toolbar;
     private ListView simpleNutritionListView;
@@ -66,6 +72,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private TextView intervalView;
     private Button showMoreButton;
     private Button showGraphButton;
+    private GraphView graphView;
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
@@ -73,6 +80,8 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private AlertDialog alertDialog;
     private AlertDialog alertDialogGraph;
+
+
 
 
     private String url = Constants.endPoint;
@@ -94,7 +103,11 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         simpleNutritions = new ArrayList<>();
         wholeNutritions = new ArrayList<>();
         consumptionHistory = new ArrayList<>();
-
+        mothlyFat = new ArrayList<>();
+        mothlySugar = new ArrayList<>();
+        mothlyCalorie = new ArrayList<>();
+        mothlyProtein = new ArrayList<>();
+        mothlyCarbohydrate = new ArrayList<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -167,16 +180,12 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         View convertViewGraph =  inflater.inflate(R.layout.graph_dialog, null);
 
         alertDialogGraph.setView(convertViewGraph);
-        alertDialogGraph.setTitle("Daily Graph");
-        GraphView graph = (GraphView) convertViewGraph.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3)
-        });
-        graph.addSeries(series);
+        alertDialogGraph.setTitle("Monthly Graph");
+        graphView = (GraphView) convertViewGraph.findViewById(R.id.graph);
+
+
         Spinner dropdownGraphType = (Spinner) this.findViewById(R.id.graph_type);
-        String[] items = new String[]{"calorie","sugar","fat","protein"};
+        String[] items = new String[]{"calorie","sugar","fat","protein","carbohydrate"};
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,items);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdownGraphType.setAdapter(typeAdapter);
@@ -188,7 +197,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
                 String type = parent.getItemAtPosition(position).toString();
                 //showAlertDialog(type);
                 if(!firstTimeShown)
-                    alertDialogGraph.show();
+                    showGraph(type);
                 else
                     firstTimeShown = false;
             }
@@ -215,6 +224,32 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
         }
     }*/
 
+    protected void showGraph(String type){
+        graphView.removeAllSeries();
+        LineGraphSeries<DataPoint> series;
+        switch (type){
+            case "calorie":
+                series = new LineGraphSeries<>((DataPoint[]) mothlyCalorie.toArray());
+                graphView.addSeries(series);
+                return ;
+            case "protein":
+                series = new LineGraphSeries<>((DataPoint[]) mothlyProtein.toArray());
+                graphView.addSeries(series);
+                return ;
+            case "carbohydrate":
+                series = new LineGraphSeries<>((DataPoint[]) mothlyCarbohydrate.toArray());
+                graphView.addSeries(series);
+                return ;
+            case "fat":
+                series = new LineGraphSeries<>((DataPoint[]) mothlyFat.toArray());
+                graphView.addSeries(series);
+                return ;
+            case "sugar":
+                series = new LineGraphSeries<>((DataPoint[]) mothlySugar.toArray());
+                graphView.addSeries(series);
+                return ;
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -281,6 +316,16 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private void assignConsuptionItem(String response){
         consumptionItem = gson.fromJson(response,ConsumptionItem.class);
         consumptionListAdapter.addAll(consumptionItem.getFoods());
+        MonthlyConsumptionGraph[] graphArray = consumptionItem.getGraph_dict();
+        for(int i = 0 ; i < graphArray.length;i++){
+            MonthlyConsumptionGraph temp = graphArray[i];
+            mothlyCalorie.add(new DataPoint(temp.getDay_number(),temp.getCalorie_value()));
+            mothlyCarbohydrate.add(new DataPoint(temp.getDay_number(),temp.getCarbohydrate_value()));
+            mothlyFat.add(new DataPoint(temp.getDay_number(),temp.getFat_value()));
+            mothlyProtein.add(new DataPoint(temp.getDay_number(),temp.getProtein_value()));
+            mothlySugar.add(new DataPoint(temp.getDay_number(),temp.getSugar_value()));
+        }
+
         simpleNutiritonAdapter.add("Fat:" + consumptionItem.getNutritional_values_dict().getFat_value() + " gram");
         simpleNutiritonAdapter.add("Carbonhydrate:" + consumptionItem.getNutritional_values_dict().getCarbohydrate_value() + " gram");
         simpleNutiritonAdapter.add("Protein:" + consumptionItem.getNutritional_values_dict().getProtein_value() + " gram");

@@ -262,7 +262,7 @@ public class AddFood extends AppCompatActivity{
         semanticTagNames.removeAll(semanticTagNames);
         for(int i = 0; i < response.length;i++){
             semanticTagNames.add(response[i].tag_label+ " : "+ response[i].tag_description);
-            semanticTags.add(response[i]);
+             semanticTags.add(response[i]);
         }
     }
     protected void requestNutritional(){

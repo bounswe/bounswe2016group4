@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ConsumptionItem {
     private ArrayList<Food> foods;
     private Nutrition nutritional_values_dict;
-
+    private MonthlyConsumptionGraph[] graph_dict;
 
     public ConsumptionItem(){
         foods = new ArrayList<>();
@@ -29,5 +29,13 @@ public class ConsumptionItem {
 
     public void setNutritional_values_dict(Nutrition nutritional_values_dict) {
         this.nutritional_values_dict = nutritional_values_dict;
+    }
+
+    public MonthlyConsumptionGraph[] getGraph_dict() {
+        return graph_dict;
+    }
+
+    public void setGraph_dict(MonthlyConsumptionGraph[] graph_dict) {
+        this.graph_dict = graph_dict;
     }
 }

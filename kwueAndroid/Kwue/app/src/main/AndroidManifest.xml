@@ -69,22 +69,27 @@
         <activity android:name=".Activities.RegisterActivity" />
         <activity android:name=".Activities.RegistrationForUser" />
         <activity android:name=".Activities.RegistrationForFoodServer" />
-        <activity android:name=".Activities.AdvancedSearch"
-            android:exported="true"/>
+        <activity
+            android:name=".Activities.AdvancedSearch"
+            android:exported="true" />
         <activity
             android:name=".Activities.BasicSearch"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
         <activity
             android:name=".Activities.ProfilePageActivity"
             android:exported="true"
             android:label="ProfilePage"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Activities.SearchResult"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.SearchResult" />
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".Activities.FoodProfile"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

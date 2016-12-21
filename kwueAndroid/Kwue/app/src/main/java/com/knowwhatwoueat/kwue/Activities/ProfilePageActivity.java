@@ -57,7 +57,7 @@ import java.util.Map;
 public class ProfilePageActivity extends AppCompatActivity {
 
     public static User user = new User();
-    int userId = 1 ;
+    int userId ;
     public List<Food> foods ;
     private RequestQueue queue;
     String url = Constants.endPoint;
@@ -94,10 +94,12 @@ public class ProfilePageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
+        userId= Constants.getInstance().getUser_id();
 
         queue = Volley.newRequestQueue(this);
-        requestUser(userId);
+
+
+        requestUser();
         Log.d("print", "deneme: " + user.user_name);
         Log.d("print", "deneme: " + user.user_email_address);
 
@@ -107,9 +109,9 @@ public class ProfilePageActivity extends AppCompatActivity {
     }
 
 
-    protected void requestUser(int userId){
-        String userUrl = url + "get_user?user_id=" + userId;
-
+    protected void requestUser(){
+        String userUrl = url + "get_user?user_id=" + Constants.getInstance().getUser_id();
+        Log.d("profile url", "requestUser: " + url);
         GsonRequest<User> gsonRequest = new GsonRequest<>(userUrl,User.class, Request.Method.GET,
                 new Response.Listener<User>() {
                     @Override
@@ -213,7 +215,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         alertDialog.setTitle("Eating Preferences");
 
         setHint(user);
-
+        Log.d("print", "deneme: " + user.user_name);
+        Log.d("print", "deneme: " + user.user_email_address);
         Button eatingPrefUpdate = (Button) findViewById(R.id.update_eating_preferences);
         eatingPrefUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,7 +359,7 @@ public class ProfilePageActivity extends AppCompatActivity {
                 wanted_list = gson.toJson(wantedList);
                 unwanted_list = gson.toJson(unwanted_list);
                 Map<String,String> params = new HashMap<String, String>();
-                params.put("user_id","1");
+                params.put("user_id",Integer.toString(Constants.getInstance().getUser_id()));
                 params.put("protein_lower_bound",""+eatPref.protein_lower_bound);
                 params.put("fat_lower_bound",""+eatPref.fat_lower_bound);
                 params.put("carbohydrate_lower_bound",""+eatPref.carbohydrate_lower_bound);

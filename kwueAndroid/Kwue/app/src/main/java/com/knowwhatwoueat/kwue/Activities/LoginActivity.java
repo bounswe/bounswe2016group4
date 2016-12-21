@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     private int userID;
     private LoginResult login;
+    private boolean loginSuccess ;
 
     private RequestQueue queue;
     String url = Constants.endPoint;
@@ -70,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent i = new Intent(LoginActivity.this, ProfilePageActivity.class);
                     i.putExtra("userId", userID);
+                    Toast.makeText(LoginActivity.this,"Login success",Toast.LENGTH_LONG);
                     //i.putExtra("PasswordTextView", password);
                     startActivity(i);
 
@@ -88,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
         });
         sendSessionRequest();
     }
-
     protected void sendLoginHttpRequest() {
 
         String loginUrl = url + "android_login?user_email_address="+email+"&user_password="+password;
@@ -119,6 +120,8 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         login = gson.fromJson(response,LoginResult.class);
         userID = login.getUserID();
+        Constants.getInstance().setUser_id(userID);
+
     }
 
 

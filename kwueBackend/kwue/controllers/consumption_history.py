@@ -5,15 +5,18 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from kwue.DB_functions.food_db_functions import *
 
+
 def get_consumption_page(req):
-    id = req.session['user_id']
-    if id == -2:
+    user_id = req.session['user_id']
+
+    if user_id == -2:
         return render(req, 'kwue/home.html', {'recommendations': db_retrieve_all_foods(), 'user_type': 0, 'user_name': 'Guest'})
     else:
-        user = db_retrieve_user(id)
+        user = db_retrieve_user(user_id)
         user_type = user.user_type
         user_name = user.user_name
-    return render(req, 'kwue/consumption_history.html', {'user_name': user_name, 'user_type': user_type, 'user_id': id})
+    return render(req, 'kwue/consumption_history.html', {'user_name': user_name, 'user_type': user_type, 'user_id': user_id})
+
 
 def get_start_timestamp_date(timestamp, setting):
     return {
@@ -22,6 +25,7 @@ def get_start_timestamp_date(timestamp, setting):
         'monthly': timestamp - 2592000,  # 30*24*60*60
         'alltime': 0
     }.get(setting, 0)
+
 
 def get_monthly_graph_on_daily_basis(user_id):
     end_timestamp_date = time.time() + 60*60*3
@@ -157,7 +161,11 @@ def get_consumption_history(req):
 
 @csrf_exempt
 def mark_as_eaten(req):
-    user_id = req.session['user_id']
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.POST.dict()['user_id']
+
     food_id = req.POST.dict()['food_id']
     is_success = False
     reason = ""
@@ -166,3 +174,4 @@ def mark_as_eaten(req):
     else:
         reason = "Couldn't eat the food."
     return HttpResponse(json.dumps({"is_success": is_success, "reason": reason}))
+

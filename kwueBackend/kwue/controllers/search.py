@@ -4,9 +4,15 @@ from kwue.DB_functions.user_db_function import db_retrieve_eating_preferences
 from kwue.helper_functions.conversions import *
 from kwue.helper_functions.semantic_tag_helpers import *
 
+
 def basic_search(req):
     # do not know how to get userId from session yet, to be resolved
-    user_id = req.session['user_id']
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
+
+
     ep = db_retrieve_eating_preferences(user_id)
 
     search_results = search_alg(req.GET.dict(), ep)

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from kwue.DB_functions.tag_db_functions import *
 from django.views.decorators.csrf import csrf_exempt
 
+
 def get_food(req):
     food_id = req.GET.dict()['food_id']
     food_dict = db_retrieve_food(food_id).__dict__
@@ -19,12 +20,13 @@ def get_food(req):
 
 
 def get_food_page(req):
-    id = req.session['user_id']
-    if id == -2:
+    user_id = req.session['user_id']
+
+    if user_id == -2:
         user_type = 0
         user_name = 'Guest'
     else:
-        user = db_retrieve_user(id)
+        user = db_retrieve_user(user_id)
         user_type = user.user_type
         user_name = user.user_name
 
@@ -37,13 +39,18 @@ def get_food_page(req):
     food_dict['comments'] = db_get_comments(food_id)
     food_dict['user_name'] = user_name
     food_dict['user_type'] = user_type
-    food_dict['user_id'] = id
+    food_dict['user_id'] = user_id
     return render(req, 'kwue/food.html', food_dict)
 
 @csrf_exempt
 def add_food(req):
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.POST.dict()['user_id']
+
     food_dict = req.POST.dict()
-    food_dict['food_owner'] = req.session['user_id']
+    food_dict['food_owner'] = user_id
 
     # get nutrition values from api
     ingredients = json.loads(food_dict['ingredients'])
@@ -88,14 +95,14 @@ def add_food(req):
 
 
 def get_add_food_page(req):
-    id = req.session['user_id']
-    if id == -2:
+    user_id = req.session['user_id']
+    if user_id == -2:
         return render(req, 'kwue/home.html', {'recommendations': db_retrieve_all_foods(), 'user_type': 0, 'user_name': 'Guest'})
     else:
-        user = db_retrieve_user(id)
+        user = db_retrieve_user(user_id)
         user_type = user.user_type
         user_name = user.user_name
-    return render(req, 'kwue/add_food.html', {'user_type': user_type, 'user_name': user_name, 'user_id': id})
+    return render(req, 'kwue/add_food.html', {'user_type': user_type, 'user_name': user_name, 'user_id': user_id})
 
 
 @csrf_exempt
@@ -132,15 +139,17 @@ def rate_food(req):
 
 @csrf_exempt
 def comment_food(req):
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.POST.dict()['user_id']
+
     comment_dict = req.POST.dict()
     is_success = False
     reason = ""
-    if db_comment_food(comment_dict['food_id'], req.session['user_id'], comment_dict['comment_text']):
+    if db_comment_food(comment_dict['food_id'], user_id, comment_dict['comment_text']):
         is_success = True
     else:
         reason = 'Commenting food failed.'
     return HttpResponse(json.dumps({'is_success': is_success, 'reason': reason}), content_type='application/json')
 
-
-def update_food(req):
-    return render(req, 'kwue/food.html', {})

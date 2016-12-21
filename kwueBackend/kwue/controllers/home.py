@@ -11,22 +11,15 @@ import time
 from collections import Counter
 
 
-def create_session(req):
-    if req.session.has_key('user_id') is False:
-        req.session['user_id'] = -2
-
-    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
-
-
 def get_home(req):
     food = db_retrieve_all_foods()
 
     if req.session.has_key('user_id') is False:
         req.session['user_id'] = -2
 
-    id = req.session['user_id']
-    if id != -2:
-        user = db_retrieve_user(id)
+    user_id = req.session['user_id']
+    if user_id != -2:
+        user = db_retrieve_user(user_id)
         user_name = user.user_name
         user_image = user.user_image
         user_type = user.user_type
@@ -34,10 +27,10 @@ def get_home(req):
         return render(req, 'kwue/home.html', {'recommendations': food, 'user_type': 0, 'user_name': 'Guest'})
 
     if user_type is False:
-        recommendation = suggest(id)
-        return render(req, 'kwue/home.html', {'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': id})
+        recommendation = suggest(user_id)
+        return render(req, 'kwue/home.html', {'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
-        analysis_report = analyze(id)
+        analysis_report = analyze(user_id)
         return render(req, 'kwue/home.html', {'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
 
 

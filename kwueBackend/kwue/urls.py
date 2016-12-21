@@ -9,16 +9,6 @@ from kwue.controllers import consumption_history
 urlpatterns = (
 
     ### REQUEST
-    #
-    #   empty
-    #
-    ### RESPONSE
-    #
-    #   'is_success
-    #
-    url(r'^create_session', home.create_session),
-
-    ### REQUEST
     # POST
     # 'tagged_user_id'
     # 'tag_name'
@@ -458,27 +448,6 @@ urlpatterns = (
     # renders home page
     #
     url(r'^sign_request', user.sign_up),
-
-    ### REQUEST
-    # POST
-    # 'user_email_address'
-    # 'user_password'
-    #
-    ### RESPONSE
-    #
-    # 'user_id'
-    #
-    url(r'^android_login', user.android_login),
-
-    ### REQUEST
-    # GET
-    # empty
-    #
-    ### RESPONSE
-    #
-    # 'is_success'
-    #
-    url(r'^android_logout', user.android_logout),
 
 )
 

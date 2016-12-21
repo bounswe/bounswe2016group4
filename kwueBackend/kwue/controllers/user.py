@@ -40,7 +40,11 @@ def update_diet_page(req):
 
 
 def get_eating_preferences(req):
-    user_id = req.session['user_id']
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.GET.dict()['user_id']
+
     ep = db_retrieve_eating_preferences(user_id)
 
     return HttpResponse(json.dumps(ep), content_type='application/json')
@@ -48,8 +52,12 @@ def get_eating_preferences(req):
 
 @csrf_exempt
 def update_eating_preferences(req):
+    if req.session.has_key('user_id'):
+        user_id = req.session['user_id']
+    else:
+        user_id = req.POST.dict()['user_id']
+
     ep = req.POST.dict()
-    user_id = req.session['user_id']
 
     db_update_user_preferences(user_id, ep)
     user = db_retrieve_user(user_id)
@@ -122,24 +130,4 @@ def logout(req):
     req.session['user_id'] = -2
     return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})
 
-
-
-def android_login(req):
-    user_dict = req.GET.dict()
-    user_email_address = user_dict['user_email_address']
-    user_password = user_dict["user_password"]
-
-    user = db_validate_user(user_email_address, user_password)
-
-    if user:
-        req.session['user_id'] = user.user_id
-        return HttpResponse(json.dumps({'user_id': user.user_id}), content_type='application/json')
-    else:
-        req.session['user_id'] = -2
-        return HttpResponse(json.dumps({'user_id': -2}), content_type='application/json')
-
-
-def android_logout(req):
-    req.session['user_id'] = -2
-    return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
 

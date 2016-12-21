@@ -58,7 +58,7 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     public static User user = new User();
     int userId = 1 ;
-    public List<Food> consumptionHistory ;
+    public List<Food> foods ;
     private RequestQueue queue;
     String url = Constants.endPoint;
 
@@ -97,21 +97,7 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
         queue = Volley.newRequestQueue(this);
-
-        addFoodButton = (Button) findViewById(R.id.add_food_button);
-
-        addFoodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ProfilePageActivity.this, AddFood.class);
-                startActivity(i);
-            }
-        });
-
-        consumptionHistory = new ArrayList<>();
-
         requestUser(userId);
-
         Log.d("print", "deneme: " + user.user_name);
         Log.d("print", "deneme: " + user.user_email_address);
 
@@ -155,6 +141,17 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
     protected void setViewNormalUser(User user) {
+        setContentView(R.layout.content_profile_page_user);
+
+        addFoodButton = (Button) findViewById(R.id.add_food_button);
+
+        addFoodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfilePageActivity.this, AddFood.class);
+                startActivity(i);
+            }
+        });
 
         new DownloadImageTask((ImageView) findViewById(R.id.user_profile_image))
                 .execute(user.user_image);
@@ -410,12 +407,19 @@ public class ProfilePageActivity extends AppCompatActivity {
         temp.add("" + user.calorie_upper_bound);
         temp.add("Sugar Upper Bound: ");
         temp.add("" + user.sugar_upper_bound);
+
+        temp.add("Wanted Ingredients: ");
         if (user.wanted_list.length != 0){
-            temp.add("Wanted Ingredients: ");
-        temp.add(toString(user.wanted_list));
-        }if(user.unwanted_list.length != 0 ){
-            temp.add("Unwanted Ingredients: ");
-            temp.add(toString(user.unwanted_list));
+            temp.add(toString(user.wanted_list));
+        }else {
+            temp.add(" ");
+        }
+
+        temp.add("Unwanted Ingredients: ");
+        if(user.unwanted_list.length != 0 ){
+                temp.add(toString(user.unwanted_list));
+        }else{
+            temp.add(" ");
         }
 
         return temp;
@@ -432,8 +436,43 @@ public class ProfilePageActivity extends AppCompatActivity {
         }
         return  ret;
     }
+
+
+
+
     //TODO: Food server pages will be implemented.
-    protected void setViewFoodServer(User user){}
+    protected void setViewFoodServer(User user){
+        setContentView(R.layout.content_profile_page_foodserver);
+        new DownloadImageTask((ImageView) findViewById(R.id.server_profile_image))
+                .execute(user.user_image);
+
+        TextView userName =(TextView) this.findViewById(R.id.server_name);
+        userName.setText(user.user_name);
+
+        TextView userMailAddress =(TextView) this.findViewById(R.id.server_email_address);
+        userMailAddress.setText(user.user_email_address);
+        foods = user.foods;
+        ConsumptionListAdapter foodAdapter = new ConsumptionListAdapter(this,foods);
+        final ListView foodView = (ListView) this.findViewById(R.id.foods_list);
+        foodView.setAdapter(foodAdapter);
+
+        foodView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                Food o = (Food) foodView.getItemAtPosition(position);
+                Intent i = new Intent(ProfilePageActivity.this, FoodProfile.class);
+                i.putExtra("isFood", o.getFood_id());
+                Log.d("choise","" + o.getFood_id());
+                startActivity(i);
+            }
+        });
+
+
+
+
+
+    }
 
 
 

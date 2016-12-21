@@ -1,5 +1,7 @@
 package com.knowwhatwoueat.kwue.DataModels;
 
+import java.util.List;
+
 /**
  * Created by Mehmet Akif ÇÖRDÜK on 25.10.2016.
  *
@@ -25,6 +27,7 @@ public class User {
     public double calorie_upper_bound;
     public double sugar_upper_bound;
     public String user_password;
+    public List<Food> foods;
 
 
 

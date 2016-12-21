@@ -172,7 +172,7 @@ urlpatterns = (
     # 'item'
     # 'itemLabel'
     # 'itemDescription'
-    url(r'^search_semantic_tags', tag.search_semantic_tags),
+    url(r'^search_semantic_tags', tag.seach_semantic_tags),
 
     ### REQUEST
     # 'food_id'

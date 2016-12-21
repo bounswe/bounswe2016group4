@@ -103,7 +103,11 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void sendLoginHttpRequest() {
 
+<<<<<<< HEAD
+        String loginUrl = url + "loginmobile";
+=======
         String loginUrl = url + "android_login?user_email_address="+email+"&user_password="+password;
+>>>>>>> 08a29bd653ccae6a6fb4951752264dc17a0afde5
         System.out.println(loginUrl);
         System.out.println(email);
         System.out.println(password);

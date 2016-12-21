@@ -262,7 +262,7 @@
                 android:layout_gravity="center">
 
                 <EditText
-                    android:id="@+id/update_unwanted_item"
+                    android:id="@+id/update_wanted_item"
                     android:layout_width="160dp"
                     android:layout_height="match_parent"
                     android:textSize="14sp"
@@ -325,7 +325,7 @@
                 android:layout_gravity="center">
 
                 <EditText
-                    android:id="@+id/update_wanted_item"
+                    android:id="@+id/update_unwanted_item"
                     android:layout_width="160dp"
                     android:layout_height="match_parent"
                     android:textSize="14sp"

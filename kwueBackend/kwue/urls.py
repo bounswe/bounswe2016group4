@@ -468,7 +468,7 @@ urlpatterns = (
     #
     # 'user_id'
     #
-    url(r'^loginmobile', user.login_mobile),
+    url(r'^loginmobile', user.moblog),
 
     ### REQUEST
     # GET
@@ -478,7 +478,7 @@ urlpatterns = (
     #
     # 'is_success'
     #
-    url(r'^logoutmobile', user.logout_mobile),
+    url(r'^logoutmobile', user.logoutm),
 
 )
 

@@ -123,8 +123,9 @@ def logout(req):
     return render(req, 'kwue/home.html', {'recommendations': foods, 'user_type': 0, 'user_name': 'Guest'})
 
 
-def login_mobile(req):
-    user_dict = req.GET.dict()
+@csrf_exempt
+def moblog(req):
+    user_dict = req.POST.dict()
     user_email_address = user_dict['user_email_address']
     user_password = user_dict["user_password"]
 
@@ -138,7 +139,7 @@ def login_mobile(req):
         return HttpResponse(json.dumps({'user_id': -2}), content_type='application/json')
 
 
-def logout_mobile(req):
+def logoutm(req):
     req.session['user_id'] = -2
     return HttpResponse(json.dumps({'is_success': True}), content_type='application/json')
 

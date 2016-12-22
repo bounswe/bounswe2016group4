@@ -222,7 +222,7 @@ def create_session(req):
 
 @csrf_exempt
 def get_home_url(req):
-    user_id = req.POST.dict()['user_id']
+    user_id = req.GET.dict()['user_id']
 
     user = db_retrieve_user(user_id)
     user_name = user.user_name

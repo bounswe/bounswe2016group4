@@ -130,14 +130,19 @@
 
 
     </RelativeLayout>
-
+    <Button
+        android:layout_below="@id/recent_consumptions"
+        android:id="@+id/goHomeButton"
+        android:text="Home Page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/eating_preferences"
         android:layout_below="@+id/recent_consumptions"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="40dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"

@@ -96,7 +96,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     public static String unwanted_list;
 
     private Button addFoodButton;
-
+    Button goHomeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +107,8 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
         queue = Volley.newRequestQueue(this);
+
+
 
 
         requestUser();
@@ -201,6 +203,14 @@ public class ProfilePageActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+        goHomeButton = (Button) findViewById(R.id.goHomeButton);
+        goHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfilePageActivity.this, HomeActivity.class);
+                startActivity(i);
             }
         });
 

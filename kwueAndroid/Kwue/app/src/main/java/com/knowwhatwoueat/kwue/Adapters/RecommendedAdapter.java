@@ -50,7 +50,7 @@ public class RecommendedAdapter extends ArrayAdapter<RecommendedFoods> {
 
         imageLoader.displayImage(foods.get(position).getFood_image(), imageView);
         nameView.setText(foods.get(position).getFood_name());
-
+        timeView.setText(foods.get(position).getFood_owner());
         return rowView;
 
     }

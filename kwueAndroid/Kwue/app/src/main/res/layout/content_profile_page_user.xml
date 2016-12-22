@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
-            android:background="@android:color/darker_gray"
+            android:background="@android:color/holo_blue_light"
             android:text="Add Food"/>
 
         <ImageView
@@ -61,6 +61,7 @@
         android:id="@+id/user_tag"
         android:layout_below="@+id/user_info"
         >
+
         <TextView
             android:gravity="center"
             android:layout_width="wrap_content"
@@ -68,6 +69,15 @@
             android:textSize="20sp"
             android:text="User Tags"
             android:id="@+id/user_tags_title"/>
+
+        <Button
+            android:layout_alignParentEnd="true"
+            android:id="@+id/add_tag_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:background="@android:color/holo_blue_light"
+            android:text="Add Tag"/>
         <GridView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,7 +159,7 @@
             android:layout_height="30dp"
             android:layout_width="wrap_content"
             android:gravity="center"
-            android:background="@android:color/darker_gray"
+            android:background="@android:color/holo_blue_light"
             android:text="Update"
             android:layout_alignParentEnd="true">
         </Button>

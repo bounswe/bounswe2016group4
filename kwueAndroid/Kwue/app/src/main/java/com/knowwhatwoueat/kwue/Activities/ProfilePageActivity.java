@@ -39,8 +39,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
+import com.knowwhatwoueat.kwue.Adapters.TagsListAdapter;
 import com.knowwhatwoueat.kwue.DataModels.EatingPreferences;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.SemanticTag;
 import com.knowwhatwoueat.kwue.DataModels.User;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
@@ -58,9 +60,19 @@ public class ProfilePageActivity extends AppCompatActivity {
 
     public static User user = new User();
     int userId ;
+
     public List<Food> foods ;
     private RequestQueue queue;
     String url = Constants.endPoint;
+
+    public static Gson gson ;
+
+    private Button getTagsButton;
+    private EditText semanticTextBox;
+    private String semanticQuery;
+    private ListAdapter semanticListAdapter;
+    private ArrayAdapter foodsSemanticAdapter;
+    private ArrayList<SemanticTag> semanticTags;
 
     public static String intervalChoise = "daily" ;
     public List<String> eatingPrefs = new ArrayList<>();
@@ -83,8 +95,6 @@ public class ProfilePageActivity extends AppCompatActivity {
     public static String wanted_list ;
     public static String unwanted_list;
 
-    public Gson gson ;
-
     private Button addFoodButton;
 
     @Override
@@ -94,7 +104,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        userId= Constants.getInstance().getUser_id();
+
 
         queue = Volley.newRequestQueue(this);
 
@@ -110,7 +120,9 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
     protected void requestUser(){
-        String userUrl = url + "get_user?user_id=" + Constants.getInstance().getUser_id();
+
+        userId = this.getIntent().getExtras().getInt("userId");
+        String userUrl = url + "get_user?user_id=" + userId;
         Log.d("profile url", "requestUser: " + url);
         GsonRequest<User> gsonRequest = new GsonRequest<>(userUrl,User.class, Request.Method.GET,
                 new Response.Listener<User>() {
@@ -164,6 +176,9 @@ public class ProfilePageActivity extends AppCompatActivity {
         TextView userMailAddress =(TextView) this.findViewById(R.id.user_email_address);
         userMailAddress.setText(user.user_email_address);
 
+        GridView tags_view = (GridView) this.findViewById(R.id.tags_list);
+        TagsListAdapter tagsAdapter = new TagsListAdapter(this,user.tag_list);
+        tags_view.setAdapter(tagsAdapter);
 
         GridView lw2 = (GridView) this.findViewById(R.id.eating_preferences_grid);
         eatingPrefs = setEatPref(user);
@@ -345,7 +360,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST,updateEatPref, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("add food", "onResponse: added" + response);
+                Log.d("eating prefs", "onResponse: updated" + response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -443,7 +458,6 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
 
-    //TODO: Food server pages will be implemented.
     protected void setViewFoodServer(User user){
         setContentView(R.layout.content_profile_page_foodserver);
         new DownloadImageTask((ImageView) findViewById(R.id.server_profile_image))

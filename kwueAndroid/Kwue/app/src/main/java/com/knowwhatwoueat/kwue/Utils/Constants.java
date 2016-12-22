@@ -8,7 +8,7 @@ public class Constants {
     private static Constants instance = new Constants();
 
     public static String endPoint = "http://ec2-54-227-149-31.compute-1.amazonaws.com:8000/";
-    public int user_id = 1;
+    public int user_id ;
 
 
     public int getUser_id() {

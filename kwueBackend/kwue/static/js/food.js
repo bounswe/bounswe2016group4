@@ -99,7 +99,7 @@ $(document).ready(function(){
             method: "post",
             data: tobepushed,
             success: function (e) {
-                console.log(e);
+                window.location = document.URL.substr(0,document.URL.lastIndexOf('/'));
             }
         });
     });

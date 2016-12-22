@@ -54,8 +54,7 @@ $(document).ready(function () {
                 tag_description: description
             },
             success: function () {
-                $("#submit-tags").removeClass("btn-warning");
-                $("#submit-tags").addClass("btn-success");
+                location.reload();
             }
         });
     });

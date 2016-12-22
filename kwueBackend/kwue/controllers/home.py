@@ -231,7 +231,7 @@ def get_home_url(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
-        return HttpResponse(json.dumps({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id}), content_type='application/json')
+        return HttpResponse({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id}, content_type='application/json')
     else:
         analysis_report = analyze(user_id)
-        return HttpResponse(json.dumps({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image}), content_type='application/json')
+        return HttpResponse({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image}, content_type='application/json')

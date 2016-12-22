@@ -30,9 +30,11 @@ def get_home(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
+        print(recommendation)
         return render(req, 'kwue/home.html', {'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
         analysis_report = analyze(user_id)
+        print(analysis_report)
         return render(req, 'kwue/home.html', {'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
 
 

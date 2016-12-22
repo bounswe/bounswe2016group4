@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,8 +24,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.knowwhatwoueat.kwue.Adapters.ConsumptionListAdapter;
+import com.knowwhatwoueat.kwue.Adapters.RecommendedAdapter;
 import com.knowwhatwoueat.kwue.DataModels.Food;
+import com.knowwhatwoueat.kwue.DataModels.HomePageModel;
+import com.knowwhatwoueat.kwue.DataModels.RecommendedFoods;
 import com.knowwhatwoueat.kwue.R;
 import com.knowwhatwoueat.kwue.Utils.Constants;
 
@@ -35,9 +40,15 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
     private ListView recommendedListView;
     private List<Food> foods;
-
+    private HomePageModel homeModel;
+    private RecommendedFoods[] recommendedFoodsList;
+    private List<RecommendedFoods> recommended;
     private String url = Constants.endPoint;
     private RequestQueue queue;
+    private RecommendedAdapter recommendedListAdapter;
+    private TextView userView;
+    private String userName;
+    private int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,26 +56,28 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Consumption History");
+        getSupportActionBar().setTitle("Home History");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         queue = Volley.newRequestQueue(this);
 
-
+        userName = Constants.getInstance().userName;
+        userId = Constants.getInstance().getUser_id();
         foods = new ArrayList<>();
-
+        recommended = new ArrayList<>();
         recommendedListView = (ListView) findViewById(R.id.recommended_list);
+        userView = (TextView) findViewById(R.id.welcome_user) ;
 
         sendHomeRequest();
 
 
-        ConsumptionListAdapter recommendedListAdapter = new ConsumptionListAdapter(this,foods);
+        recommendedListAdapter = new RecommendedAdapter(this,recommended);
         recommendedListView.setAdapter(recommendedListAdapter);
     }
 
     protected void sendHomeRequest(){
         int user_id = Constants.getInstance().getUser_id();
-        String semanticUrl = url +"get_home?user_id=2"   ;
+        String semanticUrl = url +"get_home?user_id="+ userId  ;
 
         StringRequest gsonRequest = new StringRequest(Request.Method.GET,semanticUrl,
                 new Response.Listener<String>() {
@@ -84,7 +97,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     protected void assignRecommendedFoods(String recommendedResponse){
-
+        Gson gson = new Gson();
+        homeModel = gson.fromJson(recommendedResponse,HomePageModel.class);
+        for(int i = 0 ; i < homeModel.getRecommendations().length;i++){
+             recommendedListAdapter.add(homeModel.getRecommendations()[i]);
+        }
+        userView.setText("Welcome" + userName);
     }
     @Override
     protected void onStart() {

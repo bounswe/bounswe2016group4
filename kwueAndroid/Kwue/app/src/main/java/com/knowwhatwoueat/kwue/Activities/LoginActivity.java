@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         Gson gson = new Gson();
         login = gson.fromJson(response,LoginResult.class);
         userID = login.getUserID();
-
+        Constants.getInstance().setUser_id(userID);
     }
 
 

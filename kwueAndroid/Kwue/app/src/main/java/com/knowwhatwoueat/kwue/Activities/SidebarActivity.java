@@ -71,7 +71,7 @@ public class SidebarActivity extends AppCompatActivity implements NavigationView
 
         if (title.equals(sidebarTitles[0])) {
 
-            Intent i = new Intent(SidebarActivity.this, HomePageActivity.class);
+            Intent i = new Intent(SidebarActivity.this, HomeActivity.class);
             startActivity(i);
         } else if (title.equals(sidebarTitles[1])) {
             Intent i = new Intent(SidebarActivity.this, AddFood.class);

@@ -24,9 +24,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,6 +42,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.knowwhatwoueat.kwue.DataModels.BasicSearchResult;
 import com.knowwhatwoueat.kwue.DataModels.FoodProfileModel;
 import com.knowwhatwoueat.kwue.DataModels.GetFoodProfileResult;
@@ -99,6 +103,8 @@ public class FoodProfile extends AppCompatActivity {
     private Tag[] tag_list;
     private boolean eaten;
 
+    private AlertDialog alertDialog1;
+
 
     private String tag_name;
     private String tag_id;
@@ -134,6 +140,34 @@ public class FoodProfile extends AppCompatActivity {
         setSearchQuery(foodId);
         sendFoodProfileHttpRequest(searchQuery);
 
+        Button commentButton = (Button) findViewById(R.id.commentFood);
+        Button rateButton = (Button) findViewById(R.id.rateFood);
+
+
+        final AlertDialog.Builder build = new AlertDialog.Builder(FoodProfile.this);
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView =  inflater.inflate(R.layout.edit_text_box_dialog, null);
+        final EditText editcomment = (EditText) convertView.findViewById(R.id.edit_comment);
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                alertDialog.dismiss();
+                if(!editcomment.getText().toString().isEmpty())
+                    sendCommentRequest(editcomment.getText().toString());
+
+            }
+        });
+        alertDialog1 = build.create();
+        alertDialog1.setView(convertView);
+        alertDialog1.setTitle("Comment Food");
+        commentButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                alertDialog1.show();
+            }
+        });
 
         //TextView foodIdTextView = (TextView) findViewById(R.id.foodId);
         //foodIdTextView.setText(foodId+" ");
@@ -144,7 +178,41 @@ public class FoodProfile extends AppCompatActivity {
         // Instantiate the RequestQueue.
 
     }
+    protected void sendCommentRequest(final String request){
 
+        String commentUrl = url + "comment_food";
+        Gson gson = new Gson();
+        StringRequest sr = new StringRequest(Request.Method.POST,commentUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("comment", "onResponse: added" + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("food_id",Integer.toString(food_id));
+                params.put("comment_text",request);
+                params.put("user_id",Integer.toString(Constants.getInstance().user_id));
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
+
+    }
     protected void setSearchQuery(int query) {
         searchQuery = query;
     }

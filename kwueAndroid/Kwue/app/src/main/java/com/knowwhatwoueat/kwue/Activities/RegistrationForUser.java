@@ -122,7 +122,7 @@ public class RegistrationForUser extends AppCompatActivity  implements AdapterVi
 
                 */
 
-                Intent intent = new Intent(RegistrationForUser.this, HomePageActivity.class);
+                Intent intent = new Intent(RegistrationForUser.this, HomeActivity.class);
                 startActivity(intent);
 
             }

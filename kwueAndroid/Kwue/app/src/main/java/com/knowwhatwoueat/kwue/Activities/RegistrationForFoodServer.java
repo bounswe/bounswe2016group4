@@ -61,7 +61,7 @@ public class RegistrationForFoodServer extends AppCompatActivity implements  Ada
                 passwordAgainFoodServer = passwordAgainFoodServerTextbox.getText().toString();
                 cityFoodServer = cityOptionFoodServer.getSelectedItem().toString();
 
-                Intent intent = new Intent(RegistrationForFoodServer.this, HomePageActivity.class);
+                Intent intent = new Intent(RegistrationForFoodServer.this, HomeActivity.class);
                 startActivity(intent);
 
 

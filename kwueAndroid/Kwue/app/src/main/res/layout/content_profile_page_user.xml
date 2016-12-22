@@ -97,15 +97,7 @@
     android:layout_below="@+id/user_tag"
     >
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/consumption_history_interval"
-        android:spinnerMode="dropdown"
-        android:layout_below="@id/consumption_history_title"
-        android:layout_marginLeft="100dp">
 
-    </Spinner>
 
         <Button
         android:id="@+id/all_consumption_history"
@@ -123,10 +115,19 @@
             android:layout_height="40dp"
             android:textSize="20sp"
             android:text="Recent Consumptions"
-            android:id="@+id/consumption_history_title"
+            android:id="@+id/consumption_history_title1"
             android:layout_alignBaseline="@+id/all_consumption_history"
             android:layout_alignBottom="@+id/all_consumption_history"
             android:layout_alignParentStart="true" />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consumption_history_interval"
+            android:spinnerMode="dropdown"
+            android:layout_below="@id/consumption_history_title1"
+            android:layout_marginLeft="100dp">
+
+        </Spinner>
 
 
     </RelativeLayout>

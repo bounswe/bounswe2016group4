@@ -202,7 +202,7 @@ public class BasicSearch extends AppCompatActivity  {
 
     protected void sendBasicSearchHttpRequest(String query) {
 
-        String searchUrl = url + "basic_search?search_text=" + query;
+        String searchUrl = url + "basic_search?search_text=" + query+ "&user_id=" + Constants.getInstance().getUser_id();
         System.out.println(searchUrl);
 
         // Request a string response from the provided URL.

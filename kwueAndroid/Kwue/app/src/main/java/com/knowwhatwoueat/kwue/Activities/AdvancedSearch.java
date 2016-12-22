@@ -602,7 +602,7 @@ public class AdvancedSearch extends AppCompatActivity {
 
     protected void sendGetEatingPreferenceHttpRequest() {
 
-        String searchUrl = url + "get_eating_preferences?user_id=1";
+        String searchUrl = url + "get_eating_preferences?user_id="+Constants.getInstance().getUser_id();
         System.out.println(searchUrl);
 
         // Request a string response from the provided URL.

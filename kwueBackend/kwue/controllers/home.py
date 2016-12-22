@@ -231,7 +231,9 @@ def get_home_url(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
+        print(recommendation)
         return JsonResponse({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
         analysis_report = analyze(user_id)
+        print(analysis_report)
         return JsonResponse({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})

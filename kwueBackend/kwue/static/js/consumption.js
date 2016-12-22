@@ -17,7 +17,7 @@ $(document).ready(function () {
             var nutritions = response['nutritional_values_dict'];
             var daily_graph = response['graph_dict'];
 
-            // var cal_data = [];
+            var cal_data = [];
             var sug_data = [];
             var carbo_data = [];
             var pro_data = [];
@@ -25,7 +25,7 @@ $(document).ready(function () {
 
 
             for(i=0; i<7; i++){
-                // cal_data[i] = {x: i+1, y: daily_graph[i+23]['calorie_value']};
+                cal_data[i] = {x: i+1, y: daily_graph[i+23]['calorie_value']};
                 sug_data[i] = {x: i+1, y: daily_graph[i+23]['sugar_value']};
                 carbo_data[i] = {x: i+1, y: daily_graph[i+23]['carbohydrate_value']};
                 pro_data[i] = {x: i+1, y: daily_graph[i+23]['protein_value']};
@@ -72,6 +72,30 @@ $(document).ready(function () {
                             data: fat_data,
                             fill: false
                         }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'linear',
+                            position: 'bottom'
+                        }]
+                    }
+                }
+            });
+
+            var contx = document.getElementById("calorie-graph");
+            var scatterChart2 = new Chart(contx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Calorie',
+                            data: cal_data,
+                            borderColor: "rgba(118, 28, 25, 1)",
+                            backgroundColor: "rgba(118, 28, 25, 0.2)",
+                            fill: false
+                        },
                     ]
                 },
                 options: {
@@ -164,13 +188,14 @@ $(document).ready(function () {
                 var html_foods = "";
                 var html_nutritions = "";
 
+                var cal_data = [];
                 var sug_data = [];
                 var carbo_data = [];
                 var pro_data = [];
                 var fat_data = [];
 
                 for(i=0; i<30-k; i++){
-                    // cal_data[i] = {x: i+1, y: daily_graph[i+k]['calorie_value']};
+                    cal_data[i] = {x: i+1, y: daily_graph[i+k]['calorie_value']};
                     sug_data[i] = {x: i+1, y: daily_graph[i+k]['sugar_value']};
                     carbo_data[i] = {x: i+1, y: daily_graph[i+k]['carbohydrate_value']};
                     pro_data[i] = {x: i+1, y: daily_graph[i+k]['protein_value']};
@@ -182,13 +207,6 @@ $(document).ready(function () {
                     type: 'line',
                     data: {
                         datasets: [
-                            // {
-                            //     label: 'Calorie',
-                            //     data: cal_data,
-                            //     borderColor: "rgba(118, 28, 25, 1)",
-                            //     backgroundColor: "rgba(118, 28, 25, 0.2)",
-                            //     fill: false
-                            // },
                             {
                                 label: 'Sugar',
                                 borderColor: "rgba(140, 140, 140, 1)",
@@ -228,6 +246,33 @@ $(document).ready(function () {
                         }
                     }
                 });
+
+                var contx = document.getElementById("calorie-graph");
+                var scatterChart2 = new Chart(contx, {
+                    type: 'line',
+                    data: {
+                        datasets: [
+                            {
+                                label: 'Calorie',
+                                data: cal_data,
+                                borderColor: "rgba(118, 28, 25, 1)",
+                                backgroundColor: "rgba(118, 28, 25, 0.2)",
+                                fill: false
+                            },
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'linear',
+                                position: 'bottom'
+                            }]
+                        }
+                    }
+                });
+
+
+
 
 
                 for(i=0; i<foods.length; i++) {

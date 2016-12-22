@@ -105,6 +105,12 @@ def get_add_food_page(req):
         user_name = user.user_name
     return render(req, 'kwue/add_food.html', {'user_type': user_type, 'user_name': user_name, 'user_id': user_id})
 
+def get_my_food_page(req):
+    user_id = req.session['user_id']
+    user = db_retrieve_user(user_id)
+    foods = db_get_user_foods(user_id)
+    return render(req, 'kwue/my_foods.html', {'my_foods': foods, 'user_name': user.user_name, 'user_type': user.user_type, 'user_id': user_id})
+
 
 @csrf_exempt
 def get_nutritional_values(req):

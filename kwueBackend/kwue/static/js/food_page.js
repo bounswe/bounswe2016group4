@@ -71,8 +71,7 @@ $(document).ready(function () {
                 tag_description: description
             },
             success: function () {
-                $("#submit-tags").removeClass("btn-warning");
-                $("#submit-tags").addClass("btn-success");
+                location.reload();
             }
         });
     });
@@ -88,7 +87,7 @@ $(document).ready(function () {
                 food_id: food_id
             },
             success: function () {
-                console.log("num num num...");
+                window.location = document.URL.substr(0,document.URL.lastIndexOf('/'));
             }
         });
     });
@@ -113,6 +112,9 @@ $(document).ready(function () {
             data: {
                 comment_text: comment,
                 food_id: foodid
+            },
+            success: function (response) {
+                location.reload();
             }
         });
     });

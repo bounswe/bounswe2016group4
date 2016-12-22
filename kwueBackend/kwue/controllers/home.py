@@ -11,7 +11,7 @@ import time
 from collections import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import requires_csrf_token
-
+from django.http import JsonResponse
 
 def get_home(req):
     food = db_retrieve_all_foods()
@@ -231,7 +231,7 @@ def get_home_url(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
-        return HttpResponse({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id}, content_type='application/json')
+        return JsonResponse({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
         analysis_report = analyze(user_id)
-        return HttpResponse({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image}, content_type='application/json')
+        return JsonResponse({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})

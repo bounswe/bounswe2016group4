@@ -13,8 +13,8 @@ $(document).ready(function () {
                 food_id: food_id,
                 rate_value: vote
             },
-            success: function (r) {
-                console.log(r);
+            complete: function () {
+                location.reload();
             }
         });
     });

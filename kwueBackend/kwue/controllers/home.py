@@ -232,7 +232,7 @@ def get_home_url(req):
     if user_type is False:
         recommendation = suggest(user_id)
         for food in recommendation:
-            food.food_owner = food.food.owner.user_name
+            food['food_owner'] = food['food_owner'].user_name
         return HttpResponse(json.dumps({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id}), content_type='application/json')
     else:
         analysis_report = analyze(user_id)

@@ -11,7 +11,7 @@ import time
 from collections import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import requires_csrf_token
-from django.http import JsonResponse
+
 
 def get_home(req):
     food = db_retrieve_all_foods()
@@ -30,11 +30,9 @@ def get_home(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
-        print(recommendation)
         return render(req, 'kwue/home.html', {'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
         analysis_report = analyze(user_id)
-        print(analysis_report)
         return render(req, 'kwue/home.html', {'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
 
 
@@ -233,9 +231,7 @@ def get_home_url(req):
 
     if user_type is False:
         recommendation = suggest(user_id)
-        print(recommendation)
-        return JsonResponse({'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
+        return render(req, 'kwue/home.html', {'recommendations': recommendation, 'user_type': 0, 'user_name': user_name, 'user_id': user_id})
     else:
         analysis_report = analyze(user_id)
-        print(analysis_report)
-        return JsonResponse({'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})
+        return render(req, 'kwue/home.html', {'analysis_report': analysis_report, 'user_type': 1, 'user_name': user_name, 'user_image': user_image})

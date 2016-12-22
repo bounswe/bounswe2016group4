@@ -53,6 +53,23 @@ import com.knowwhatwoueat.kwue.Utils.GsonRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ConsumptionList Activity is the screen for
+ * showing prior consumptions of a user.
+ * It includes most basic nutritional values and
+ * optionally you can see all nutritional values with a button.
+ * It also shows the food consumptions according to date.
+ * You can click and go to the food you ate from this list.
+ *
+ * This activity also has a graphical representations of your
+ * monthly consumptions according to your choice.
+ * You can select a nutrition for example protein,
+ * and you can see how did you consume protein recent month in a graph.
+ *
+ * @author  Mehmet Akif ÇÖRDÜK
+ * @version 1.0
+ * @since   2016/10/10
+ */
 public class ConsumptionHistoryActivity extends AppCompatActivity {
     private List<Food> consumptionHistory;
     private String[] consumptionList;
@@ -71,7 +88,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
     private ListView wholeNutritionList;
     private ListView consumptionListView;
     private TextView intervalView;
-    private Button showMoreButton;
+    public static Button showMoreButton;
     private Button showGraphButton;
     private GraphView graphView;
 
@@ -295,11 +312,16 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
+    /**
+     * It sends a HTTP request for consumption lists.
+     * Received consumption is parsed with assignConsumption method.
+     */
     private void sendConsumptionRequest(){
         int user_id = Constants.getInstance().getUser_id();
-        String semanticUrl = url +"get_consumption_history?user_id=" + user_id + "&setting=" + interval;
+        String consumptionUrl = url +"get_consumption_history?user_id=" + user_id + "&setting=" + interval;
 
-        StringRequest gsonRequest = new StringRequest(Request.Method.GET,semanticUrl,
+        StringRequest gsonRequest = new StringRequest(Request.Method.GET,consumptionUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

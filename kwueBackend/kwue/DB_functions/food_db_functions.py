@@ -69,6 +69,11 @@ def db_insert_food(food_dict, nutrition_dict, ingredient_list):
 
 def db_retrieve_food(food_id):
     food = FoodModel.objects.get(food_id=food_id)
+    food_rate = food.food_rate
+    food_rate *= 10
+    food_rate = int(food_rate)
+    food_rate /= 10
+    food.food_rate = food_rate
     return food
 
 

@@ -53,7 +53,7 @@ $(document).ready(function () {
                 tag_label: label,
                 tag_description: description
             },
-            success: function () {
+            complete: function () {
                 location.reload();
             }
         });

@@ -94,6 +94,7 @@ public class ConsumptionHistoryActivity extends AppCompatActivity {
 
     private SimpleNutritionAdapter simpleNutiritonAdapter;
     private ConsumptionListAdapter consumptionListAdapter;
+    
     private SimpleNutritionAdapter wholeNutritionAdapter;
 
     private AlertDialog alertDialog;

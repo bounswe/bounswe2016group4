@@ -153,7 +153,8 @@ class ConsumptionHistory(models.Model):
             self.date = time.time() + 60*60*3;
             super().save(self)
         else:
-            super().save(self)
+            a = ConsumptionHistory.objects.filter(history_id=self.history_id)
+            a.update(date=self.date)
 
     def __str__(self):
         return show_date(self.date)

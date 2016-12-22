@@ -430,6 +430,15 @@ urlpatterns = (
     #     -> 'comment_number' -> An integer meaning how many times, foods of this food server are commented.
     url(r'^get_home', home.get_home_url),
 
+    ### REQUEST
+    #
+    # empty
+    #
+    ### RESPONSE
+    #
+    # renders my food page
+    #
+    url(r'^my_foods', food.get_my_food_page, name='myfood'),
 
     ### REQUEST
     #

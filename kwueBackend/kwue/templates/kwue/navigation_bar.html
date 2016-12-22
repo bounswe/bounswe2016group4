@@ -4,6 +4,7 @@
             <li role="presentation"><a href="{% url 'home' %}">Home</a></li>
           {% if user_name != 'Guest' %}
             <li role="presentation"><a href="{% url 'new_food' %}">Add Food</a></li>
+            <li role="presentation"><a href="{% url 'myfood' %}">My Foods</a></li>
           {% endif %}
           {% if user_type != 1 and user_name != 'Guest' %}
               <li role="presentation"><a href="user_profile_page?user_id={{ user_id }}">Profile</a></li>

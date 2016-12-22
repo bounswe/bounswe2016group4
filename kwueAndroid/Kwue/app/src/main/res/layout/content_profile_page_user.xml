@@ -62,22 +62,43 @@
         android:layout_below="@+id/user_info"
         >
 
+
         <TextView
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textSize="20sp"
             android:text="User Tags"
-            android:id="@+id/user_tags_title"/>
+            android:id="@+id/user_tags_title"
+            android:layout_below="@+id/linear"/>
 
-        <Button
-            android:layout_alignParentEnd="true"
-            android:id="@+id/add_tag_button"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:background="@android:color/holo_blue_light"
-            android:text="Add Tag"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linear">
+
+            <EditText
+                android:id="@+id/newTagUser"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="NewTag"
+                android:inputType="text"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/add_tag_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="70dp"
+                android:height="5dp"
+                android:background="@color/colorPrimaryDark"
+                android:text="Add Tag" />
+
+
+        </LinearLayout>
+
+
         <GridView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

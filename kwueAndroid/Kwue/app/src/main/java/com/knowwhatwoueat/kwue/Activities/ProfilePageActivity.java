@@ -29,6 +29,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -57,6 +58,20 @@ import java.util.Map;
  * Created by Gökberk Erüst on 22.11.2016
  */
 public class ProfilePageActivity extends AppCompatActivity {
+
+    private AlertDialog alertDialog1;
+
+
+    private String tag_name;
+    private String tag_id;
+    private String tag_label;
+    private String tag_description;
+
+    private SemanticTag newTag;
+    private String tag;
+
+    private ArrayList<String> semanticTagNames;
+
 
     public static User user = new User();
     int userId ;
@@ -157,7 +172,11 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
     protected void setViewNormalUser(User user) {
+
         setContentView(R.layout.content_profile_page_user);
+
+        semanticTagNames= new ArrayList<String>();
+        semanticListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,semanticTagNames);
 
         addFoodButton = (Button) findViewById(R.id.add_food_button);
 
@@ -168,6 +187,55 @@ public class ProfilePageActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        final EditText newTagTextbox = (EditText) findViewById(R.id.newTagUser);
+        Button addTag = (Button) findViewById(R.id.add_tag_button);
+
+        addTag.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("addTag button", "onClick: clicked");
+                //sendAddTagHttpRequest(tag);
+                tag = newTagTextbox.getText().toString();
+                System.out.println(tag + "taggg");
+                sendSemanticTagHttpRequest(tag);
+
+                final AlertDialog.Builder build = new AlertDialog.Builder(ProfilePageActivity.this);
+                build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog = build.create();
+                LayoutInflater inflater = getLayoutInflater();
+                View convertView =  inflater.inflate(R.layout.semantic_list_dialog, null);
+                alertDialog.setView(convertView);
+                alertDialog.setTitle("Semantic Tags");
+                ListView lv = (ListView) convertView.findViewById(R.id.listView1);
+                lv.setAdapter(semanticListAdapter);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        newTag = semanticTags.get(position);
+                        sendAddTagHttpRequest();
+                        Toast.makeText(ProfilePageActivity.this, "Tag is successfully added!", Toast.LENGTH_LONG).show();
+
+                        Intent j = new Intent(ProfilePageActivity.this, ProfilePageActivity.class);
+                        //System.out.println(foodId.get(i)+"foodIddd");
+                        j.putExtra("userId", userId);
+                        startActivity(j);
+
+
+                    }
+                });
+
+
+            }
+        });
+
+
+
 
         new DownloadImageTask((ImageView) findViewById(R.id.user_profile_image))
                 .execute(user.user_image);
@@ -568,6 +636,92 @@ public class ProfilePageActivity extends AppCompatActivity {
 
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+
+
+    protected void sendSemanticTagHttpRequest(String query){
+
+        String semanticUrl = url +"search_semantic_tags?tag_name="+ query;
+        // Request a string response from the provided URL.
+        GsonRequest<SemanticTag[]> gsonRequest = new GsonRequest<>(semanticUrl,SemanticTag[].class, Request.Method.GET,
+                new Response.Listener<SemanticTag[]>() {
+                    @Override
+                    public void onResponse(SemanticTag[] response) {
+                        // Display the first 500 characters of the response string.
+                        Log.d("response tag", "onResponse: in");
+                        assignTagTitles(response);
+                        showAlertDialog();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("response","That didn't work!");
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(gsonRequest);
+    }
+
+    protected void assignTagTitles(SemanticTag[] response){
+        semanticTags = new ArrayList<>();
+        semanticTagNames.removeAll(semanticTagNames);
+        for(int i = 0; i < response.length;i++){
+            semanticTagNames.add(response[i].tag_label+ " : "+ response[i].tag_description);
+            semanticTags.add(response[i]);
+        }
+    }
+
+    protected void showAlertDialog(){
+        alertDialog.show();
+    }
+
+    protected void sendAddTagHttpRequest() {
+
+        String addTagUrl = url + "tag_user";
+        final String semanticsResponse;
+        Gson gson = new Gson();
+        StringRequest sr = new StringRequest(Request.Method.POST,addTagUrl,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("addTag", "onResponse:" + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+
+                Map<String,String> params = new HashMap<String, String>();
+                tag_name = newTag.tag_name;
+                tag_id = newTag.tag_id;
+                tag_label = newTag.tag_label;
+                tag_description = newTag.tag_description;
+
+
+                params.put("tagged_user_id",""+userId);
+                params.put("tag_name",tag_name);
+                params.put("tag_id",tag_id);
+                params.put("tag_label",tag_label);
+                params.put("tag_description",tag_description);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+        queue.add(sr);
     }
 
 

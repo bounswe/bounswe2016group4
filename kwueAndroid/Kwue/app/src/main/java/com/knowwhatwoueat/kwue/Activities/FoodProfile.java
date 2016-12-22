@@ -152,7 +152,7 @@ public class FoodProfile extends AppCompatActivity {
         final EditText editcomment = (EditText) convertView.findViewById(R.id.edit_comment);
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                alertDialog.dismiss();
+                alertDialog1.dismiss();
                 if(!editcomment.getText().toString().isEmpty())
                     sendCommentRequest(editcomment.getText().toString());
 

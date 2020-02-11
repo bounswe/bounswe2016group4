@@ -1,5 +1,5 @@
 requests
-Django==1.10.2
+Django==1.11.28
 django-unixtimestampfield==0.3.9
 setuptools==28.6.1
 django-mptt==0.8.6
